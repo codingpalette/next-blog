@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './Header'
+import Content from "./Content";
 import styled from '@emotion/styled';
 
 
@@ -13,13 +14,14 @@ const AppBox = styled.div`
   }
 `;
 
+
+
 const AppLayout = ({children}) => {
     return(
         <>
             <AppBox>
                 <Header />
-                {children}
-
+                <Content children={children} />
             </AppBox>
         </>
     )

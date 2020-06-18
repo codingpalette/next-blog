@@ -1,4 +1,5 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
+
 
 export const HeaderTag = styled.header`
   order: 2;
@@ -7,7 +8,7 @@ export const HeaderTag = styled.header`
   height: 60px;
   margin-top: auto;
   background-color: #fff;
-  border-top: 1px solid #f5f6fad9;
+  border-top: 1px solid #edf1f7;
   & h1{
     display: none;
     padding: 0 1rem;
@@ -21,6 +22,8 @@ export const HeaderTag = styled.header`
     display: block;
     width: 100%;
     height: auto;
+    max-width: 40px;
+    margin: 0 auto;
   }
   & ul{
     padding:0.5rem 0;
@@ -31,20 +34,7 @@ export const HeaderTag = styled.header`
     width: 100%;
     height: 100%;
   }
-  & li{
-    width: 14%;
-  }
-  & li a{
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    color: #aab0b7;
-  }
-  & li a svg{
-    height: 100%;
-    max-width: 30px;
-  }
+  
   
   @media (min-width: 1024px) {
      width: 90px;
@@ -52,6 +42,7 @@ export const HeaderTag = styled.header`
      order: 0;
      padding: 1.5rem 0;
      border-top: none;
+     border-right: 1px solid #edf1f7;
      
      & h1{
         display: block;
@@ -61,15 +52,40 @@ export const HeaderTag = styled.header`
         padding: 0;
         flex-direction: column;
         justify-content: center;
-        margin-top: calc(-58px - 1.5rem);
+        margin-top: calc(-40px - 1.5rem);
      }
      
-     & li{
-        width: 100%;
-     }
      
-     & li + li{
-        margin-top: 2.5rem;
-     }
   }
 `
+
+export const LiTag = styled.li`
+
+    width: 14%;
+    
+ 
+  & a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color : ${props =>
+        props.path ? '#6C63FF' : '#aab0b7'
+    };
+  }
+  & a svg{
+    height: 100%;
+    max-width: 25px;
+  }
+  
+  @media (min-width: 1024px) {
+    
+    width: 100%;
+   
+     
+    + li{
+        margin-top: 2.5rem;
+    }
+  }
+
+`;

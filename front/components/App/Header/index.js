@@ -1,10 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import { HeaderTag } from './styles';
+import { withRouter } from 'next/router';
+import { HeaderTag , LiTag } from './styles';
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Header = () => {
+const Header = ({router}) => {
     return(
         <>
             <HeaderTag>
@@ -16,38 +17,38 @@ const Header = () => {
                     </Link>
                 </h1>
                 <ul>
-                    <li>
+                    <LiTag path={router.pathname === '/'}>
                         <Link href="/">
                             <a>
                                 <FontAwesomeIcon icon={faHome} size="sm" />
                             </a>
                         </Link>
-                    </li>
-                    <li>
+                    </LiTag>
+                    <LiTag>
                         <Link href="/">
                             <a>
                                 <FontAwesomeIcon icon={faHome} size="sm" />
                             </a>
                         </Link>
-                    </li>
-                    <li>
+                    </LiTag>
+                    <LiTag>
                         <Link href="/">
                             <a>
                                 <FontAwesomeIcon icon={faHome} size="sm" />
                             </a>
                         </Link>
-                    </li>
-                    <li>
+                    </LiTag>
+                    <LiTag>
                         <Link href="/">
                             <a>
                                 <FontAwesomeIcon icon={faHome} size="sm" />
                             </a>
                         </Link>
-                    </li>
+                    </LiTag>
                 </ul>
             </HeaderTag>
         </>
     )
 };
 
-export default  Header;
+export default  withRouter(Header);
