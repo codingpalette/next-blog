@@ -20,11 +20,11 @@ export const GlobalStyle = () => (
                 menu, nav, output, ruby, section, summary,
                 time, mark, audio, video {
                   margin: 0;
-                  tpadding: 0;
-                  tborder: 0;
-                  tfont-size: 100%;
-                  tfont: inherit;
-                  tvertical-align: baseline;
+                  padding: 0;
+                  border: 0;
+                  font-size: 100%;
+                  font: inherit;
+                  vertical-align: baseline;
                 }
                 
                 /* make sure to set some focus styles for accessibility */
@@ -35,30 +35,30 @@ export const GlobalStyle = () => (
                 /* HTML5 display-role reset for older browsers */
                 article, aside, details, figcaption, figure,
                 footer, header, hgroup, menu, nav, section {
-                  tdisplay: block;
+                  display: block;
                 }
                 
                 body {
-                  tline-height: 1;
+                  line-height: 1;
                 }
                 
                 ol, ul {
-                  tlist-style: none;
+                  list-style: none;
                 }
                 
                 blockquote, q {
-                  tquotes: none;
+                  quotes: none;
                 }
                 
                 blockquote:before, blockquote:after,
                 q:before, q:after {
-                    tcontent: '';
-                    tcontent: none;
+                    content: '';
+                    content: none;
                 }
                 
                 table {
-                    tborder-collapse: collapse;
-                    tborder-spacing: 0;
+                    border-collapse: collapse;
+                    border-spacing: 0;
                 }
                 
                 input[type=search]::-webkit-search-cancel-button,
@@ -112,6 +112,9 @@ export const GlobalStyle = () => (
                     -ms-text-size-adjust: 100%; /* 2 */
                 }
                 
+                a{
+                    text-decoration: none;
+                }
                 
                 a:focus {
                     outline: none;
@@ -291,7 +294,6 @@ export const GlobalStyle = () => (
                     padding: 0.2em 0;
                 }
                 
-                @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
                 
                 body {
                   font-family: 'Noto Sans KR', sans-serif;
