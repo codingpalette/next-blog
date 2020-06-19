@@ -21,6 +21,7 @@ const Header = ({router}) => {
                         <Link href="/">
                             <a>
                                 <FontAwesomeIcon icon={faHome} size="sm" />
+                                <span>Home</span>
                             </a>
                         </Link>
                     </LiTag>

@@ -1,11 +1,16 @@
 import React from 'react';
-import { DivTag } from './styles'
+import { DivTag, SearchBox, ContentBox } from './styles'
 
 const Content = ({children}) => {
     return(
         <>
             <DivTag>
-                {children}
+                <SearchBox>
+                    검색박스
+                </SearchBox>
+                <ContentBox>
+                    {children}
+                </ContentBox>
             </DivTag>
         </>
     )

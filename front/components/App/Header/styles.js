@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 
 
 export const HeaderTag = styled.header`
-  order: 2;
   padding: 0 20px;
   box-sizing: border-box;
   height: 60px;
@@ -37,9 +36,8 @@ export const HeaderTag = styled.header`
   
   
   @media (min-width: 1024px) {
-     width: 90px;
+     width: 250px;
      height: 100%;
-     order: 0;
      padding: 1.5rem 0;
      border-top: none;
      border-right: 1px solid #edf1f7;
@@ -49,10 +47,12 @@ export const HeaderTag = styled.header`
      }
      
      & ul {
-        padding: 0;
+        padding: 2rem 0;
+        height: auto;
+        align-items: center;
         flex-direction: column;
-        justify-content: center;
-        margin-top: calc(-40px - 1.5rem);
+        justify-content: flex-start;
+        
      }
      
      
@@ -70,21 +70,40 @@ export const LiTag = styled.li`
     height: 100%;
     text-align: center;
     color : ${props =>
-        props.path ? '#6C63FF' : '#aab0b7'
+        props.path ? 'rgba(108,99,255,1)' : '#aab0b7'
     };
+    transition: color 0.2s;
+  }
+  & a:hover{
+    color: rgba(108,99,255,0.75);
   }
   & a svg{
     height: 100%;
     max-width: 25px;
   }
+  & a span{
+    display: none;
+  }
   
   @media (min-width: 1024px) {
     
     width: 100%;
-   
-     
+    height: 30px;
     + li{
         margin-top: 2.5rem;
+    }
+    & a{
+        text-align: left;
+        padding: 0 1rem;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+    }
+    & a svg{
+        margin-right: 1rem;
+    }
+    & a span{
+        display: block;
     }
   }
 

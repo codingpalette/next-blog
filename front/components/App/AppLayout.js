@@ -9,6 +9,8 @@ const AppBox = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  max-width: 1000px;
+  margin: 0 auto;
   @media (min-width: 1024px) {
      flex-direction: row;
   }
