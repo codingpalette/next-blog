@@ -16,9 +16,9 @@ export const SearchBox = styled.div`
 `
 
 export const ContentBox = styled.div`
-  border:1px solid #edf1f7;
-  background-color: #fff;
-  padding: 1rem;
-  border-radius: 0.25rem;
+  //border:1px solid #edf1f7;
+  //background-color: #fff;
+  //padding: 1rem;
+  //border-radius: 0.25rem;
   box-sizing: border-box;
 `;

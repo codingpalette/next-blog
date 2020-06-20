@@ -1,11 +1,12 @@
 import React from 'react';
 import AppLayout from "../components/App/AppLayout";
+import PostList from "../components/PostList";
 
 const Home = () =>{
     return(
         <>
             <AppLayout>
-                <div>Home</div>
+                <PostList />
             </AppLayout>
         </>
     )
