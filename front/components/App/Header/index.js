@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { HeaderTag , LiTag } from './styles';
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faHome , faUser, faTag, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Header = ({router}) => {
@@ -20,29 +20,32 @@ const Header = ({router}) => {
                     <LiTag path={router.pathname === '/'}>
                         <Link href="/">
                             <a>
-                                <FontAwesomeIcon icon={faHome} size="sm" />
+                                <FontAwesomeIcon icon={faHome} />
                                 <span>Home</span>
                             </a>
                         </Link>
                     </LiTag>
-                    <LiTag>
-                        <Link href="/">
+                    <LiTag path={router.pathname === '/about'}>
+                        <Link href="/about">
                             <a>
-                                <FontAwesomeIcon icon={faHome} size="sm" />
+                                <FontAwesomeIcon icon={faUser} />
+                                <span>About</span>
                             </a>
                         </Link>
                     </LiTag>
-                    <LiTag>
+                    <LiTag path={router.pathname === '/tag'}>
                         <Link href="/">
                             <a>
-                                <FontAwesomeIcon icon={faHome} size="sm" />
+                                <FontAwesomeIcon icon={faTag}  />
+                                <span>태그</span>
                             </a>
                         </Link>
                     </LiTag>
-                    <LiTag>
-                        <Link href="/">
+                    <LiTag path={router.pathname === '/portfolio'}>
+                        <Link href="/portfolio">
                             <a>
-                                <FontAwesomeIcon icon={faHome} size="sm" />
+                                <FontAwesomeIcon icon={faBookOpen}  />
+                                <span>Portfolio</span>
                             </a>
                         </Link>
                     </LiTag>

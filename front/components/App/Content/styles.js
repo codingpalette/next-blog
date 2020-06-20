@@ -19,6 +19,6 @@ export const ContentBox = styled.div`
   border:1px solid #edf1f7;
   background-color: #fff;
   padding: 1rem;
-  border-radius: 0 0 0.25rem 0.25rem;
+  border-radius: 0.25rem;
   box-sizing: border-box;
 `;

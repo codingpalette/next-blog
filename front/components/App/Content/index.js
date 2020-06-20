@@ -5,9 +5,9 @@ const Content = ({children}) => {
     return(
         <>
             <DivTag>
-                <SearchBox>
-                    검색박스
-                </SearchBox>
+                {/*<SearchBox>*/}
+                {/*    검색박스*/}
+                {/*</SearchBox>*/}
                 <ContentBox>
                     {children}
                 </ContentBox>

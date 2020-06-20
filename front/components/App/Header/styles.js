@@ -101,6 +101,7 @@ export const LiTag = styled.li`
     }
     & a svg{
         margin-right: 1rem;
+        max-width: 15px;
     }
     & a span{
         display: block;
