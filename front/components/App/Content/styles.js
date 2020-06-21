@@ -4,6 +4,7 @@ export const DivTag = styled.div`
     width: 100%;
     padding: 1rem;
     box-sizing: border-box;
+    max-width: 600px;
 `;
 
 export const SearchBox = styled.div`

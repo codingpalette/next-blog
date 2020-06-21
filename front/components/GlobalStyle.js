@@ -287,6 +287,11 @@ export const GlobalStyle = () => (
                     resize: vertical;
                 }
                 
+                button{
+                  background-color: transparent;
+                  border: none;
+                }
+                
                 .chromeframe {
                     margin: 0.2em 0;
                     background: #ccc;
@@ -298,11 +303,11 @@ export const GlobalStyle = () => (
                 body {
                   font-family: 'Noto Sans KR', sans-serif;
                   color: #7f808c;
-                  background-color: #fafafa;
+                  background-color: #e8e8ee;
                 }
                 
                 h1, h2, h3, h4, h5, h6 {
-                    color: #242939;
+                    color: #000;
                 }
                 
                 @media (min-width: 640px) {

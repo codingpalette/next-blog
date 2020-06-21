@@ -36,7 +36,7 @@ export const HeaderTag = styled.header`
   
   
   @media (min-width: 1024px) {
-     width: 250px;
+     width: 300px;
      height: 100%;
      padding: 1.5rem 0;
      border-top: none;

@@ -1,7 +1,9 @@
 import React from 'react';
-import Header from './Header'
+import Header from './Header';
+import Aside from "./Aside";
 import Content from "./Content";
 import styled from '@emotion/styled';
+
 
 
 const AppBox = styled.div`
@@ -9,10 +11,13 @@ const AppBox = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  max-width: 1000px;
+  max-width: 1024px;
   margin: 0 auto;
+  padding: 5px;
+  box-sizing: border-box;
   @media (min-width: 1024px) {
      flex-direction: row;
+     justify-content: space-between;
   }
 `;
 
@@ -22,7 +27,8 @@ const AppLayout = ({children}) => {
     return(
         <>
             <AppBox>
-                <Header />
+                {/*<Header />*/}
+                <Aside />
                 <Content children={children} />
             </AppBox>
         </>
