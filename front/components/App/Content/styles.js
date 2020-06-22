@@ -2,10 +2,15 @@ import styled from '@emotion/styled';
 
 export const DivTag = styled.div`
     width: 100%;
+    height: 100%;
     padding: 12px;
     box-sizing: border-box;
     position:relative;
     max-width: 600px;
+    margin-top: 1rem;
+    @media (min-width: 1024px) {
+      margin-top: 0;
+    }
 `;
 
 export const SearchBox = styled.div`
