@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import AdminLayout from "../../components/Admin/AdminLayout";
 
+
 const Admin = () => {
     return(
         <>
@@ -11,7 +12,7 @@ const Admin = () => {
 
             </Head>
             <AdminLayout>
-                asdasd
+
             </AdminLayout>
         </>
     )
