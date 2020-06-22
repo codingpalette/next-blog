@@ -1,12 +1,19 @@
 import React from 'react';
 import AppLayout from "../components/App/AppLayout";
+import ContentHeader from "../components/Content/ContentHeader";
+import ContentBody from "../components/Content/ContentBody";
 
 
 const Portfolio = () => {
     return(
         <>
             <AppLayout>
-                <div>portfolio</div>
+                <ContentHeader>
+                    PORTFOLIO
+                </ContentHeader>
+                <ContentBody>
+                    asdsa
+                </ContentBody>
             </AppLayout>
         </>
     )

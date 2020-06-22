@@ -11,7 +11,7 @@ const AppBox = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  max-width: 1024px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 5px;
   box-sizing: border-box;

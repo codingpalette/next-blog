@@ -2,15 +2,16 @@ import styled from '@emotion/styled';
 
 export const DivTag = styled.div`
     width: 100%;
-    height: 100%;
+    height: calc(100% - 170px);
     padding: 12px;
     box-sizing: border-box;
     position:relative;
-    
     margin-top: 1rem;
     @media (min-width: 1024px) {
+      height: 100%;
       margin-top: 0;
-      max-width: 600px;
+      margin-left: 2rem;
+      max-width: 800px;
     }
 `;
 
