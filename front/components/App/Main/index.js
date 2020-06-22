@@ -1,8 +1,8 @@
 import React from 'react';
 import { DivTag, SearchBox, ContentBox } from './styles'
-import Square from "../../Square";
+import Square from "../Square";
 
-const Content = ({children}) => {
+const Main = ({children}) => {
     return(
         <>
             <DivTag>
@@ -18,4 +18,4 @@ const Content = ({children}) => {
     )
 };
 
-export default Content;
+export default Main;

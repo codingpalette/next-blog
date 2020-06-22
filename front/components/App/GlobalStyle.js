@@ -310,7 +310,7 @@ export const GlobalStyle = () => (
                 body {
                   font-family: 'Noto Sans KR', sans-serif;
                   color: #7f808c;
-                  background-color: #e8e8ee;
+                  //background-color: #e8e8ee;
                 }
                 
                 h1, h2, h3, h4, h5, h6 {

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { AsideContainer, NavContainer, Content, LiTag } from './styles';
-import Square from "../../Square";
+import Square from "../Square";
 
 const Aside = ({ router }) => {
     return(

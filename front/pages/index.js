@@ -1,8 +1,8 @@
 import React from 'react';
 import AppLayout from "../components/App/AppLayout";
-import PostList from "../components/PostList";
-import ContentHeader from "../components/Content/ContentHeader";
-import ContentBody from "../components/Content/ContentBody";
+import PostList from "../components/App/PostList";
+import ContentHeader from "../components/App/Content/ContentHeader";
+import ContentBody from "../components/App/Content/ContentBody";
 import styled from '@emotion/styled';
 
 const Ul = styled.ul`
