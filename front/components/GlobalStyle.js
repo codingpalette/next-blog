@@ -317,25 +317,16 @@ export const GlobalStyle = () => (
                     color: #000;
                 }
                 
-                @media (min-width: 640px) {
-                  html{
-                    font-size: 12px;
-                  }
+                html{
+                  font-size: 14px;
                 }
                 
                 @media (min-width: 1024px) {
                   html{
-                    font-size: 14px;
-                  }
-                }
-                
-                @media (min-width: 1280px) {
-                  html{
                     font-size: 16px;
                   }
                 }
-              
-             
+                
               
             `
         }

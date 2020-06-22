@@ -6,10 +6,11 @@ export const DivTag = styled.div`
     padding: 12px;
     box-sizing: border-box;
     position:relative;
-    max-width: 600px;
+    
     margin-top: 1rem;
     @media (min-width: 1024px) {
       margin-top: 0;
+      max-width: 600px;
     }
 `;
 
