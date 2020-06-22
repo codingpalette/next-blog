@@ -127,7 +127,7 @@ export const GlobalStyle = () => (
                     outline: 0;
                 }
                 
-                /
+       
                 
                 img {
                     border: 0; /* 1 */
@@ -297,6 +297,13 @@ export const GlobalStyle = () => (
                     background: #ccc;
                     color: #000;
                     padding: 0.2em 0;
+                }
+                
+                @font-face { 
+                  font-family: 'DOSMyungjo'; 
+                  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSMyungjo.woff') format('woff'); 
+                  font-weight: normal; 
+                  font-style: normal; 
                 }
                 
                 

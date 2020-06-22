@@ -1,20 +1,37 @@
 import React from 'react';
 import Link from 'next/link';
-import { NavContainer, Content } from './styles';
+import { withRouter } from 'next/router';
+import { NavContainer, Content, LiTag } from './styles';
 import Square from "../../Square";
 
-const Nav = () => {
+const Nav = ({ router }) => {
     return(
         <>
             <NavContainer>
                 <Square />
                 <Content>
                     <div className="top">
-                        <button>Back</button>
+                        {/*<button>Back</button>*/}
                         <h1>CodingPalette</h1>
                     </div>
                     <div className="btm">
-                        <button className="menu_btn">Menu items</button>
+                        <ul>
+                            <LiTag path={router.pathname === '/'}>
+                                <Link href="/">
+                                    <a>HOME</a>
+                                </Link>
+                            </LiTag>
+                            <LiTag path={router.pathname === '/about'}>
+                                <Link href="/about">
+                                    <a>ABOUT</a>
+                                </Link>
+                            </LiTag>
+                            <LiTag path={router.pathname === '/portfolio'}>
+                                <Link href="/portfolio">
+                                    <a>PORTFOLIO</a>
+                                </Link>
+                            </LiTag>
+                        </ul>
                     </div>
                 </Content>
             </NavContainer>
@@ -22,4 +39,4 @@ const Nav = () => {
     )
 };
 
-export default Nav
+export default withRouter(Nav)

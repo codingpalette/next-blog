@@ -6,7 +6,8 @@ const Home = () =>{
     return(
         <>
             <AppLayout>
-                <PostList />
+                ads
+                {/*<PostList />*/}
             </AppLayout>
         </>
     )
