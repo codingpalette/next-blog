@@ -6,4 +6,5 @@ export const Container = styled.div`
   width: 100%;
   height: calc(100% - 30px);
   overflow-y: auto;
+  background-color: #fff;
 `;

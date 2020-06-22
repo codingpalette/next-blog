@@ -9,7 +9,7 @@ const Content = ({children}) => {
                 {/*<SearchBox>*/}
                 {/*    검색박스*/}
                 {/*</SearchBox>*/}
-                <Square />
+                <Square color="#000" />
                 <ContentBox>
                     {children}
                 </ContentBox>

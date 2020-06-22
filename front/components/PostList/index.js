@@ -1,27 +1,73 @@
 import React from 'react';
 import Link from 'next/link';
-import {ListContainer, ListBox} from './styles';
+import { List } from './styles';
+import Square from "../Square";
+
+
 
 const PostList = () => {
     return (
         <>
-            <ListContainer>
-                <ListBox>
-                    <li>
-                        <h2>
-                            <Link href="/">
-                                <a>HTML 이란?</a>
-                            </Link>
-                        </h2>
-                        <div className="content">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam animi, at dolorem doloremque est ex ipsam iusto, laudantium maxime molestiae nobis non perspiciatis provident repellendus similique voluptatem voluptatibus? Adipisci.
+            <List>
+                <Link href="/">
+                    <a>
+                        <Square color="#96969c" />
+                        <div>
+                            <h2 className="title">Title</h2>
+                            <div className="content">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Culpa expedita ipsam numquam placeat qui ullam vero.
+                                Ab deleniti doloribus esse hic omnis optio quidem veniam. Aperiam libero optio quisquam
+                            </div>
                         </div>
-                        <div className="tag_box">
-                            
+                    </a>
+                </Link>
+            </List>
+            <List>
+                <Link href="/">
+                    <a>
+                        <Square color="#96969c" />
+                        <div>
+                            <h2 className="title">Title</h2>
+                            <div className="content">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Culpa expedita ipsam numquam placeat qui ullam vero.
+                            </div>
                         </div>
-                    </li>
-                </ListBox>
-            </ListContainer>
+                    </a>
+                </Link>
+            </List>
+            <List>
+                <Link href="/">
+                    <a>
+                        <Square color="#96969c" />
+                        <div>
+                            <h2 className="title">Title</h2>
+                            <div className="content">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Culpa expedita ipsam numquam placeat qui ullam vero.
+                            </div>
+                        </div>
+                    </a>
+                </Link>
+            </List>
+            <List>
+                <Link href="/">
+                    <a>
+                        <Square color="#96969c" />
+                        <div>
+                            <h2 className="title">Title</h2>
+                            <div className="content">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Culpa expedita ipsam numquam placeat qui ullam vero.
+                                Ab deleniti doloribus esse hic omnis optio quidem veniam. Aperiam libero optio quisquam
+                            </div>
+                        </div>
+                    </a>
+                </Link>
+            </List>
+
+
 
         </>
     )

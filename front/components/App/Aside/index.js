@@ -9,7 +9,7 @@ const Aside = ({ router }) => {
         <>
             <AsideContainer>
                 <NavContainer>
-                    <Square />
+                    <Square color="#000" />
                     <Content>
                         <div className="top">
                             {/*<button>Back</button>*/}

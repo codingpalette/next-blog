@@ -1,59 +1,32 @@
 import styled from '@emotion/styled';
 
-export const ListContainer = styled.div`
-  
-`;
-
-
-export const ListBox = styled.ul`
-  
-  
-  & li{
-    border: 1px solid #edf1f7;
-    background-color: #fff;
-    padding: 1rem;
-    box-sizing: border-box;
-    border-radius: 0.25rem;
-  }
-  
-  & li + li{
-    margin-top: 1.5rem;
-  }
-  
-  & h2{
+export const List = styled.li`
+  position: relative;
+  padding: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  transition: 0.2s;
+  margin-bottom: 1rem;
+  & .title{
     text-align: center;
-    font-size: 1.5rem;
     font-weight: bold;
+    margin-bottom: 0.5rem;
   }
-  & h2 a{
-    display: inline-block;
-    color: inherit;
-    position: relative;
-  }
-  & h2 a:before{
-    content:'';
-    display: block;
-    width: 0;
-    height: 2px;
-    background-color:#242939;
-    position: absolute;
-    left: 50%;
-    bottom: -5px;
-    transform: translateX(-50%) ;
-    transition:  0.3s;
-  }
-  & h2 a:hover:before{
-    width: 100%;
-  }
-  
   & .content{
-    margin-top: 25px;
-    line-height: 1.5;
+    line-height: 1.4;
+    font-size: 0.8rem;
+    height: 80px;
+  }
+  & a{
+    color: inherit;
   }
   
-  
-  
-  
-  
+  &:hover{
+    transform: scale(1.02);
+  }
+  @media (min-width: 1024px) {
+    width: 47.5%;
+    
+  }
 `;
 

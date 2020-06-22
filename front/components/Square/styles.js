@@ -17,19 +17,19 @@ export const SquareCotainer = styled.div`
   
   & .top{
     top: 0;
-    border-top: 2px solid #000;
+    border-top: 2px solid ${props => props.color};
   }
   & .left{
     left: 0;
-    border-left: 2px solid #000;
+    border-left: 2px solid ${props => props.color};
   }
   & .right{
     right: 0;
-    border-right: 2px solid #000;
+    border-right: 2px solid ${props => props.color};
   }
   & .btm{
     bottom: 0;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid ${props => props.color};
   }
   
   
