@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React, { useState, useCallback } from 'react';
+import Link from 'next/link'
+import { useSelector } from 'react-redux'
 import styled from '@emotion/styled';
+import LoginForm from "./LoginForm";
+
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +16,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,8 +53,10 @@ const DrawerTitle = styled.div`
 `;
 
 const Header = () => {
-    const classes = useStyles()
+    const { logInDone } = useSelector((state) => state.user);
+    const classes = useStyles();
     const [opne , setOpen] = useState(false);
+    const [modalOpen , setModalOpen] = useState(false);
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -58,6 +64,15 @@ const Header = () => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const onClickModalOpen = useCallback(() => {
+        setModalOpen(true)
+    }, [])
+
+    const onClickModalClose = useCallback(() => {
+        setModalOpen(false)
+    }, [])
+
     return(
         <>
             <AppBar position="sticky" >
@@ -68,8 +83,24 @@ const Header = () => {
                     <Typography variant="h1" className={classes.title}>
                         CodingPaletee
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {logInDone ? (
+                        <div>
+                            <IconButton
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                color="inherit"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                        </div>
+                    ) : (
+                        <Button color="inherit" onClick={onClickModalOpen}>Login</Button>
+                    )}
+
+
                 </Toolbar>
+                <LoginForm modalOpen={modalOpen} closeEvent={onClickModalClose} />
                 <Drawer anchor="left" open={opne} onClose={handleDrawerClose} >
                     <DrawrBox>
                         <DrawerTitle>
