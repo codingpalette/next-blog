@@ -4,7 +4,8 @@ import { AppProps } from 'next/app';
 import { GlobalStyle } from '../components/GlobalStyle';
 import { createMuiTheme ,ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
+import withReduxSaga from 'next-redux-saga';
+import wrapper from '../store/configureStore';
 
 const App = ({ Component , pageProps }:AppProps) => {
     React.useEffect(() => {
@@ -44,4 +45,4 @@ const App = ({ Component , pageProps }:AppProps) => {
     )
 }
 
-export default App;
+export default wrapper.withRedux(withReduxSaga(App));
