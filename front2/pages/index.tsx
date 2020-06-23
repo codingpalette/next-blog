@@ -1,20 +1,63 @@
 import Link from 'next/link'
 import Layout from '../components/Layout';
-import Button from '@material-ui/core/Button';
+import styled from '@emotion/styled';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
+const ContainerBox = styled(Container)`
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+`;
+
+const Content = styled.div`
+    
+    & a{
+        padding: 1rem;
+        display: block;
+    }
+`;
+
+const IndexPage = () => {
+    return(
+        <>
+            <Layout >
+                <ContainerBox maxWidth="md">
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Content>
+                                <Paper >
+                                    <Link href='/about'>
+                                        <a>
+                                            dfd
+                                        </a>
+                                    </Link>
+                                </Paper>
+                            </Content>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Content>
+                                <Paper >
+                                    <Link href='/about'>
+                                        <a>
+                                            dfd
+                                        </a>
+                                    </Link>
+                                </Paper>
+                            </Content>
+                        </Grid>
+                    </Grid>
 
 
-const IndexPage = () => (
-    <Layout title="Home | Next.js + TypeScript Example">
-        <h1>Hello Next.js 👋</h1>
-        <Button variant="contained" color="primary">
-            Primary
-        </Button>
-        <p>
-            <Link href="/about">
-                <a>About</a>
-            </Link>
-        </p>
-    </Layout>
-)
+
+
+                </ContainerBox>
+
+            </Layout>
+        </>
+    )
+
+}
 
 export default IndexPage
