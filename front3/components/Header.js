@@ -1,6 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOG_OUT_REQUEST } from "../reducers/user";
 import styled from '@emotion/styled';
+import LoginForm from "./LoginForm";
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -15,6 +18,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 
 const useStyles = makeStyles((theme) =>
@@ -51,42 +57,94 @@ const DrawerTitle = styled.div`
 `;
 
 const Header = () => {
+    const dispatch = useDispatch();
+    const { me, logOutDone } = useSelector((state) => state.user);
 
     const classes = useStyles();
-    const [opne , setOpen] = useState(false);
-    const [modalOpen , setModalOpen] = useState(false);
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
 
+    const [drawerOpne , setDrawerOpne] = useState(false);
+    const onClickDrawerOpen = useCallback(() => {
+        setDrawerOpne(true);
+    }, []);
+    const onClickDrawerClose = useCallback(() => {
+        setDrawerOpne(false);
+    }, []);
+
+
+    const [loginmodalOpen , setLoginModalOpen] = useState(false);
     const onClickModalOpen = useCallback(() => {
-        setModalOpen(true)
-    }, [])
-
+        setLoginModalOpen(true)
+    }, []);
     const onClickModalClose = useCallback(() => {
-        setModalOpen(false)
-    }, [])
+        setLoginModalOpen(false)
+    }, []);
+
+
+    const [userMenu, setUserMenu] = useState(null);
+    const onClickUserMenuOpen = useCallback((event) => {
+        setUserMenu(event.currentTarget);
+    }, []);
+    const onClickUserMenuClose = useCallback(() => {
+        setUserMenu(null);
+    }, []);
+
+    const onClickUserLogOut = useCallback(() => {
+        dispatch({
+            type:LOG_OUT_REQUEST
+        })
+    }, []);
+
+    useEffect(() => {
+        if (logOutDone) {
+            setUserMenu(null);
+        }
+    }, [logOutDone])
 
     return(
         <>
             <AppBar position="sticky" >
                 <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={handleDrawerOpen}>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onClickDrawerOpen}>
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h1" className={classes.title}>
                         CodingPaletee
                     </Typography>
+                    {me ? (
+                        <div>
+                            <IconButton
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                color="inherit"
+                                onClick={onClickUserMenuOpen}
+                            >
+                                <AccountCircle  />
+
+                            </IconButton>
+                            <Menu
+                                id="simple-menu"
+                                anchorEl={userMenu}
+                                keepMounted
+                                open={Boolean(userMenu)}
+                                onClose={onClickUserMenuClose}
+                            >
+                                <MenuItem onClick={onClickUserMenuClose}>Profile</MenuItem>
+                                <MenuItem onClick={onClickUserMenuClose}>My account</MenuItem>
+                                <MenuItem onClick={onClickUserLogOut}>Logout</MenuItem>
+                            </Menu>
+                        </div>
+                    ) : (
+                        <Button color="inherit" onClick={onClickModalOpen}>Login</Button>
+                    )}
 
 
 
                 </Toolbar>
+                <LoginForm modalOpen={loginmodalOpen} closeEvent={onClickModalClose} />
 
-                <Drawer anchor="left" open={opne} onClose={handleDrawerClose} >
+                <Drawer anchor="left" open={drawerOpne} onClose={onClickDrawerClose} >
                     <DrawrBox>
                         <DrawerTitle>
                             <div>
