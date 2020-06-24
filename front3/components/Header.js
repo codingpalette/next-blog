@@ -165,7 +165,7 @@ const Header = () => {
                             <List component="nav" aria-label="secondary mailbox folders">
                                 <ul>
                                     <li>
-                                        <Link href="/">
+                                        <Link href="/write">
                                             <a>
                                                 <ListItem button>
                                                     <ListItemText primary="포스트 작성" />

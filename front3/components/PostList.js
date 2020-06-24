@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useSelector } from "react-redux";
 import styled from '@emotion/styled';
 
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
