@@ -307,11 +307,15 @@ export const GlobalStyle = () => (
                 font-size: 14px;
             }
             
-            @media (min-width: 1024px) {
-                html{
-                  font-size: 16px;
-                }
+            a{
+                color: inherit;
             }
+            
+            //@media (min-width: 1024px) {
+            //    html{
+            //      font-size: 14px;
+            //    }
+            //}
           
           
         `}

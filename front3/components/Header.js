@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import useToggle from "../hooks/useToggle";
 import { useDispatch, useSelector } from 'react-redux';
 import { LOG_OUT_REQUEST } from "../reducers/user";
 import styled from '@emotion/styled';
@@ -20,6 +21,7 @@ import Divider from '@material-ui/core/Divider';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+
 
 
 
@@ -47,14 +49,13 @@ const DrawerTitle = styled.div`
     & strong{
         display: block;
     }
-    
     & span{
         display: block;
         color: rgba(0,0,0,0.6);
         font-size: 0.75rem;
     }
-    
 `;
+
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -62,23 +63,8 @@ const Header = () => {
 
     const classes = useStyles();
 
-
-    const [drawerOpne , setDrawerOpne] = useState(false);
-    const onClickDrawerOpen = useCallback(() => {
-        setDrawerOpne(true);
-    }, []);
-    const onClickDrawerClose = useCallback(() => {
-        setDrawerOpne(false);
-    }, []);
-
-
-    const [loginmodalOpen , setLoginModalOpen] = useState(false);
-    const onClickModalOpen = useCallback(() => {
-        setLoginModalOpen(true)
-    }, []);
-    const onClickModalClose = useCallback(() => {
-        setLoginModalOpen(false)
-    }, []);
+    const [drawerOpne, onClickDrawerOpen, onClickDrawerClose] = useToggle(false);
+    const [loginmodalOpen, onClickModalOpen, onClickModalClose] = useToggle(false);
 
 
     const [userMenu, setUserMenu] = useState(null);
@@ -175,6 +161,22 @@ const Header = () => {
                                 </li>
                             </ul>
                         </List>
+                        <Divider />
+                        { me && me.level === 1 && (
+                            <List component="nav" aria-label="secondary mailbox folders">
+                                <ul>
+                                    <li>
+                                        <Link href="/">
+                                            <a>
+                                                <ListItem button>
+                                                    <ListItemText primary="포스트 작성" />
+                                                </ListItem>
+                                            </a>
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </List>
+                        )}
                     </DrawrBox>
                 </Drawer>
             </AppBar>
