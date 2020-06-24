@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import Link from 'next/link';
 import { useSelector } from "react-redux";
 import styled from '@emotion/styled';
@@ -13,22 +13,42 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Chip from '@material-ui/core/Chip';
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 
 
 
 const Content = styled.div`
-   & a div{
-      cursor: pointer;
-   }
+    
 `;
 
 const CardBox = styled(Card)`
-  max-width: 100%;
-  width: 100%;
+    max-width: 100%;
+    width: 100%;
 `;
 
-const PostList = () => {
+const CardActionsBox = styled(CardActions)`
+    flex-wrap: wrap;
+    & a {
+        display: inline-block;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    & a div{
+        cursor: pointer;
+    }
+`;
+
+const PostList = ({ post }) => {
     const { me } = useSelector((state) => state.user);
+
+    const [postMenu, setPostMenu] = useState(null);
+    const onClickPostMenuOpen = useCallback((event) => {
+        setPostMenu(event.currentTarget);
+    }, []);
+    const onClickPostMenuClose = useCallback(() => {
+        setPostMenu(null);
+    }, []);
 
     return(
         <>
@@ -38,27 +58,40 @@ const PostList = () => {
                         <CardHeader
                             action={
                                 me && me.level === 1 && (
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
-                                    </IconButton>
+                                    <>
+                                        <IconButton aria-label="settings" onClick={onClickPostMenuOpen}>
+                                            <MoreVertIcon />
+                                        </IconButton>
+                                        <Menu
+                                            anchorEl={postMenu}
+                                            keepMounted
+                                            open={Boolean(postMenu)}
+                                            onClose={onClickPostMenuClose}
+                                        >
+                                            <MenuItem onClick={onClickPostMenuClose}>수정</MenuItem>
+                                            <MenuItem onClick={onClickPostMenuClose}>삭제</MenuItem>
+                                        </Menu>
+                                    </>
                                 )
                             }
-                            title={ <Link href=""><a>Sample</a></Link> }
-                            subheader="September 14, 2016"
+                            title={ <Link href="/"><a>{post.title}</a></Link> }
+                            subheader={post.date}
                         />
                         <CardContent>
                             <Typography variant="body2" color="textSecondary" component="p">
-                                This impressive paella is a perfect party dish and a fun meal to cook together with your
-                                guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                                {post.description}
                             </Typography>
                         </CardContent>
-                        <CardActions disableSpacing>
-                            <Link href="/">
-                                <a>
-                                    <Chip label="Clickable link" variant="outlined" />
-                                </a>
-                            </Link>
-                        </CardActions>
+                        <CardActionsBox disableSpacing>
+                            {post.Tags.map((v, i) => (
+                                <Link href="/" key={i}>
+                                    <a>
+                                        <Chip label={v} variant="outlined" />
+                                    </a>
+                                </Link>
+                            ))}
+
+                        </CardActionsBox>
                     </CardBox>
                 </Content>
             </Grid>
