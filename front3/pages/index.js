@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Layout from '../components/Layout';
 import { useDispatch, useSelector } from "react-redux";
-import { LOAD_POSTS_REQUEST } from "../reducers/post";
+import {LOAD_POSTS_REQUEST, RESET_SUCCESS } from "../reducers/post";
 import PostList from "../components/PostList";
 import Grid from '@material-ui/core/Grid';
 
@@ -17,6 +17,12 @@ const IndexPage = () => {
             })
         }
     }, [])
+
+    useEffect(() => {
+        dispatch({
+            type: RESET_SUCCESS
+        })
+    })
 
     return(
         <>

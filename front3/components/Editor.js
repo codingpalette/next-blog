@@ -1,7 +1,22 @@
 import { useState, useRef, useEffect } from 'react';
+import styled from '@emotion/styled';
+
+const EditorContainer = styled.div`
+    margin-top: 1rem;
+`;
+
+const QuillWrapper = styled.div`
+    /* 최소 크기 지정 및 padding 제거 */
+    .ql-editor {
+        min-height: 320px;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+`;
 
 
-const Editor = () => {
+const Editor = ({ content, setContent }) => {
     const quillElement = useRef(null); // Quill을 적용할 DivElement를 설정
     const quillInstance = useRef(null); // Quill 인스턴스를 설정
 
@@ -44,15 +59,30 @@ const Editor = () => {
         // quill에 text-change 이벤트 핸들러 등록
         // 참고: https://quilljs.com/docs/api/#events
         const quill = quillInstance.current;
-    }, [])
+        quill.on('text-change', (delta, oldDelta, source) => {
+            if (source === 'user') {
+                // console.log(quill.root.innerHTML )
+                setContent(quill.root.innerHTML)
+            }
+        });
+    }, [setContent])
+
+    const mounted = useRef(false);
+    useEffect(() => {
+        if (mounted.current) return;
+        mounted.current = true;
+        quillInstance.current.root.innerHTML = content;
+    }, [content]);
 
 
 
     return(
         <>
-            <div>
-                <div ref={quillElement} />
-            </div>
+            <EditorContainer>
+                <QuillWrapper>
+                    <div ref={quillElement} />
+                </QuillWrapper>
+            </EditorContainer>
         </>
     )
 }

@@ -28,9 +28,12 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
     date:'2020.06.10',
     description: faker.lorem.paragraph(),
     Tags: faker.company.suffixes(),
+    content: ''
 }));
 
 // initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
+
+export const RESET_SUCCESS = 'RESET_SUCCESS'
 
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
@@ -61,14 +64,12 @@ export const addComment = (data) => ({
 });
 
 const dummyPost = (data) => ({
-    id: data.id,
+    id: shortId.generate(),
+    title: data.title,
+    date:'2020.06.10',
+    description: data.description,
+    Tags: data.localTags,
     content: data.content,
-    User: {
-        id: 1,
-        nickname: '제로초',
-    },
-    Images: [],
-    Comments: [],
 });
 
 
@@ -84,6 +85,9 @@ const dummyComment = (data) => ({
 const reducer = (state = initialState, action ) => {
     return produce(state, (draft) => {
         switch (action.type) {
+            case RESET_SUCCESS:
+                draft.addPostDone = false;
+                break;
             case LOAD_POSTS_REQUEST:
                 draft.loadPostsLoading = true;
                 draft.loadPostsDone = false;

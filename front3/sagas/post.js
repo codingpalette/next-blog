@@ -18,7 +18,6 @@ import {
 } from "../reducers/post";
 
 import {
-    ADD_POST_TO_ME,
     REMOVE_POST_OF_ME
 } from "../reducers/user";
 
@@ -55,19 +54,13 @@ function* addPost(action) {
     try {
         // const res = yield call(addPostAPI , action.data)
         yield  delay(1000)
-        const id = shortId.generate()
+
         yield put({
             type: ADD_POST_SUCCESS,
             // data: res.data
-            data: {
-                id,
-                content:action.data
-            }
+            data: action.data
+
         });
-        yield put({
-            type : ADD_POST_TO_ME,
-            data : id
-        })
     } catch (e) {
         console.log(e);
         yield put({
