@@ -73,7 +73,7 @@ const PostList = ({ post }) => {
                                     </>
                                 )
                             }
-                            title={ <Link href="/"><a>{post.title}</a></Link> }
+                            title={ <Link href="/post/[id]" as={`/post/${post.id}`}><a>{post.title}</a></Link> }
                             subheader={post.date}
                         />
                         <CardContent>

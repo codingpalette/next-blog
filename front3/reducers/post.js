@@ -14,10 +14,17 @@ export const initialState = {
     addCommentLoading: false,
     addCommentDone: false,
     addCommentError: null,
-    loadPostsLoading: false,
+
+    loadPostsLoading: false, // 포스트리스트
     loadPostsDone: false,
     loadPostsError: null,
+
+    loadPostLoading: false, // 포스트
+    loadPostDone: false,
+    loadPostError: null,
+
     mainPosts: [],
+    detailPost: null,
     imagePaths: [],
     hasMorePost: false,
 };
@@ -34,6 +41,10 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
 // initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
 
 export const RESET_SUCCESS = 'RESET_SUCCESS'
+
+export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
+export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
+export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
