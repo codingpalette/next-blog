@@ -31,7 +31,7 @@ const TagFormBox = styled.div`
 `;
 
 const TagBtn = styled(Button)`
-    height: 40px;
+    height: 35px;
     margin-left: 1rem !important;
 `;
 
@@ -110,7 +110,7 @@ const Write = () => {
         e.preventDefault()
         dispatch({
             type: ADD_POST_REQUEST,
-            data: {title, description, localTags, content}
+            data: {title, description, tags:localTags, content}
         })
     }, [title, description, localTags, content])
 
@@ -119,7 +119,7 @@ const Write = () => {
             <Layout>
                 <Grid container>
                     <Grid item xs={12}>
-                        <PaperBox>
+                        <PaperBox elevation={0}>
                             <Typography variant="h5" component="h2" gutterBottom>
                                 포스트 작성
                             </Typography>
@@ -152,7 +152,12 @@ const Write = () => {
                                         value={tag}
                                         onChange={onChangeTag}
                                     />
-                                    <TagBtn variant="contained" color="primary" onClick={onClickTagAdd}>
+                                    <TagBtn
+                                        variant="contained"
+                                        color="primary"
+                                        disableElevation
+                                        onClick={onClickTagAdd}
+                                    >
                                         추가
                                     </TagBtn>
                                 </TagFormBox>
@@ -160,12 +165,12 @@ const Write = () => {
                                 <Editor content={content} setContent={setContent} />
 
                                 <BtnBox>
-                                    <Button variant="contained" color="secondary">
+                                    <Button variant="contained" color="secondary" disableElevation>
                                         <Link href='/'>
                                             <a>취소</a>
                                         </Link>
                                     </Button>
-                                    <Button variant="contained" color="primary" type="submit">
+                                    <Button variant="contained" color="primary" type="submit" disableElevation>
                                         {addPostLoading ? <CircularProgressTag  size={20} /> : '작성'}
                                     </Button>
                                 </BtnBox>

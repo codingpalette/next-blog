@@ -53,7 +53,7 @@ const PostList = ({ post }) => {
         <>
             <Grid item xs={12}>
                 <Content>
-                    <CardBox>
+                    <CardBox variant="outlined">
                         <CardHeader
                             action={
                                 me && me.level === 1 && (
@@ -82,7 +82,7 @@ const PostList = ({ post }) => {
                             </Typography>
                         </CardContent>
                         <CardActionsBox disableSpacing>
-                            {post.Tags.map((v, i) => (
+                            {post.tags.map((v, i) => (
                                 <Link href="/" key={i}>
                                     <a>
                                         <Chip label={v} variant="outlined" />

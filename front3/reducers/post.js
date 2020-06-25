@@ -34,7 +34,7 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
     title: faker.name.title(),
     date:'2020.06.10',
     description: faker.lorem.paragraph(),
-    Tags: faker.company.suffixes(),
+    tags: faker.company.suffixes(),
     content: ''
 }));
 
@@ -79,7 +79,7 @@ const dummyPost = (data) => ({
     title: data.title,
     date:'2020.06.10',
     description: data.description,
-    Tags: data.localTags,
+    tags: data.tags,
     content: data.content,
 });
 
@@ -123,10 +123,24 @@ const reducer = (state = initialState, action ) => {
                 draft.addPostLoading = false;
                 draft.addPostDone = true;
                 draft.mainPosts.unshift(dummyPost(action.data));
+                draft.detailPost = action.data;
                 break;
             case ADD_POST_FAILURE:
                 draft.addPostLoading = true;
                 draft.addPostError = action.error;
+                break;
+            case LOAD_POST_REQUEST:
+                draft.loadPostLoading = true;
+                draft.loadPostDone = false;
+                draft.loadPostError = null;
+                break;
+            case LOAD_POST_SUCCESS:
+                draft.loadPostLoading = false;
+                draft.loadPostDone = true;
+                break;
+            case LOAD_POST_FAILURE:
+                draft.loadPostLoading = true;
+                draft.loadPostError = action.error;
                 break;
             case ADD_COMMENT_REQUEST:
                 draft.addCommentLoading = true;
