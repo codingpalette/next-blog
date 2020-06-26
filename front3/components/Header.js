@@ -49,6 +49,7 @@ const ContainerTag = styled.div`
     top: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12); 
     box-sizing: border-box;
+    z-index: 40;
 `;
 
 

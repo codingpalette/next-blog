@@ -1,8 +1,8 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
 import Link from 'next/link';
-import Router from "next/router";
+import Router, { withRouter } from "next/router";
 import {useDispatch, useSelector} from "react-redux";
-import { ADD_POST_REQUEST } from "../reducers/post";
+import {ADD_POST_REQUEST, LOAD_POST_REQUEST, MODIFY_POST_REQUEST} from "../reducers/post";
 import Layout from '../components/Layout';
 import useInput from "../hooks/useInput";
 import styled from '@emotion/styled';
@@ -72,14 +72,38 @@ const TagList = React.memo(({tags, onRemove}) => (
 ));
 
 
-const Write = () => {
+const Write = ({ router }) => {
     const dispatch = useDispatch()
-    const { addPostLoading, addPostDone } = useSelector((state) => state.post)
-    const [title, onChangeTitle] = useInput('');
-    const [description, onChangeDescription] = useInput('');
+    const { addPostLoading, addPostDone, detailPost } = useSelector((state) => state.post)
+    const [mode, setMode] = useState('create')
+    const [title, onChangeTitle, setTitle] = useInput('');
+    const [description, onChangeDescription, setDescription] = useInput('');
     const [tag, onChangeTag, setTag] = useInput('');
     const [localTags, setLocalTags] = useState([]);
     const [content, onChangeContent, setContent] = useInput('');
+
+    useEffect(() => {
+        if (router.query.id) {
+            setMode('modify')
+            dispatch({
+                type: LOAD_POST_REQUEST,
+                data: router.query.id
+            })
+        } else {
+            setMode('create')
+        }
+    }, [])
+
+    useEffect(() => {
+        if (detailPost) {
+            setTitle(detailPost.title)
+            setDescription(detailPost.description)
+            setLocalTags(detailPost.tags)
+            setContent(detailPost.content)
+        }
+    }, [detailPost])
+
+
 
     useEffect(() => {
         if (addPostDone) {
@@ -108,11 +132,21 @@ const Write = () => {
 
     const onSubmit = useCallback((e) => {
         e.preventDefault()
-        dispatch({
-            type: ADD_POST_REQUEST,
-            data: {title, description, tags:localTags, content}
-        })
-    }, [title, description, localTags, content])
+        if (mode === 'create') {
+            dispatch({
+                type: ADD_POST_REQUEST,
+                data: {title, description, tags:localTags, content}
+            })
+        } else {
+            dispatch({
+                type: MODIFY_POST_REQUEST,
+                data: {id: detailPost.id, title, description, tags:localTags, content}
+            })
+        }
+
+    }, [detailPost, title, description, localTags, content])
+
+
 
     return (
         <>
@@ -121,7 +155,7 @@ const Write = () => {
                     <Grid item xs={12}>
                         <PaperBox elevation={0}>
                             <Typography variant="h5" component="h2" gutterBottom>
-                                포스트 작성
+                                {mode === 'create' ? '포스트 작성' : '포스트 수정'}
                             </Typography>
                             <form onSubmit={onSubmit}>
                                 <TextField
@@ -170,9 +204,16 @@ const Write = () => {
                                             <a>취소</a>
                                         </Link>
                                     </Button>
-                                    <Button variant="contained" color="primary" type="submit" disableElevation>
-                                        {addPostLoading ? <CircularProgressTag  size={20} /> : '작성'}
-                                    </Button>
+                                    {mode === 'create' ? (
+                                        <Button variant="contained" color="primary" type="submit" disableElevation>
+                                            {addPostLoading ? <CircularProgressTag  size={20} /> : '작성'}
+                                        </Button>
+                                    ) : (
+                                        <Button variant="contained" color="primary" type="submit" disableElevation>
+                                            {addPostLoading ? <CircularProgressTag  size={20} /> : '수정'}
+                                        </Button>
+                                    )}
+
                                 </BtnBox>
 
                             </form>
@@ -184,4 +225,4 @@ const Write = () => {
     )
 }
 
-export default Write
+export default withRouter(Write)

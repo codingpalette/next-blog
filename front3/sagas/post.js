@@ -17,7 +17,10 @@ import {
     LOAD_POSTS_FAILURE,
     LOAD_POST_REQUEST,
     LOAD_POST_SUCCESS,
-    LOAD_POST_FAILURE
+    LOAD_POST_FAILURE,
+    MODIFY_POST_REQUEST,
+    MODIFY_POST_SUCCESS,
+    MODIFY_POST_FAILURE
 } from "../reducers/post";
 
 import {
@@ -142,6 +145,7 @@ function* loadPost(action) {
         yield  delay(1000)
         yield put({
             type: LOAD_POST_SUCCESS,
+            data: action.data
         });
     } catch (e) {
         console.log(e);
@@ -151,6 +155,30 @@ function* loadPost(action) {
         })
     }
 }
+
+
+function modifyPostAPI(data) {
+    return axios.put('/api/post' , data)
+}
+
+function* modifyPost(action) {
+    try {
+        // const res = yield call(modifyPostAPI , action.data)
+        // console.log(action)
+        yield  delay(1000)
+        yield put({
+            type: MODIFY_POST_SUCCESS,
+            data: action.data
+        });
+    } catch (e) {
+        console.log(e);
+        yield put({
+            type: MODIFY_POST_FAILURE,
+            error: e.response.data
+        })
+    }
+}
+
 
 
 
@@ -174,7 +202,9 @@ function* watchLoadPost() {
     yield takeLatest(LOAD_POST_REQUEST, loadPost)
 }
 
-
+function* watchModifyPost() {
+    yield takeLatest(MODIFY_POST_REQUEST, modifyPost)
+}
 
 
 export default function* postSaga() {
@@ -184,5 +214,6 @@ export default function* postSaga() {
         fork(watchRemovePost),
         fork(watchAddComment),
         fork(watchLoadPost),
+        fork(watchModifyPost),
     ])
 }

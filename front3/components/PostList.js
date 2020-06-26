@@ -1,6 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import Link from 'next/link';
-import { useSelector } from "react-redux";
+import Router from 'next/router'
+import {useDispatch, useSelector} from "react-redux";
+import { WRITE_MODE_MODIFY } from "../reducers/post";
 import styled from '@emotion/styled';
 
 import Grid from '@material-ui/core/Grid';
@@ -14,6 +16,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Chip from '@material-ui/core/Chip';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+
 
 
 
@@ -39,6 +42,8 @@ const CardActionsBox = styled(CardActions)`
 `;
 
 const PostList = ({ post }) => {
+
+
     const { me } = useSelector((state) => state.user);
 
     const [postMenu, setPostMenu] = useState(null);
@@ -48,6 +53,10 @@ const PostList = ({ post }) => {
     const onClickPostMenuClose = useCallback(() => {
         setPostMenu(null);
     }, []);
+
+    const onClickPostModify = useCallback((id) => () => {
+        Router.push(`/write?id=${id}`)
+    }, [])
 
     return(
         <>
@@ -67,7 +76,7 @@ const PostList = ({ post }) => {
                                             open={Boolean(postMenu)}
                                             onClose={onClickPostMenuClose}
                                         >
-                                            <MenuItem onClick={onClickPostMenuClose}>수정</MenuItem>
+                                            <MenuItem onClick={ onClickPostModify(post.id)}>수정</MenuItem>
                                             <MenuItem onClick={onClickPostMenuClose}>삭제</MenuItem>
                                         </Menu>
                                     </>

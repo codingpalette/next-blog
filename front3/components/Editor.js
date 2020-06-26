@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { useSelector } from "react-redux";
 
 const EditorContainer = styled.div`
     margin-top: 1rem;
@@ -17,6 +18,8 @@ const QuillWrapper = styled.div`
 
 
 const Editor = ({ content, setContent }) => {
+    const { loadPostDone } = useSelector((state) => state.post)
+
     const quillElement = useRef(null); // Quill을 적용할 DivElement를 설정
     const quillInstance = useRef(null); // Quill 인스턴스를 설정
 
@@ -70,9 +73,11 @@ const Editor = ({ content, setContent }) => {
     const mounted = useRef(false);
     useEffect(() => {
         if (mounted.current) return;
-        mounted.current = true;
-        quillInstance.current.root.innerHTML = content;
-    }, [content]);
+        if (content !== '' && loadPostDone) {
+            mounted.current = true;
+            quillInstance.current.root.innerHTML = content;
+        }
+    }, [content, loadPostDone])
 
 
 

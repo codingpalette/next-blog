@@ -27,6 +27,12 @@ export const initialState = {
     detailPost: null,
     imagePaths: [],
     hasMorePost: false,
+
+    postWriteMode: 'create',
+
+    modifyPostLoading: false,
+    modifyPostDone: false,
+    modifyPostError: null,
 };
 
 export const generateDummyPost = (number) => Array(number).fill().map(() => ({
@@ -35,7 +41,36 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
     date:'2020.06.10',
     description: faker.lorem.paragraph(),
     tags: faker.company.suffixes(),
-    content: ''
+    content: `
+        <p>소셜 로그인에 필요한 ID, Secret, Redirect URL을&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">.env</code>&nbsp;파일에서 관리 할 것이다. 아래 명령어로 dotenv 라이브러리를 설치 해준다.</p><pre class="ql-syntax" spellcheck="false">
+$ npm i dotenv
+// app.js
+
+const dotenv = require('dotenv')
+dotenv.config()
+</pre><p>위와 같이 설정 해주면, 코드에서&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">process.env['key']</code>&nbsp;로&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">.env</code>&nbsp;에 있는 값을 접근 할 수 있다.</p><p><br></p><h2>3. session 설정</h2><p>필자는&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">app.js</code>&nbsp;가 더러워지는 것을 별로 좋아하지 않아, 설정 관련된 코드는 최대한 파일로 분리 시킨다.</p><pre class="ql-syntax" spellcheck="false">// app.js
+
+/**
+ * 세션 세팅
+ */
+const configureSession = require('./config/session')
+configureSession(app)
+
+// config/session.js
+const session = require('express-session')
+
+module.exports = (app) =&gt; {
+  app.use(
+    session({
+      secret: process.env['SESSION_SECRET'],
+      cookie: { maxAge: 60 * 60 * 1000 },
+      resave: false,
+      saveUninitialized: true,
+    })
+  )
+}
+</pre><p>세션 만료 기간은 1시간으로 설정 했으며,&nbsp;<strong>secret</strong>&nbsp;은&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">.env</code>&nbsp;에서 가져온다.</p><p><strong>resave</strong>&nbsp;는 세션을 언제나 저장할 지 정하는 값입니다. express-session doc 에서는 이 값을 false 로 하는 것을 권장하고 필요에 따라 true로 설정합니다.</p><p><strong>saveUninitialized</strong>&nbsp;는 세션이 저장되기 전에 uninitialized 상태로 미리 만들어서 저장합니다.</p>
+    `
 }));
 
 // initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
@@ -61,6 +96,14 @@ export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
+
+export const WRITE_MODE_CREATE = 'WRITE_MODE_CREATE';
+export const WRITE_MODE_MODIFY = 'WRITE_MODE_MODIFY';
+
+export const MODIFY_POST_REQUEST = 'MODIFY_POST_REQUEST'
+export const MODIFY_POST_SUCCESS = 'MODIFY_POST_SUCCESS'
+export const MODIFY_POST_FAILURE = 'MODIFY_POST_FAILURE'
+
 
 
 
@@ -98,6 +141,7 @@ const reducer = (state = initialState, action ) => {
         switch (action.type) {
             case RESET_SUCCESS:
                 draft.addPostDone = false;
+                draft.detailPost = null;
                 break;
             case LOAD_POSTS_REQUEST:
                 draft.loadPostsLoading = true;
@@ -123,7 +167,7 @@ const reducer = (state = initialState, action ) => {
                 draft.addPostLoading = false;
                 draft.addPostDone = true;
                 draft.mainPosts.unshift(dummyPost(action.data));
-                draft.detailPost = action.data;
+
                 break;
             case ADD_POST_FAILURE:
                 draft.addPostLoading = true;
@@ -137,6 +181,8 @@ const reducer = (state = initialState, action ) => {
             case LOAD_POST_SUCCESS:
                 draft.loadPostLoading = false;
                 draft.loadPostDone = true;
+                // console.log(action.data)
+                draft.detailPost = draft.mainPosts[0];
                 break;
             case LOAD_POST_FAILURE:
                 draft.loadPostLoading = true;
@@ -182,6 +228,26 @@ const reducer = (state = initialState, action ) => {
                 draft.removePostLoading = false;
                 draft.removePostError = action.error;
                 break;
+            case MODIFY_POST_REQUEST:
+                draft.modifyPostLoading = true;
+                draft.modifyPostDone = false;
+                draft.modifyPostError = null;
+                break
+            case MODIFY_POST_SUCCESS:
+                draft.modifyPostLoading = false;
+                draft.modifyPostDone = true;
+                draft.mainPosts[draft.mainPosts.findIndex(i => i.id === action.data.id)] = action.data;
+                break
+            case MODIFY_POST_FAILURE:
+                draft.modifyPostLoading = false;
+                draft.modifyPostError = action.error;
+                break
+            case WRITE_MODE_CREATE:
+                draft.postWriteMode = 'create';
+                break
+            case WRITE_MODE_MODIFY:
+                draft.postWriteMode = 'modify';
+                break
             default:
                 return state;
         }
