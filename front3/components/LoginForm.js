@@ -65,7 +65,7 @@ const LoginForm = ({ modalOpen, closeEvent }) => {
                             />
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={closeEvent} color="primary">
+                            <Button onClick={closeEvent} color="secondary">
                                 닫기
                             </Button>
                             <Button color="primary" type="submit">

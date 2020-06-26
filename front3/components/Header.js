@@ -21,7 +21,8 @@ import Divider from '@material-ui/core/Divider';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 
 
 
@@ -35,10 +36,28 @@ const useStyles = makeStyles((theme) =>
         },
         title: {
             flexGrow: 1,
-            fontSize:'1rem',
+            fontSize:'1.5rem',
+            textAlign:'center'
         },
     }),
 );
+
+const ContainerTag = styled.div`
+    background-color: #fff;
+    position: sticky;
+    left: 0;
+    top: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12); 
+    box-sizing: border-box;
+`;
+
+
+const HeaderBox = styled.header`
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+`;
 
 const DrawrBox = styled.div`
     width: 250px;
@@ -89,8 +108,9 @@ const Header = () => {
 
     return(
         <>
-            <AppBar position="sticky" >
-                <Toolbar>
+            <ContainerTag>
+            <Container maxWidth="md">
+                <HeaderBox>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onClickDrawerOpen}>
                         <MenuIcon />
                     </IconButton>
@@ -123,10 +143,7 @@ const Header = () => {
                     ) : (
                         <Button color="inherit" onClick={onClickModalOpen}>Login</Button>
                     )}
-
-
-
-                </Toolbar>
+                </HeaderBox>
                 <LoginForm modalOpen={loginmodalOpen} closeEvent={onClickModalClose} />
 
                 <Drawer anchor="left" open={drawerOpne} onClose={onClickDrawerClose} >
@@ -178,8 +195,8 @@ const Header = () => {
                         )}
                     </DrawrBox>
                 </Drawer>
-            </AppBar>
-
+            </Container>
+            </ContainerTag>
         </>
     )
 }
