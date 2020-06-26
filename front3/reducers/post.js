@@ -141,6 +141,7 @@ const reducer = (state = initialState, action ) => {
         switch (action.type) {
             case RESET_SUCCESS:
                 draft.addPostDone = false;
+                draft.modifyPostDone = false;
                 draft.detailPost = null;
                 break;
             case LOAD_POSTS_REQUEST:
@@ -182,7 +183,7 @@ const reducer = (state = initialState, action ) => {
                 draft.loadPostLoading = false;
                 draft.loadPostDone = true;
                 // console.log(action.data)
-                draft.detailPost = draft.mainPosts[0];
+                draft.detailPost = draft.mainPosts[draft.mainPosts.findIndex(i => i.id === action.data)];
                 break;
             case LOAD_POST_FAILURE:
                 draft.loadPostLoading = true;

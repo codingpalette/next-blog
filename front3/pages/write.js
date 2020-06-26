@@ -74,7 +74,7 @@ const TagList = React.memo(({tags, onRemove}) => (
 
 const Write = ({ router }) => {
     const dispatch = useDispatch()
-    const { addPostLoading, addPostDone, detailPost } = useSelector((state) => state.post)
+    const { addPostLoading, addPostDone, detailPost, modifyPostLoading, modifyPostDone } = useSelector((state) => state.post)
     const [mode, setMode] = useState('create')
     const [title, onChangeTitle, setTitle] = useInput('');
     const [description, onChangeDescription, setDescription] = useInput('');
@@ -110,6 +110,12 @@ const Write = ({ router }) => {
             Router.push('/')
         }
     }, [addPostDone])
+
+    useEffect(() => {
+        if (modifyPostDone) {
+            Router.push('/')
+        }
+    }, [modifyPostDone])
 
     const insertTag = useCallback((tag) => {
         if (!tag) return; // 공백이라면 추가하지 않음
@@ -210,7 +216,7 @@ const Write = ({ router }) => {
                                         </Button>
                                     ) : (
                                         <Button variant="contained" color="primary" type="submit" disableElevation>
-                                            {addPostLoading ? <CircularProgressTag  size={20} /> : '수정'}
+                                            {modifyPostLoading ? <CircularProgressTag  size={20} /> : '수정'}
                                         </Button>
                                     )}
 

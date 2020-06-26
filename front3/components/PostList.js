@@ -76,8 +76,8 @@ const PostList = ({ post }) => {
                                             open={Boolean(postMenu)}
                                             onClose={onClickPostMenuClose}
                                         >
-                                            <MenuItem onClick={ onClickPostModify(post.id)}>수정</MenuItem>
-                                            <MenuItem onClick={onClickPostMenuClose}>삭제</MenuItem>
+                                            <MenuItem onClick={ onClickPostModify(post.id)}>수정하기</MenuItem>
+                                            <MenuItem onClick={onClickPostMenuClose}>삭제하기</MenuItem>
                                         </Menu>
                                     </>
                                 )
