@@ -326,6 +326,10 @@ export const GlobalStyle = () => (
                 color: #222 !important;
             }
             
+            h1,h2,h3,h4,h5,h6{
+                color: rgb(95, 108, 145);
+            }
+            
             html{
                 font-size: 16px;
             }
