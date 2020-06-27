@@ -16,15 +16,25 @@ const ContainerBox = styled.div`
     }
 `;
 
+const ContentBox = styled.div`
+    width: 100%;
+    height: calc(100% - 100px);
+    flex: 1;
+    overflow-y: auto;
+    @media (min-width: 1024px) {
+       height: calc(100% - 50px);
+    }
+`;
+
 
 const Layout = ({ children }) => {
     return(
         <>
             <ContainerBox>
                 <Header />
-                <div>
-                    fddsfsdfsf
-                </div>
+                <ContentBox>
+                    {children}
+                </ContentBox>
             </ContainerBox>
 
             {/*<ContainerBox maxWidth="md">*/}

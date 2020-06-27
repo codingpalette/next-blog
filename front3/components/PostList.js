@@ -5,41 +5,82 @@ import {useDispatch, useSelector} from "react-redux";
 import { WRITE_MODE_MODIFY } from "../reducers/post";
 import styled from '@emotion/styled';
 
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Chip from '@material-ui/core/Chip';
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import LabelIcon from '@material-ui/icons/Label';
 
 
-
-
-const Content = styled.div`
-    
-`;
-
-const CardBox = styled(Card)`
-    max-width: 100%;
+const ListBox = styled.li`
+    position: relative;
     width: 100%;
+    padding:0 1rem;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+    transition: 0.3s;
+    
+    &:hover{
+        transform: translateY(-5px);
+    }
+    
+    @media (min-width: 1024px) {
+        width: 50%;
+    }
+    
+    @media (min-width: 1280px) {
+        width: 33.33%;
+    }
+    
+    @media (min-width: 1600px) {
+        width: 25%;
+    }
+    
+    @media (min-width: 2000px) {
+        width: 20%;
+    }
+    
+    & .list_content{
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        border-radius: 4px;
+        height: 300px;
+    }
+
 `;
 
-const CardActionsBox = styled(CardActions)`
-    flex-wrap: wrap;
-    & a {
-        display: inline-block;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
+const CardHeader = styled.div`
+    color: rgb(95, 108, 145);
+    border-bottom: 1px solid #edf1f7;
+    padding: 1rem;
+    box-sizing: border-box;
+    & .title_box{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
-    & a div{
-        cursor: pointer;
+    & h2{
+        font-weight: bold;
+    }
+    & .icon_box{
+        display: flex;
+        align-items: center;
+        padding-top: 1rem;
+        font-size: 0.5rem;
+    }
+    
+    & .icon_box span{
+        display: block;
+        margin-left: 5px;
+        margin-right: 1rem;
     }
 `;
+
+const CardBody = styled.div`
+    padding: 1rem;
+    box-sizing: border-box;
+`;
+
 
 const PostList = ({ post }) => {
 
@@ -60,49 +101,47 @@ const PostList = ({ post }) => {
 
     return(
         <>
-            <Grid item xs={12}>
-                <Content>
-                    <CardBox variant="outlined">
-                        <CardHeader
-                            action={
-                                me && me.level === 1 && (
-                                    <>
-                                        <IconButton aria-label="settings" onClick={onClickPostMenuOpen}>
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                        <Menu
-                                            anchorEl={postMenu}
-                                            keepMounted
-                                            open={Boolean(postMenu)}
-                                            onClose={onClickPostMenuClose}
-                                        >
-                                            <MenuItem onClick={ onClickPostModify(post.id)}>수정하기</MenuItem>
-                                            <MenuItem onClick={onClickPostMenuClose}>삭제하기</MenuItem>
-                                        </Menu>
-                                    </>
-                                )
-                            }
-                            title={ <Link href="/post/[id]" as={`/post/${post.id}`}><a>{post.title}</a></Link> }
-                            subheader={post.date}
-                        />
-                        <CardContent>
-                            <Typography variant="body2" color="textSecondary" component="p">
+            <ListBox>
+                <Link href="/post/[id]" as={`/post/${post.id}`}>
+                    <a>
+                        <div className="list_content">
+                            <CardHeader>
+                                <div className="title_box">
+                                    <h2>
+                                        {post.title}
+                                    </h2>
+                                    {/*{me && me.level === 1 && (*/}
+                                    {/*    <>*/}
+                                    {/*        <IconButton aria-label="settings" onClick={onClickPostMenuOpen}>*/}
+                                    {/*            <MoreVertIcon />*/}
+                                    {/*        </IconButton>*/}
+                                    {/*        <Menu*/}
+                                    {/*            anchorEl={postMenu}*/}
+                                    {/*            keepMounted*/}
+                                    {/*            open={Boolean(postMenu)}*/}
+                                    {/*            onClose={onClickPostMenuClose}*/}
+                                    {/*        >*/}
+                                    {/*            <MenuItem onClick={ onClickPostModify(post.id)}>수정하기</MenuItem>*/}
+                                    {/*            <MenuItem onClick={onClickPostMenuClose}>삭제하기</MenuItem>*/}
+                                    {/*        </Menu>*/}
+                                    {/*    </>*/}
+                                    {/*)}*/}
+                                </div>
+                                <div className="icon_box">
+                                    <DateRangeIcon fontSize="small" />
+                                    <span>작성일 2020-06-10</span>
+                                    <LabelIcon fontSize="small" />
+                                    <span>카테고리 HTML</span>
+                                </div>
+                            </CardHeader>
+                            <CardBody>
                                 {post.description}
-                            </Typography>
-                        </CardContent>
-                        <CardActionsBox disableSpacing>
-                            {post.tags.map((v, i) => (
-                                <Link href="/" key={i}>
-                                    <a>
-                                        <Chip label={v} variant="outlined" />
-                                    </a>
-                                </Link>
-                            ))}
+                            </CardBody>
+                        </div>
+                    </a>
+                </Link>
+            </ListBox>
 
-                        </CardActionsBox>
-                    </CardBox>
-                </Content>
-            </Grid>
         </>
     )
 }

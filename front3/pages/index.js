@@ -2,8 +2,23 @@ import React, { useEffect } from 'react';
 import Layout from '../components/Layout';
 import { useDispatch, useSelector } from "react-redux";
 import {LOAD_POSTS_REQUEST, RESET_SUCCESS } from "../reducers/post";
+import styled from '@emotion/styled'
 import PostList from "../components/PostList";
 import Grid from '@material-ui/core/Grid';
+
+const Container = styled.div`
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    
+    & ul{
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+`;
 
 
 const IndexPage = () => {
@@ -27,10 +42,15 @@ const IndexPage = () => {
     return(
         <>
             <Layout>
-                <Grid container spacing={3}>
-                    { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
+                <Container>
+                    <ul>
+                        { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
+                    </ul>
+                </Container>
+                {/*<Grid container spacing={3}>*/}
+                {/*    { mainPosts.map((post) => <PostList key={post.id} post={post} />) }*/}
 
-                </Grid>
+                {/*</Grid>*/}
             </Layout>
         </>
     )
