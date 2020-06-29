@@ -7,23 +7,25 @@ import Layout from '../../components/Layout';
 import styled from '@emotion/styled';
 import hljs from 'highlight.js';
 
-
-import Grid from "@material-ui/core/Grid";
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import Chip from "@material-ui/core/Chip";
 
 hljs.configure({
     languages: ['javascript', 'css', 'html', 'xml ', 'typescript'],
 });
 
-const PaperBox = styled(Paper)`
-    padding: 1rem;
+const PostHeader = styled.div`
+    padding: 2rem 1rem;
     box-sizing: border-box;
+    background-color: #fff;
+    & h2{
+       font-size: 2.5rem;
+       font-weight: bold;
+    }
 `;
 
+
 const TagBox = styled.div`
-    margin-bottom: 1rem;
+    margin-top: 1rem;
     display: flex;
     flex-wrap: wrap;
     & a {
@@ -36,9 +38,23 @@ const TagBox = styled.div`
     }
 `;
 
+const PostBody = styled.div`
+    padding: 1rem;
+    box-sizing: border-box;
+    & .content {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+`;
+
 const PostContent = styled.div`
-    display: block;
-    margin: 1.5rem 0;
     h1,
     h2,
     h3,
@@ -60,12 +76,9 @@ const PostContent = styled.div`
         font-size: 1.25rem;
     }
     blockquote{
-        margin-top: 2rem;
-        margin-bottom: 2rem;
+        margin: 2rem 0;
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
-        margin-left: 0px;
-        margin-right: 0px;
         border-left: 4px solid #536DFE;
         background: rgb(248, 249, 250);
         padding: 1rem 1rem 1rem 2rem;
@@ -148,35 +161,29 @@ const Post = ({ router }) => {
     return(
         <>
             <Layout>
-                <Grid container spacing={3}>
-                    {loadPostDone && detailPost && (
-                        <Grid item xs={12}>
-                            <PaperBox elevation={0}>
-                                <Typography variant="h5" component="h2" gutterBottom>
-                                    {detailPost.title}
-                                </Typography>
-                                <TagBox>
-                                    {detailPost.tags.map((v, i) => (
-                                        <Link href="/" key={i}>
-                                            <a>
-                                                <Chip label={v} variant="outlined" />
-                                            </a>
-                                        </Link>
-                                    ))}
-                                </TagBox>
+                {loadPostDone && detailPost && (
+                    <>
+                        <PostHeader>
+                            <h2>{detailPost.title}</h2>
+                            <TagBox>
+                                {detailPost.tags.map((v, i) => (
+                                    <Link href="/" key={i}>
+                                        <a>
+                                            <Chip label={v} variant="outlined" />
+                                        </a>
+                                    </Link>
+                                ))}
+                            </TagBox>
+                        </PostHeader>
+                        <PostBody>
+                            <div className='content'>
                                 <PostContent>
-
-                                        <div dangerouslySetInnerHTML={{ __html: detailPost.content }} />
-
-
-
+                                    <div dangerouslySetInnerHTML={{ __html: detailPost.content }} />
                                 </PostContent>
-                            </PaperBox>
-                        </Grid>
-                    )}
-
-
-                </Grid>
+                            </div>
+                        </PostBody>
+                    </>
+                )}
             </Layout>
         </>
     )

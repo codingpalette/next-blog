@@ -13,7 +13,7 @@ import LabelIcon from '@material-ui/icons/Label';
 const ListBox = styled.li`
     position: relative;
     width: 100%;
-    padding:0 1rem;
+    padding-left: 1rem;
     box-sizing: border-box;
     margin-bottom: 1rem;
     transition: 0.3s;

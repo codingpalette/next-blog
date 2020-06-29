@@ -5,14 +5,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../../reducers/post";
 import Layout from "../../components/Layout";
 import styled from '@emotion/styled';
+import PostTrList from "../../components/PostTrList";
 
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-
-
 
 
 const ContentHeader = styled.div`
@@ -77,24 +72,13 @@ const postList = () => {
                 type: LOAD_POSTS_REQUEST
             })
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
         dispatch({
             type: RESET_SUCCESS
         })
-    })
-
-    const [postMenu, setPostMenu] = useState(null);
-    const onClickPostMenuOpen = useCallback((event) => {
-        setPostMenu(event.currentTarget);
-    }, []);
-    const onClickPostMenuClose = useCallback(() => {
-        setPostMenu(null);
-    }, []);
-    const onClickPostModify = useCallback((id) => () => {
-        Router.push(`/write?id=${id}`)
-    }, [])
+    });
 
     return(
         <>
@@ -120,34 +104,7 @@ const postList = () => {
                             </thead>
                             <tbody>
                                 {mainPosts.length > 0 && mainPosts.map(post => (
-                                    <tr key={post.id}>
-                                        <td>
-                                            <div>
-                                                <Link href="/post/[id]" as={`/post/${post.id}`}>
-                                                    <a>{post.title}</a>
-                                                </Link>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="btn_box">
-                                                <>
-                                                    <IconButton aria-label="settings" onClick={onClickPostMenuOpen}>
-                                                        <MoreVertIcon />
-                                                    </IconButton>
-                                                    <Menu
-                                                        anchorEl={postMenu}
-                                                        keepMounted
-                                                        open={Boolean(postMenu)}
-                                                        onClose={onClickPostMenuClose}
-                                                    >
-                                                        <MenuItem onClick={ onClickPostModify(post.id)}>수정하기</MenuItem>
-                                                        <MenuItem onClick={onClickPostMenuClose}>삭제하기</MenuItem>
-                                                    </Menu>
-                                                </>
-
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <PostTrList key={post.id} post={post} />
                                 ))}
 
 

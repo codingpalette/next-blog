@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
 import Link from 'next/link';
-import Router, { withRouter } from "next/router";
+import Router, {withRouter} from "next/router";
 import {useDispatch, useSelector} from "react-redux";
 import {ADD_POST_REQUEST, LOAD_POST_REQUEST, MODIFY_POST_REQUEST} from "../reducers/post";
 import Layout from '../components/Layout';
@@ -9,7 +9,6 @@ import styled from '@emotion/styled';
 import Editor from '../components/Editor';
 
 
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from "@material-ui/core/TextField";
@@ -18,11 +17,18 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
-
-const PaperBox = styled(Paper)`
+const Container = styled.div`
     padding: 1rem;
     box-sizing: border-box;
+    & > div{
+        padding: 1rem;
+        box-sizing: border-box;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
 `;
+
 
 const TagFormBox = styled.div`
     display: flex;
@@ -72,9 +78,9 @@ const TagList = React.memo(({tags, onRemove}) => (
 ));
 
 
-const Write = ({ router }) => {
+const Write = ({router}) => {
     const dispatch = useDispatch()
-    const { addPostLoading, addPostDone, detailPost, modifyPostLoading, modifyPostDone } = useSelector((state) => state.post)
+    const {addPostLoading, addPostDone, detailPost, modifyPostLoading, modifyPostDone} = useSelector((state) => state.post)
     const [mode, setMode] = useState('create')
     const [title, onChangeTitle, setTitle] = useInput('');
     const [description, onChangeDescription, setDescription] = useInput('');
@@ -102,7 +108,6 @@ const Write = ({ router }) => {
             setContent(detailPost.content)
         }
     }, [detailPost])
-
 
 
     useEffect(() => {
@@ -141,91 +146,91 @@ const Write = ({ router }) => {
         if (mode === 'create') {
             dispatch({
                 type: ADD_POST_REQUEST,
-                data: {title, description, tags:localTags, content}
+                data: {title, description, tags: localTags, content}
             })
         } else {
             dispatch({
                 type: MODIFY_POST_REQUEST,
-                data: {id: detailPost.id, title, description, tags:localTags, content}
+                data: {id: detailPost.id, title, description, tags: localTags, content}
             })
         }
 
     }, [detailPost, title, description, localTags, content])
 
 
-
     return (
         <>
             <Layout>
-                <Grid container>
-                    <Grid item xs={12}>
-                        <PaperBox elevation={0}>
-                            <Typography variant="h5" component="h2" gutterBottom>
-                                {mode === 'create' ? '포스트 작성' : '포스트 수정'}
-                            </Typography>
-                            <form onSubmit={onSubmit}>
-                                <TextField
-                                    margin="dense"
-                                    id="title"
-                                    label="title"
-                                    type="text"
-                                    fullWidth
-                                    value={title}
-                                    onChange={onChangeTitle}
-                                />
-                                <TextField
-                                    margin="dense"
-                                    id="description"
-                                    label="description"
-                                    type="text"
-                                    fullWidth
-                                    value={description}
-                                    onChange={onChangeDescription}
-                                />
-                                <TagFormBox>
-                                    <TextField
-                                        margin="dense"
-                                        id="tag"
-                                        label="tag"
-                                        type="text"
-                                        fullWidth
-                                        value={tag}
-                                        onChange={onChangeTag}
-                                    />
-                                    <TagBtn
-                                        variant="contained"
-                                        color="primary"
-                                        disableElevation
-                                        onClick={onClickTagAdd}
-                                    >
-                                        추가
-                                    </TagBtn>
-                                </TagFormBox>
-                                <TagList tags={localTags} onRemove={onRemove}/>
-                                <Editor content={content} setContent={setContent} />
+                <Container>
+                    <div>
 
-                                <BtnBox>
-                                    <Button variant="contained" color="secondary" disableElevation>
-                                        <Link href='/'>
-                                            <a>취소</a>
-                                        </Link>
+
+                        <Typography variant="h5" component="h2" gutterBottom>
+                            {mode === 'create' ? '포스트 작성' : '포스트 수정'}
+                        </Typography>
+                        <form onSubmit={onSubmit}>
+                            <TextField
+                                margin="dense"
+                                id="title"
+                                label="title"
+                                type="text"
+                                fullWidth
+                                value={title}
+                                onChange={onChangeTitle}
+                            />
+                            <TextField
+                                margin="dense"
+                                id="description"
+                                label="description"
+                                type="text"
+                                fullWidth
+                                value={description}
+                                onChange={onChangeDescription}
+                            />
+                            <TagFormBox>
+                                <TextField
+                                    margin="dense"
+                                    id="tag"
+                                    label="tag"
+                                    type="text"
+                                    fullWidth
+                                    value={tag}
+                                    onChange={onChangeTag}
+                                />
+                                <TagBtn
+                                    variant="contained"
+                                    color="primary"
+                                    disableElevation
+                                    onClick={onClickTagAdd}
+                                >
+                                    추가
+                                </TagBtn>
+                            </TagFormBox>
+                            <TagList tags={localTags} onRemove={onRemove}/>
+                            <Editor content={content} setContent={setContent}/>
+
+                            <BtnBox>
+                                <Button variant="contained" color="secondary" disableElevation>
+                                    <Link href='/'>
+                                        <a>취소</a>
+                                    </Link>
+                                </Button>
+                                {mode === 'create' ? (
+                                    <Button variant="contained" color="primary" type="submit" disableElevation>
+                                        {addPostLoading ? <CircularProgressTag size={20}/> : '작성'}
                                     </Button>
-                                    {mode === 'create' ? (
-                                        <Button variant="contained" color="primary" type="submit" disableElevation>
-                                            {addPostLoading ? <CircularProgressTag  size={20} /> : '작성'}
-                                        </Button>
-                                    ) : (
-                                        <Button variant="contained" color="primary" type="submit" disableElevation>
-                                            {modifyPostLoading ? <CircularProgressTag  size={20} /> : '수정'}
-                                        </Button>
-                                    )}
+                                ) : (
+                                    <Button variant="contained" color="primary" type="submit" disableElevation>
+                                        {modifyPostLoading ? <CircularProgressTag size={20}/> : '수정'}
+                                    </Button>
+                                )}
 
-                                </BtnBox>
+                            </BtnBox>
 
-                            </form>
-                        </PaperBox>
-                    </Grid>
-                </Grid>
+                        </form>
+                    </div>
+                </Container>
+
             </Layout>
         </>
     )

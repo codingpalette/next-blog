@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {LOAD_POSTS_REQUEST, RESET_SUCCESS } from "../reducers/post";
 import styled from '@emotion/styled'
 import PostList from "../components/PostList";
-import Grid from '@material-ui/core/Grid';
 
 const Container = styled.div`
     display: block;
     width: 100%;
-    padding: 1rem;
+    padding: 1rem 1rem 0 0;
     box-sizing: border-box;
     
     & ul{
