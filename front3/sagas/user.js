@@ -36,10 +36,7 @@ function* logIn(action) {
 
 }
 
-function* watchLogIn() {
-    yield takeLatest(LOG_IN_REQUEST, logIn)
 
-}
 
 function logOutAPI(data) {
     return axios.post('/api/login' , data)
@@ -63,9 +60,7 @@ function* logOut(action) {
 }
 
 
-function* watchLogOut() {
-    yield takeLatest(LOG_OUT_REQUEST , logOut)
-}
+
 
 
 function signUpAPI() {
@@ -90,15 +85,27 @@ function* signUp() {
     }
 }
 
+
+
+
+
 function* watchSignUp() {
     yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
 
+function* watchLogIn() {
+    yield takeLatest(LOG_IN_REQUEST, logIn)
 
+}
+
+function* watchLogOut() {
+    yield takeLatest(LOG_OUT_REQUEST , logOut)
+}
 
 
 export default function* userSaga() {
     yield all([
+        fork(watchSignUp),
         fork(watchLogIn),
         fork(watchLogOut),
     ])
