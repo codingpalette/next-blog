@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 
 
-
+const userRouter = require('./routes/user');
 const db = require('./models');
 
 
@@ -37,6 +37,9 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+app.use('/user', userRouter);
 
 
 

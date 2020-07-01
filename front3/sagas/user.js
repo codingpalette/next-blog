@@ -63,15 +63,15 @@ function* logOut(action) {
 
 
 
-function signUpAPI() {
+function signUpAPI(data) {
     // 서버에 요청을 보내는 부분
-    return axios.post('/login');
+    return axios.post('/user', data);
 }
 
-function* signUp() {
+function* signUp(action) {
     try {
-        // yield call(signUpAPI);
-        yield delay(1000);
+        yield call(signUpAPI, action.data);
+        // yield delay(1000);
         // throw new Error('') // 에러발생
         yield put({ // put은 dispatch 동일
             type: SIGN_UP_SUCCESS,
