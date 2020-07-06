@@ -57,7 +57,7 @@ const BtnBox = styled.div`
 
 const LoginForm = ({modalOpen, closeEvent}) => {
     const dispatch = useDispatch();
-    const {logInLoading, logInDone} = useSelector((state) => state.user);
+    const {logInLoading, logInDone, signUpLoading, signUpDone, signUpError} = useSelector((state) => state.user);
 
     const [loginMode, onClickLoginModeTrue, onClickLoginModeFalse] = useToggle(true);
     const [loginEmail, onChangeLoginEmail, setLoginEmail] = useInput('');
@@ -75,12 +75,12 @@ const LoginForm = ({modalOpen, closeEvent}) => {
     const onLoginSubmit = useCallback((e) => {
         e.preventDefault();
         if (loginEmail.match(regExp) === null) {
-            setSnackBarText('올바른 이메일을 입력해주세요')
+            setSnackBarText('올바른 이메일을 입력해주세요');
             snackBarOpenTrue();
             return
         }
         if (loginPassword.length === 0) {
-            setSnackBarText('비밀번호를 입력해주세요')
+            setSnackBarText('비밀번호를 입력해주세요');
             snackBarOpenTrue();
             return
         }
@@ -93,22 +93,22 @@ const LoginForm = ({modalOpen, closeEvent}) => {
     const onSignUpSubmit = useCallback((e) => {
         e.preventDefault();
         if (signEmail.match(regExp) === null) {
-            setSnackBarText('올바른 이메일을 입력해주세요')
+            setSnackBarText('올바른 이메일을 입력해주세요');
             snackBarOpenTrue();
             return
         }
         if (signNickname.trim().length === 0) {
-            setSnackBarText('닉네임을 입력해주세요')
+            setSnackBarText('닉네임을 입력해주세요');
             snackBarOpenTrue();
             return
         }
         if (signPassword.length < 4) {
-            setSnackBarText('비밀번호 4자리 이상 입력해주세요')
+            setSnackBarText('비밀번호 4자리 이상 입력해주세요');
             snackBarOpenTrue();
             return
         }
         if (signPassword !== signPassword2) {
-            setSnackBarText('비밀번호가 일치하지 않습니다.')
+            setSnackBarText('비밀번호가 일치하지 않습니다.');
             snackBarOpenTrue();
             return
         }
@@ -121,11 +121,30 @@ const LoginForm = ({modalOpen, closeEvent}) => {
 
     useEffect(() => {
         if (logInDone) {
-            setLoginEmail('')
-            setLoginPassword('')
-            closeEvent()
+            setLoginEmail('');
+            setLoginPassword('');
+            closeEvent();
         }
-    }, [logInDone])
+    }, [logInDone]);
+
+    useEffect(() => {
+        if (signUpDone) {
+            setSnackBarText('회원가입이 완료되었습니다.');
+            snackBarOpenTrue();
+            setSignEmail('');
+            setSignNickname('');
+            setSignPassword('');
+            setSignPassword2('');
+            onClickLoginModeTrue();
+        }
+    }, [signUpDone]);
+
+    useEffect(() => {
+        if (signUpError) {
+            setSnackBarText('회원가입에 실패했습니다.');
+            snackBarOpenTrue();
+        }
+    }, [signUpError])
     return (
         <>
             <div>
@@ -216,7 +235,7 @@ const LoginForm = ({modalOpen, closeEvent}) => {
                                     닫기
                                 </Button>
                                 <Button color="primary" type="submit">
-                                    {logInLoading ? <CircularProgress size={20}/> : '회원가입'}
+                                    {signUpLoading ? <CircularProgress size={20}/> : '회원가입'}
                                 </Button>
                             </DialogActions>
                         </form>
