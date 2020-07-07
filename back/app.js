@@ -5,10 +5,12 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const path = require('path');
 
 
 const userRouter = require('./routes/user');
 const db = require('./models');
+const passportConfig = require('./passport');
 
 
 dotenv.config();
@@ -20,7 +22,7 @@ db.sequelize.sync()
     .catch(console.error)
 
 
-// passportConfig();
+passportConfig();
 
 app.use(morgan('dev'))
 app.use(cors({

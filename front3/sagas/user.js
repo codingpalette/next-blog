@@ -14,17 +14,17 @@ import {
 
 
 function logInAPI(data) {
-    return axios.post('/api/login' , data)
+    return axios.post('/user/login' , data)
 }
 
 function* logIn(action) {
     try {
-        // const res = yield call(logInAPI , action.data)
-        yield  delay(1000)
+
+        const res = yield call(logInAPI , action.data)
+        // yield  delay(1000)
         yield put({
             type: LOG_IN_SUCCESS,
-            // data: res.data
-            data:action.data
+            data: res.data
         })
     } catch (e) {
         console.log(e);
