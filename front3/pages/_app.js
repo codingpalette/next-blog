@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head';
+import { useDispatch } from "react-redux";
+import { LOAD_MY_INFO_REQUEST } from "../reducers/user";
 import { GlobalStyle } from '../components/GlobalStyle';
 import { createMuiTheme ,ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,7 +9,15 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import withReduxSaga from 'next-redux-saga';
 import wrapper from '../store/configureStore';
 
+
 const App = ({ Component }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch({
+            type: LOAD_MY_INFO_REQUEST
+        })
+    }, [])
 
     const theme = React.useMemo(
         () =>

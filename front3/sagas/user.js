@@ -9,8 +9,32 @@ import {
     LOG_OUT_FAILURE,
     SIGN_UP_REQUEST,
     SIGN_UP_FAILURE,
-    SIGN_UP_SUCCESS
+    SIGN_UP_SUCCESS, LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE
 } from '../reducers/user'
+
+
+
+function loadMyInfoAPI() {
+    return axios.get('/user' )
+}
+
+function* loadMyInfo(action) {
+    try {
+        const res = yield call(loadMyInfoAPI )
+        yield put({
+            type: LOAD_MY_INFO_SUCCESS,
+            data: res.data
+        })
+    } catch (e) {
+        console.log(e);
+        yield put({
+            type: LOAD_MY_INFO_FAILURE,
+            error: e.response.data
+        })
+    }
+
+}
+
 
 
 function logInAPI(data) {
@@ -87,7 +111,9 @@ function* signUp(action) {
 
 
 
-
+function* watchLoadMyInfo() {
+    yield takeEvery(LOAD_MY_INFO_REQUEST, loadMyInfo);
+}
 
 function* watchSignUp() {
     yield takeEvery(SIGN_UP_REQUEST, signUp);
@@ -105,6 +131,7 @@ function* watchLogOut() {
 
 export default function* userSaga() {
     yield all([
+        fork(watchLoadMyInfo),
         fork(watchSignUp),
         fork(watchLogIn),
         fork(watchLogOut),

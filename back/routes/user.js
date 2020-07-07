@@ -1,11 +1,38 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const {User, Post} = require('../models');
+const {User} = require('../models');
 const {isLoggedIn, isNotLoggedIn} = require('./middlewares')
 const router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
+
+
+
+router.get('/', async (req, res, next) => {  // 로그인 유지를 위한 유저 정보
+    try{
+        if (req.user) {
+            const fullUser = await User.findOne({
+                where: {id : req.user.id},
+                // attributes: ['id', 'nickname', 'email'], // 3개만 가져오기
+                attributes: { // 비밀번호 제외하고 가져오기
+                    exclude: ['password']
+                },
+                // include: [{
+                //     model: Post,
+                //     attributes: ['id']
+                // }]
+            })
+            res.status(200).json(fullUser);
+        } else {
+            res.status(200).json(null)
+        }
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+});
+
 
 
 router.post('/login', isNotLoggedIn, async (req, res, next) => { // 로그인
@@ -36,7 +63,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => { // 로그인
             return res.status(200).json(fullUser)
         })
     })(req, res, next)
-})
+});
 
 router.post('/', isNotLoggedIn, async (req, res, next) => { // 회원가입
     try {
@@ -69,6 +96,12 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // 회원가입
         console.error(e);
         next(e);
     }
-})
+});
+
+router.post('/logout', isLoggedIn, (req, res) => {
+    req.logout();
+    req.session.destroy();
+    res.send('ok');
+});
 
 module.exports = router;
