@@ -42,11 +42,12 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => { // 로그인
             return next(err);
         }
         if (info) {
+            console.log(info)
             return res.status(401).send(info.reason);
         }
         return req.login(user, async (loginErr) => {
             if (loginErr) {
-                console.error(loginErr)
+                // console.error(loginErr)
                 return next(loginErr);
             }
             const fullUser = await User.findOne({

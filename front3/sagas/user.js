@@ -1,15 +1,10 @@
 import { all, fork, call, put, take, takeEvery, takeLatest, delay } from 'redux-saga/effects';
 import axios from 'axios';
 import {
-    LOG_IN_REQUEST,
-    LOG_IN_SUCCESS,
-    LOG_IN_FAILURE,
-    LOG_OUT_REQUEST,
-    LOG_OUT_SUCCESS,
-    LOG_OUT_FAILURE,
-    SIGN_UP_REQUEST,
-    SIGN_UP_FAILURE,
-    SIGN_UP_SUCCESS, LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE
+    LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
+    LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
+    SIGN_UP_REQUEST, SIGN_UP_FAILURE, SIGN_UP_SUCCESS,
+    LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE
 } from '../reducers/user'
 
 

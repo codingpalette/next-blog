@@ -57,7 +57,7 @@ const BtnBox = styled.div`
 
 const LoginForm = ({modalOpen, closeEvent}) => {
     const dispatch = useDispatch();
-    const {logInLoading, logInDone, signUpLoading, signUpDone, signUpError} = useSelector((state) => state.user);
+    const {logInLoading, logInDone, logInError, signUpLoading, signUpDone, signUpError} = useSelector((state) => state.user);
 
     const [loginMode, onClickLoginModeTrue, onClickLoginModeFalse] = useToggle(true);
     const [loginEmail, onChangeLoginEmail, setLoginEmail] = useInput('');
@@ -126,6 +126,13 @@ const LoginForm = ({modalOpen, closeEvent}) => {
             closeEvent();
         }
     }, [logInDone]);
+
+    useEffect(() => {
+        if (logInError) {
+            setSnackBarText(`${logInError}`);
+            snackBarOpenTrue();
+        }
+    }, [logInError])
 
     useEffect(() => {
         if (signUpDone) {
