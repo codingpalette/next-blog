@@ -23,7 +23,11 @@ router.get('/', async (req, res, next) => {  // 로그인 유지를 위한 유�
                 //     attributes: ['id']
                 // }]
             })
-            res.status(200).json(fullUser);
+            if (fullUser) {
+                const data = fullUser.toJSON();
+                data.level = parseInt(data.level, 10)
+                return res.status(200).json(data)
+            }
         } else {
             res.status(200).json(null)
         }
@@ -61,7 +65,11 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => { // 로그인
                 //     attributes: ['id']
                 // }]
             })
-            return res.status(200).json(fullUser)
+            if (fullUser) {
+                const data = fullUser.toJSON();
+                data.level = parseInt(data.level, 10)
+                return res.status(200).json(data)
+            }
         })
     })(req, res, next)
 });

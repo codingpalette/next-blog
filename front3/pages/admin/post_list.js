@@ -1,13 +1,16 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Link from 'next/link';
 import Router from "next/router";
+
+
+import styled from '@emotion/styled';
+import Layout from "../../components/Layout";
+import PostTrList from "../../components/PostTrList";
+import NotContent from "../../components/NotContent";
 import {useDispatch, useSelector} from "react-redux";
 import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../../reducers/post";
-import Layout from "../../components/Layout";
-import styled from '@emotion/styled';
-import PostTrList from "../../components/PostTrList";
-
 import Button from '@material-ui/core/Button';
+
 
 
 const ContentHeader = styled.div`
@@ -94,23 +97,28 @@ const postList = () => {
                     </div>
                 </ContentHeader>
                 <Container>
-                    <div className="table_content">
-                        <table>
-                            <thead>
+                    {mainPosts.length > 0 ? (
+                        <div className="table_content">
+                            <table>
+                                <thead>
                                 <tr>
                                     <th>제목</th>
                                     <th> </th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 {mainPosts.length > 0 && mainPosts.map(post => (
                                     <PostTrList key={post.id} post={post} />
                                 ))}
 
 
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <NotContent />
+                    )}
+
                 </Container>
             </Layout>
         </>

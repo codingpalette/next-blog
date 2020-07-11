@@ -177,7 +177,7 @@ const Header = ({ router }) => {
                             <MenuItem onClick={onClickUserMenuClose}>Profile</MenuItem>
                             <MenuItem onClick={onClickUserMenuClose}>My account</MenuItem>
                             <MenuItem onClick={onClickUserLogOut}>Logout</MenuItem>
-                            {me.level === 1 && (
+                            {me.level === 0 && (
                                 <MenuItem>
                                     <Link href="/admin/post_list">
                                         <a>

@@ -22,7 +22,7 @@ const NotContent = () => {
     return(
         <>
             <Content>
-                <img src="undraw_no_data_qbuo.svg" alt=""/>
+                <img src="/undraw_no_data_qbuo.svg" alt=""/>
                 <p>Not Content</p>
             </Content>
         </>
