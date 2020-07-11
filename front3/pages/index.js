@@ -6,6 +6,7 @@ import axios from 'axios';
 import styled from '@emotion/styled'
 import Layout from '../components/Layout';
 import PostList from "../components/PostList";
+import NotContent from "../components/NotContent";
 import {LOAD_POSTS_REQUEST, RESET_SUCCESS } from "../reducers/post";
 import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
 import wrapper from '../store/configureStore';
@@ -21,7 +22,6 @@ const Container = styled.div`
         align-items: flex-start;
         flex-wrap: wrap;
     }
-
 `;
 
 
@@ -41,15 +41,22 @@ const IndexPage = () => {
         dispatch({
             type: RESET_SUCCESS
         })
-    })
+    }, [])
 
     return(
         <>
             <Layout>
                 <Container>
-                    <ul>
-                        { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
-                    </ul>
+                    {mainPosts.length > 0 ? (
+                        <ul>
+                            { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
+                        </ul>
+                    ) : (
+                        <div>
+                            <NotContent />
+                        </div>
+                    )}
+
                 </Container>
                 {/*<Grid container spacing={3}>*/}
                 {/*    { mainPosts.map((post) => <PostList key={post.id} post={post} />) }*/}

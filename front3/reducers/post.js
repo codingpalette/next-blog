@@ -41,36 +41,7 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
     date:'2020.06.10',
     description: faker.lorem.paragraph(),
     tags: faker.company.suffixes(),
-    content: `
-        <p>소셜 로그인에 필요한 ID, Secret, Redirect URL을&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">.env</code>&nbsp;파일에서 관리 할 것이다. 아래 명령어로 dotenv 라이브러리를 설치 해준다.</p><pre class="ql-syntax" spellcheck="false">
-$ npm i dotenv
-// app.js
-
-const dotenv = require('dotenv')
-dotenv.config()
-</pre><p>위와 같이 설정 해주면, 코드에서&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">process.env['key']</code>&nbsp;로&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">.env</code>&nbsp;에 있는 값을 접근 할 수 있다.</p><p><br></p><h2>3. session 설정</h2><p>필자는&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">app.js</code>&nbsp;가 더러워지는 것을 별로 좋아하지 않아, 설정 관련된 코드는 최대한 파일로 분리 시킨다.</p><pre class="ql-syntax" spellcheck="false">// app.js
-
-/**
- * 세션 세팅
- */
-const configureSession = require('./config/session')
-configureSession(app)
-
-// config/session.js
-const session = require('express-session')
-
-module.exports = (app) =&gt; {
-  app.use(
-    session({
-      secret: process.env['SESSION_SECRET'],
-      cookie: { maxAge: 60 * 60 * 1000 },
-      resave: false,
-      saveUninitialized: true,
-    })
-  )
-}
-</pre><p>세션 만료 기간은 1시간으로 설정 했으며,&nbsp;<strong>secret</strong>&nbsp;은&nbsp;<code style="color: rgb(36, 41, 46); background-color: rgba(27, 31, 35, 0.05);">.env</code>&nbsp;에서 가져온다.</p><p><strong>resave</strong>&nbsp;는 세션을 언제나 저장할 지 정하는 값입니다. express-session doc 에서는 이 값을 false 로 하는 것을 권장하고 필요에 따라 true로 설정합니다.</p><p><strong>saveUninitialized</strong>&nbsp;는 세션이 저장되기 전에 uninitialized 상태로 미리 만들어서 저장합니다.</p>
-    `
+    content: ``
 }));
 
 // initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
@@ -152,7 +123,7 @@ const reducer = (state = initialState, action ) => {
             case LOAD_POSTS_SUCCESS:
                 draft.loadPostsLoading = false;
                 draft.loadPostsDone = true;
-                draft.mainPosts = action.data.concat(draft.mainPosts);
+                // draft.mainPosts = action.data.concat(draft.mainPosts);
                 draft.hasMorePosts = draft.mainPosts.length < 50;
                 break;
             case LOAD_POSTS_FAILURE:

@@ -3,24 +3,12 @@ import shortId from 'shortid';
 import axios from 'axios';
 import {
     generateDummyPost,
-    ADD_COMMENT_FAILURE,
-    ADD_COMMENT_REQUEST,
-    ADD_COMMENT_SUCCESS,
-    ADD_POST_FAILURE,
-    ADD_POST_REQUEST,
-    ADD_POST_SUCCESS,
-    REMOVE_POST_FAILURE,
-    REMOVE_POST_REQUEST,
-    REMOVE_POST_SUCCESS,
-    LOAD_POSTS_REQUEST,
-    LOAD_POSTS_SUCCESS,
-    LOAD_POSTS_FAILURE,
-    LOAD_POST_REQUEST,
-    LOAD_POST_SUCCESS,
-    LOAD_POST_FAILURE,
-    MODIFY_POST_REQUEST,
-    MODIFY_POST_SUCCESS,
-    MODIFY_POST_FAILURE
+    ADD_COMMENT_FAILURE, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS,
+    ADD_POST_FAILURE, ADD_POST_REQUEST, ADD_POST_SUCCESS,
+    REMOVE_POST_FAILURE, REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS,
+    LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
+    LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
+    MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS, MODIFY_POST_FAILURE
 } from "../reducers/post";
 
 import {
@@ -38,7 +26,7 @@ function* loadPosts(action) {
         // const res = yield call(loadPostsAPI , action.data)
         yield put({
             type: LOAD_POSTS_SUCCESS,
-            data: generateDummyPost(10)
+            // data: generateDummyPost(10)
         });
     } catch (e) {
         console.log(e);
