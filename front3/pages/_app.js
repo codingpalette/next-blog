@@ -30,8 +30,6 @@ const App = ({Component}) => {
                 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"/>
                 <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet"/>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/atom-one-light.min.css"/>
-
-
             </Head>
             <ThemeProvider theme={theme}>
                 <GlobalStyle/>

@@ -41,18 +41,18 @@ function* loadPosts(action) {
 
 
 function addPostAPI(data) {
-    return axios.post('/api/post' , data)
+    return axios.post('/post' , data)
 }
 
 function* addPost(action) {
     try {
-        // const res = yield call(addPostAPI , action.data)
-        yield  delay(1000)
-
+        const res = yield call(addPostAPI , action.data)
+        console.log(action.data)
+        return
         yield put({
             type: ADD_POST_SUCCESS,
             // data: res.data
-            data: action.data
+            // data: action.data
 
         });
     } catch (e) {

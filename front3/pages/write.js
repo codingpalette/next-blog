@@ -1,12 +1,18 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
 import Link from 'next/link';
 import Router, {withRouter} from "next/router";
+import useToggle from "../hooks/useToggle";
+import {END} from "redux-saga";
+import axios from "axios";
+
+import styled from '@emotion/styled';
+import Layout from '../components/Layout';
+import Editor from '../components/Editor';
+import useInput from "../hooks/useInput";
 import {useDispatch, useSelector} from "react-redux";
 import {ADD_POST_REQUEST, LOAD_POST_REQUEST, MODIFY_POST_REQUEST} from "../reducers/post";
-import Layout from '../components/Layout';
-import useInput from "../hooks/useInput";
-import styled from '@emotion/styled';
-import Editor from '../components/Editor';
+import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
+import wrapper from "../store/configureStore";
 
 
 import Paper from '@material-ui/core/Paper';
@@ -15,6 +21,9 @@ import TextField from "@material-ui/core/TextField";
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import CircularProgress from "@material-ui/core/CircularProgress";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Snackbar from "@material-ui/core/Snackbar";
 
 
 const Container = styled.div`
@@ -83,10 +92,20 @@ const Write = ({router}) => {
     const {addPostLoading, addPostDone, detailPost, modifyPostLoading, modifyPostDone} = useSelector((state) => state.post)
     const [mode, setMode] = useState('create')
     const [title, onChangeTitle, setTitle] = useInput('');
-    const [description, onChangeDescription, setDescription] = useInput('');
     const [tag, onChangeTag, setTag] = useInput('');
     const [localTags, setLocalTags] = useState([]);
     const [content, onChangeContent, setContent] = useInput('');
+
+    const [description, setDescription] = useState('');
+    const onChangeDescription = useCallback((e) => {
+        if (e.target.value.length > 140) {
+            return
+        }
+        setDescription(e.target.value)
+    }, []);
+
+    const [snackBarOpen, snackBarOpenTrue, snackBarOpenFalse] = useToggle(false);
+    const [snackBarText, onChangeSnackBarText, setSnackBarText] = useInput('');
 
     useEffect(() => {
         if (router.query.id) {
@@ -142,7 +161,23 @@ const Write = ({router}) => {
 
 
     const onSubmit = useCallback((e) => {
-        e.preventDefault()
+        e.preventDefault();
+        console.log(title)
+        if (title === '') {
+            setSnackBarText('제목을 입력해주세요.');
+            snackBarOpenTrue();
+            return
+        }
+        if (description === '') {
+            setSnackBarText('설명을 입력해주세요.');
+            snackBarOpenTrue();
+            return
+        }
+        if (content === '') {
+            setSnackBarText('내용을 입력해주세요.');
+            snackBarOpenTrue();
+            return
+        }
         if (mode === 'create') {
             dispatch({
                 type: ADD_POST_REQUEST,
@@ -163,8 +198,6 @@ const Write = ({router}) => {
             <Layout>
                 <Container>
                     <div>
-
-
                         <Typography variant="h5" component="h2" gutterBottom>
                             {mode === 'create' ? '포스트 작성' : '포스트 수정'}
                         </Typography>
@@ -184,6 +217,8 @@ const Write = ({router}) => {
                                 label="description"
                                 type="text"
                                 fullWidth
+                                multiline
+                                rowsMax={4}
                                 value={description}
                                 onChange={onChangeDescription}
                             />
@@ -229,11 +264,44 @@ const Write = ({router}) => {
 
                         </form>
                     </div>
+
                 </Container>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={snackBarOpen}
+                    autoHideDuration={6000}
+                    onClose={snackBarOpenFalse}
+                    message={snackBarText}
+                    action={
+                        <>
+                            <IconButton size="small" aria-label="close" color="inherit" onClick={snackBarOpenFalse}>
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+                        </>
+                    }
+                />
 
             </Layout>
         </>
     )
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    // console.log(context)
+    const cookie = context.req ? context.req.headers.cookie : '';
+    axios.defaults.headers.Cookie = '';
+    if (context.req && cookie) {
+        axios.defaults.headers.Cookie = cookie;
+    }
+    context.store.dispatch({
+        type: LOAD_MY_INFO_REQUEST,
+    });
+
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+});
 
 export default withRouter(Write)

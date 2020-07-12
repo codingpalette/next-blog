@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const path = require('path');
 
 
+const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 const db = require('./models');
 const passportConfig = require('./passport');
@@ -41,7 +42,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+app.get('/', (req, res) => {
+    res.send('hello express');
+});
+
 app.use('/user', userRouter);
+app.use('/post', postRouter);
 
 
 
