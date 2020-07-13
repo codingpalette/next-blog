@@ -17,15 +17,18 @@ router.post('/', isLoggedIn, async (req, res, next) => {
                 res.status(404).json('관리자가 아닙니다.');
             } else {
                 const post = await Post.create({
+                    title : req.body.title,
+                    description : req.body.description,
                     content: req.body.content,
                     UserId: req.user.id
                 });
+                const fullPost = await Post.findOne({
+                    where: { id: post.id }
+                })
+                res.status(201).json(fullPost)
             }
 
         }
-
-
-        res.status(200).send('test')
     } catch (e) {
         console.error(e);
         next(e)

@@ -46,14 +46,11 @@ function addPostAPI(data) {
 
 function* addPost(action) {
     try {
-        const res = yield call(addPostAPI , action.data)
-        console.log(action.data)
-        return
+        const res = yield call(addPostAPI , action.data);
+        console.log(res)
         yield put({
             type: ADD_POST_SUCCESS,
-            // data: res.data
-            // data: action.data
-
+            data: res.data
         });
     } catch (e) {
         // console.log(e);

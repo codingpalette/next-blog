@@ -77,12 +77,6 @@ export const MODIFY_POST_FAILURE = 'MODIFY_POST_FAILURE'
 
 
 
-
-export const addPost = (data) => ({
-    type: ADD_POST_REQUEST,
-    data,
-});
-
 export const addComment = (data) => ({
     type: ADD_COMMENT_REQUEST,
     data,
@@ -136,9 +130,10 @@ const reducer = (state = initialState, action ) => {
                 draft.addPostError = null;
                 break;
             case ADD_POST_SUCCESS:
+                console.log(action.data)
                 draft.addPostLoading = false;
                 draft.addPostDone = true;
-                draft.mainPosts.unshift(dummyPost(action.data));
+                draft.mainPosts.unshift(action.data);
 
                 break;
             case ADD_POST_FAILURE:
