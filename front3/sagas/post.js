@@ -17,16 +17,16 @@ import {
 
 
 
-function loadPostsAPI(data) {
-    return axios.get('/api/posts' , data)
+function loadPostsAPI(lastId) {
+    return axios.get(`/posts?lastId=${lastId || 0}`);
 }
 
 function* loadPosts(action) {
     try {
-        // const res = yield call(loadPostsAPI , action.data)
+        const res = yield call(loadPostsAPI, action.lastId);
         yield put({
             type: LOAD_POSTS_SUCCESS,
-            // data: generateDummyPost(10)
+            data: res.data
         });
     } catch (e) {
         console.log(e);
@@ -47,7 +47,6 @@ function addPostAPI(data) {
 function* addPost(action) {
     try {
         const res = yield call(addPostAPI , action.data);
-        console.log(res)
         yield put({
             type: ADD_POST_SUCCESS,
             data: res.data

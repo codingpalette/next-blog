@@ -29,13 +29,6 @@ const IndexPage = () => {
     const dispatch = useDispatch();
     const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
 
-    useEffect(() => {
-        if (mainPosts.length === 0) {
-            dispatch({
-                type: LOAD_POSTS_REQUEST
-            })
-        }
-    }, [])
 
     useEffect(() => {
         dispatch({
@@ -75,8 +68,12 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
         axios.defaults.headers.Cookie = cookie;
     }
     context.store.dispatch({
+        type: LOAD_POSTS_REQUEST
+    });
+    context.store.dispatch({
         type: LOAD_MY_INFO_REQUEST,
     });
+
 
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
