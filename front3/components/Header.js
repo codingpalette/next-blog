@@ -14,6 +14,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import HomeIcon from '@material-ui/icons/Home';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import ChatIcon from '@material-ui/icons/Chat';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 
 
@@ -81,7 +84,7 @@ const List = styled.li`
     width: 25%;
     height: 100%;
     color : ${props =>
-        props.path ? '#536DFE' : 'rgb(95, 108, 145);'
+        props.path ? '#536DFE' : '#000'
     };
     & :hover{
         opacity: 0.75;
@@ -113,7 +116,7 @@ const List = styled.li`
         & .text{
             display: block;
             margin-left: 0.5rem;
-            font-weight: bold;
+            //font-weight: bold;
         }
     }
 
@@ -205,7 +208,7 @@ const Header = ({ router }) => {
                             <a>
                                 <HomeIcon />
                                 <span className="text">
-                                    Home
+                                    메인
                                 </span>
                             </a>
                         </Link>
@@ -213,9 +216,9 @@ const Header = ({ router }) => {
                     <List path={router.pathname === '/asd'}>
                         <Link href='/'>
                             <a>
-                                <HomeIcon />
+                                <DashboardIcon />
                                 <span className="text">
-                                    Home
+                                    게시판
                                 </span>
                             </a>
                         </Link>
@@ -223,9 +226,9 @@ const Header = ({ router }) => {
                     <List path={router.pathname === '/sdf'}>
                         <Link href='/'>
                             <a>
-                                <HomeIcon />
+                                <ChatIcon />
                                 <span className="text">
-                                    Home
+                                    채팅
                                 </span>
                             </a>
                         </Link>
@@ -233,9 +236,9 @@ const Header = ({ router }) => {
                     <List path={router.pathname === '/fsdf'}>
                         <Link href='/'>
                             <a>
-                                <HomeIcon />
+                                <SettingsIcon />
                                 <span className="text">
-                                    Home
+                                    설정
                                 </span>
                             </a>
                         </Link>
