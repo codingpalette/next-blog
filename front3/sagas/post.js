@@ -11,9 +11,7 @@ import {
     MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS, MODIFY_POST_FAILURE
 } from "../reducers/post";
 
-import {
-    REMOVE_POST_OF_ME
-} from "../reducers/user";
+
 
 
 
@@ -64,22 +62,16 @@ function* addPost(action) {
 
 
 function removePostAPI(data) {
-    return axios.post('/api/post' , data)
+    return axios.delete(`/post/${data}`)
 }
 
 function* removePost(action) {
     try {
-        // const res = yield call(addCommentAPI , action.data)
-        yield  delay(1000)
+        const res = yield call(removePostAPI , action.data);
         yield put({
             type: REMOVE_POST_SUCCESS,
-            data:action.data
-
+            data:res.data
         });
-        yield put({
-            type : REMOVE_POST_OF_ME,
-            data : action.data
-        })
     } catch (e) {
         console.log(e);
         yield put({

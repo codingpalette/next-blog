@@ -16,7 +16,6 @@ import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
 import {END} from "redux-saga";
 
 
-
 const ContentHeader = styled.div`
     background-color: #fff;
     padding: 2rem 1rem;
@@ -71,7 +70,7 @@ const Container = styled.div`
 
 const postList = () => {
     const dispatch = useDispatch();
-    const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
+    const {mainPosts, hasMorePosts, loadPostsLoading} = useSelector((state) => state.post);
 
     useEffect(() => {
         dispatch({
@@ -79,13 +78,13 @@ const postList = () => {
         })
     });
 
-    return(
+    return (
         <>
             <Layout>
                 <ContentHeader>
                     <h2>포스트 리스트</h2>
                     <div className="link_box">
-                        <Link href="/write" >
+                        <Link href="/write">
                             <a>
                                 <Button color="primary">포스트 작성</Button>
                             </a>
@@ -99,20 +98,18 @@ const postList = () => {
                                 <thead>
                                 <tr>
                                     <th>제목</th>
-                                    <th> </th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {mainPosts.length > 0 && mainPosts.map(post => (
-                                    <PostTrList key={post.id} post={post} />
+                                    <PostTrList key={post.id} post={post}/>
                                 ))}
-
-
                                 </tbody>
                             </table>
                         </div>
                     ) : (
-                        <NotContent />
+                        <NotContent/>
                     )}
 
                 </Container>
