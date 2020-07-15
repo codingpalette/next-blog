@@ -35,16 +35,8 @@ export const initialState = {
     modifyPostError: null,
 };
 
-export const generateDummyPost = (number) => Array(number).fill().map(() => ({
-    id: shortId.generate(),
-    title: faker.name.title(),
-    date:'2020.06.10',
-    description: faker.lorem.paragraph(),
-    tags: faker.company.suffixes(),
-    content: ``
-}));
 
-// initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
+
 
 export const RESET_SUCCESS = 'RESET_SUCCESS'
 

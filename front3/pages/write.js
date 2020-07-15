@@ -81,7 +81,7 @@ const TagItem = React.memo(({tag, onRemove}) => (
 const TagList = React.memo(({tags, onRemove}) => (
     <TagListBlock>
         {tags.map(tag => (
-            <TagItem key={tag} tag={tag} onRemove={onRemove}/>
+            <TagItem key={tag.name} tag={tag.name} onRemove={onRemove}/>
         ))}
     </TagListBlock>
 ));
@@ -123,7 +123,7 @@ const Write = ({router}) => {
         if (detailPost) {
             setTitle(detailPost.title)
             setDescription(detailPost.description)
-            setLocalTags(detailPost.tags)
+            setLocalTags(detailPost.Tags)
             setContent(detailPost.content)
         }
     }, [detailPost])
@@ -144,7 +144,7 @@ const Write = ({router}) => {
     const insertTag = useCallback((tag) => {
         if (!tag) return; // 공백이라면 추가하지 않음
         if (localTags.includes(tag)) return; // 이미 존재한다면 추가하지 않음
-        const nextTags = [...localTags, tag];
+        const nextTags = [...localTags, {name : tag} ];
         setLocalTags(nextTags);
     }, [localTags])
 
@@ -162,7 +162,7 @@ const Write = ({router}) => {
 
     const onSubmit = useCallback((e) => {
         e.preventDefault();
-        console.log(title)
+        // console.log(localTags)
         if (title === '') {
             setSnackBarText('제목을 입력해주세요.');
             snackBarOpenTrue();

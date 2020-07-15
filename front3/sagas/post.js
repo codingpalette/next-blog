@@ -52,7 +52,7 @@ function* addPost(action) {
             data: res.data
         });
     } catch (e) {
-        // console.log(e);
+        console.log(e);
         yield put({
             type: ADD_POST_FAILURE,
             error: e.response.data
@@ -81,7 +81,7 @@ function* removePost(action) {
             data : action.data
         })
     } catch (e) {
-        // console.log(e);
+        console.log(e);
         yield put({
             type: REMOVE_POST_FAILURE,
             error: e.response.data
@@ -125,7 +125,7 @@ function loadPostAPI(data) {
 function* loadPost(action) {
     try {
         const res = yield call(loadPostAPI, action.data);
-        console.log(res)
+        // console.log(res)
         yield put({
             type: LOAD_POST_SUCCESS,
             data : res.data

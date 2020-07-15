@@ -169,15 +169,15 @@ const Post = ({ router }) => {
                     <>
                         <PostHeader>
                             <h2>{detailPost.title}</h2>
-                            {/*<TagBox>*/}
-                            {/*    {detailPost.tags.map((v, i) => (*/}
-                            {/*        <Link href="/" key={i}>*/}
-                            {/*            <a>*/}
-                            {/*                <Chip label={v} variant="outlined" />*/}
-                            {/*            </a>*/}
-                            {/*        </Link>*/}
-                            {/*    ))}*/}
-                            {/*</TagBox>*/}
+                            <TagBox>
+                                {detailPost.Tags.map((v) => (
+                                    <Link href="/" key={v.name}>
+                                        <a>
+                                            <Chip label={v.name} variant="outlined" />
+                                        </a>
+                                    </Link>
+                                ))}
+                            </TagBox>
                         </PostHeader>
                         <PostBody>
                             <div className='content'>

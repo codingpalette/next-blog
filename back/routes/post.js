@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { Post, User } = require('../models');
+const { Post, User, Tag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 const router = express.Router();
 
@@ -22,8 +22,17 @@ router.post('/', isLoggedIn, async (req, res, next) => {
                     content: req.body.content,
                     UserId: req.user.id
                 });
+                if (req.body.tags.length >= 1) {
+                    const res = await Promise.all(req.body.tags.map((tag) => Tag.findOrCreate({
+                        where: {name: tag.name}
+                    })))
+                    await post.addTags(res.map((v) => v[0]));
+                }
                 const fullPost = await Post.findOne({
-                    where: { id: post.id }
+                    where: { id: post.id },
+                    include: [{
+                        model: Tag,
+                    }]
                 })
                 res.status(201).json(fullPost)
             }
@@ -44,7 +53,11 @@ router.get('/:postId', async (req, res, next) => {
            return res.status(404).send('존재하지 않는 게시글입니다.');
        }
        const fullPost = await Post.findOne({
-           where: { id: post.id }
+           where: { id: post.id },
+           include: [{
+               model: Tag,
+               attributes: ['name']
+           }]
        });
        res.status(200).json(fullPost);
    } catch (e) {
