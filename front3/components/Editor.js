@@ -1,6 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import {useState, useRef, useEffect, useCallback} from 'react';
 import styled from '@emotion/styled';
 import { useSelector } from "react-redux";
+import axios from 'axios';
+import {backUrl} from "../config/config";
+axios.defaults.baseURL = `${backUrl}`;
+axios.defaults.withCredentials = true;
 
 const EditorContainer = styled.div`
     margin-top: 1rem;
@@ -30,9 +34,14 @@ const Editor = ({ content, setContent }) => {
         input.setAttribute('accept', 'image/*');
         input.click();
 
-        input.onchange = () => {
+        input.onchange = async () => {
+            const file = input.files[0];
+            const imageFormData = new FormData();
+            imageFormData.append('image', file)
+            const res = await axios.post('image', imageFormData);
+            // console.log(res);
             const range = quillInstance.current.getSelection();
-            quillInstance.current.insertEmbed(range.index, "image", `https://cdn.pixabay.com/photo/2020/05/12/17/04/wind-turbine-5163993_960_720.jpg`);
+            quillInstance.current.insertEmbed(range.index, "image", `${backUrl}/${res.data[0]}`);
         }
 
 

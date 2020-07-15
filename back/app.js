@@ -10,6 +10,7 @@ const path = require('path');
 
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
+const imageRouter = require('./routes/image');
 const userRouter = require('./routes/user');
 const db = require('./models');
 const passportConfig = require('./passport');
@@ -31,6 +32,8 @@ app.use(cors({
     origin: true, // 나중에는 실제 프론트 주소를 넣어야함
     credentials: true, // 서로 다른 도메인간 쿠기 보내기 허용
 }));
+
+app.use('/', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -50,6 +53,7 @@ app.get('/', (req, res) => {
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);
+app.use('/image', imageRouter);
 
 
 
