@@ -74,14 +74,6 @@ const postList = () => {
     const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
 
     useEffect(() => {
-        if (mainPosts.length === 0) {
-            dispatch({
-                type: LOAD_POSTS_REQUEST
-            })
-        }
-    }, []);
-
-    useEffect(() => {
         dispatch({
             type: RESET_SUCCESS
         })
@@ -138,6 +130,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     }
     context.store.dispatch({
         type: LOAD_MY_INFO_REQUEST,
+    });
+    context.store.dispatch({
+        type: LOAD_POSTS_REQUEST
     });
 
     context.store.dispatch(END);

@@ -2,12 +2,16 @@ import React, { useEffect } from 'react';
 import Link from "next/link";
 import { withRouter } from 'next/router';
 import { useDispatch, useSelector } from "react-redux";
-import { LOAD_POST_REQUEST } from "../../reducers/post";
+import {LOAD_POST_REQUEST, LOAD_POSTS_REQUEST} from "../../reducers/post";
 import Layout from '../../components/Layout';
 import styled from '@emotion/styled';
 import hljs from 'highlight.js';
 
 import Chip from "@material-ui/core/Chip";
+import wrapper from "../../store/configureStore";
+import axios from "axios";
+import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
+import {END} from "redux-saga";
 
 hljs.configure({
     languages: ['javascript', 'css', 'html', 'xml ', 'typescript'],
@@ -165,15 +169,15 @@ const Post = ({ router }) => {
                     <>
                         <PostHeader>
                             <h2>{detailPost.title}</h2>
-                            <TagBox>
-                                {detailPost.tags.map((v, i) => (
-                                    <Link href="/" key={i}>
-                                        <a>
-                                            <Chip label={v} variant="outlined" />
-                                        </a>
-                                    </Link>
-                                ))}
-                            </TagBox>
+                            {/*<TagBox>*/}
+                            {/*    {detailPost.tags.map((v, i) => (*/}
+                            {/*        <Link href="/" key={i}>*/}
+                            {/*            <a>*/}
+                            {/*                <Chip label={v} variant="outlined" />*/}
+                            {/*            </a>*/}
+                            {/*        </Link>*/}
+                            {/*    ))}*/}
+                            {/*</TagBox>*/}
                         </PostHeader>
                         <PostBody>
                             <div className='content'>
@@ -188,6 +192,25 @@ const Post = ({ router }) => {
         </>
     )
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    // console.log(context)
+    const cookie = context.req ? context.req.headers.cookie : '';
+    axios.defaults.headers.Cookie = '';
+    if (context.req && cookie) {
+        axios.defaults.headers.Cookie = cookie;
+    }
+    context.store.dispatch({
+        type: LOAD_MY_INFO_REQUEST,
+    });
+    // context.store.dispatch({
+    //     type : LOAD_POST_REQUEST,
+    //     data: context.params.id
+    // })
+
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+});
 
 
 export default withRouter(Post);

@@ -130,7 +130,6 @@ const reducer = (state = initialState, action ) => {
                 draft.addPostError = null;
                 break;
             case ADD_POST_SUCCESS:
-                console.log(action.data)
                 draft.addPostLoading = false;
                 draft.addPostDone = true;
                 draft.mainPosts.unshift(action.data);
@@ -149,7 +148,8 @@ const reducer = (state = initialState, action ) => {
                 draft.loadPostLoading = false;
                 draft.loadPostDone = true;
                 // console.log(action.data)
-                draft.detailPost = draft.mainPosts[draft.mainPosts.findIndex(i => i.id === action.data)];
+                // draft.detailPost = draft.mainPosts[draft.mainPosts.findIndex(i => i.id === action.data)];
+                draft.detailPost = action.data;
                 break;
             case LOAD_POST_FAILURE:
                 draft.loadPostLoading = true;

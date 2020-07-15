@@ -119,17 +119,17 @@ function* addComment(action) {
 
 
 function loadPostAPI(data) {
-    return axios.get('/api/posts' , data)
+    return axios.get(`/post/${data}`);
 }
 
 function* loadPost(action) {
     try {
-        // const res = yield call(loadPostAPI , action.data)
-        // console.log(action)
-        yield  delay(1000)
+        const res = yield call(loadPostAPI, action.data);
+        console.log(res)
         yield put({
             type: LOAD_POST_SUCCESS,
-            data: action.data
+            data : res.data
+            // data: action.data
         });
     } catch (e) {
         console.log(e);
