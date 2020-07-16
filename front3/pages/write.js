@@ -159,7 +159,7 @@ const Write = ({router}) => {
     }, [localTags])
 
     const onRemove = useCallback((tag) => {
-            const nextTags = localTags.filter(t => t !== tag);
+            const nextTags = localTags.filter(t => t.name !== tag);
             setLocalTags(nextTags);
         }, [localTags]
     );

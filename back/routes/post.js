@@ -68,16 +68,33 @@ router.get('/:postId', async (req, res, next) => {
 
 router.patch('/', isLoggedIn, async (req, res, next) => { // 포스트 수정
     try {
-        console.log(req.body)
-        await Post.update({
-            title : req.body.title,
-            description : req.body.description,
-            content: req.body.content,
-        }, {
-            where: {id: req.body.id}
+        const user = await User.findOne({
+            where: {id: req.user.id},
         });
+        const data = user.toJSON();
+        if (parseInt(data.level, 10) !== 0) {
+            res.status(404).json('관리자가 아닙니다.');
+        } else {
+            await Post.update({
+                title : req.body.title,
+                description : req.body.description,
+                content: req.body.content,
+            }, {
+                where: {id: req.body.id}
+            });
+            const post = await Post.findOne({
+                where: { id: req.body.id },
+            });
+            if (req.body.tags.length >= 1) {
+                const res = await Promise.all(req.body.tags.map((tag) => Tag.findOrCreate({
+                    where: {name: tag.name}
+                })))
+                await post.setTags(res.map((v) => v[0]));
+            }
 
-        res.status(201).json(req.body)
+            res.status(201).json(req.body)
+        }
+
     } catch (e) {
         console.error(e);
         next(e)
