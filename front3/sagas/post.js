@@ -134,17 +134,15 @@ function* loadPost(action) {
 
 
 function modifyPostAPI(data) {
-    return axios.put('/api/post' , data)
+    return axios.patch(`/post`, data)
 }
 
 function* modifyPost(action) {
     try {
-        // const res = yield call(modifyPostAPI , action.data)
-        // console.log(action)
-        yield  delay(1000)
+        const res = yield call(modifyPostAPI , action.data)
         yield put({
             type: MODIFY_POST_SUCCESS,
-            data: action.data
+            data: res.data
         });
     } catch (e) {
         console.log(e);

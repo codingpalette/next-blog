@@ -66,6 +66,24 @@ router.get('/:postId', async (req, res, next) => {
    }
 });
 
+router.patch('/', isLoggedIn, async (req, res, next) => { // 포스트 수정
+    try {
+        console.log(req.body)
+        await Post.update({
+            title : req.body.title,
+            description : req.body.description,
+            content: req.body.content,
+        }, {
+            where: {id: req.body.id}
+        });
+
+        res.status(201).json(req.body)
+    } catch (e) {
+        console.error(e);
+        next(e)
+    }
+});
+
 router.delete('/:postId', isLoggedIn, async (req, res, next) => { // DELETE /post/1
     try {
         await Post.destroy({
