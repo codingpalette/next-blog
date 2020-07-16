@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import Link from 'next/link';
 import Router from "next/router";
 
@@ -79,6 +79,8 @@ const Container = styled.div`
 
 
 const postList = () => {
+    const scrollContainer = useRef(null);
+    const scrollContainerUl = useRef(null);
     const dispatch = useDispatch();
     const {mainPosts, hasMorePosts, loadPostsLoading} = useSelector((state) => state.post);
 
@@ -88,10 +90,30 @@ const postList = () => {
         })
     });
 
+    useEffect(() => {
+        const target = scrollContainer.current;
+        const targetUl = scrollContainerUl.current
+        function onScroll() {
+            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+                if (hasMorePosts && !loadPostsLoading) {
+                    const lastId = mainPosts[mainPosts.length - 1]?.id;
+                    dispatch({
+                        type: LOAD_POSTS_REQUEST,
+                        lastId,
+                    })
+                }
+            }
+        }
+        target.addEventListener('scroll', onScroll);
+        return () => {
+            target.removeEventListener('scroll', onScroll);
+        }
+    }, [hasMorePosts, loadPostsLoading, mainPosts])
+
     return (
         <>
             <Layout>
-                <ContentBox>
+                <ContentBox ref={scrollContainer}>
                     <ContentHeader>
                         <h2>포스트 리스트</h2>
                         <div className="link_box">
@@ -102,7 +124,7 @@ const postList = () => {
                             </Link>
                         </div>
                     </ContentHeader>
-                    <Container>
+                    <Container ref={scrollContainerUl}>
                         {mainPosts.length > 0 ? (
                             <div className="table_content">
                                 <table>
