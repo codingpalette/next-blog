@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Link from "next/link";
-import { withRouter } from 'next/router';
-import { useDispatch, useSelector } from "react-redux";
+import {withRouter} from 'next/router';
+import {useDispatch, useSelector} from "react-redux";
 import {LOAD_POST_REQUEST, LOAD_POSTS_REQUEST} from "../../reducers/post";
 import Layout from '../../components/Layout';
 import styled from '@emotion/styled';
@@ -16,6 +16,16 @@ import {END} from "redux-saga";
 hljs.configure({
     languages: ['javascript', 'css', 'html', 'xml ', 'typescript'],
 });
+
+const ContentBox = styled.div`
+    width: 100%;
+    height: calc(100% - 100px);
+    flex: 1;
+    overflow-y: auto;
+    @media (min-width: 1024px) {
+       height: calc(100% - 50px);
+    }
+`;
 
 const PostHeader = styled.div`
     padding: 2rem 1rem;
@@ -136,9 +146,9 @@ const PostContent = styled.div`
   
 `;
 
-const Post = ({ router }) => {
+const Post = ({router}) => {
     const dispatch = useDispatch();
-    const { loadPostLoading, loadPostDone, detailPost } = useSelector((state) => state.post);
+    const {loadPostLoading, loadPostDone, detailPost} = useSelector((state) => state.post);
 
     const updataPre = () => {
         document.querySelectorAll('pre').forEach(block => {
@@ -162,32 +172,34 @@ const Post = ({ router }) => {
         })
     }, [])
 
-    return(
+    return (
         <>
             <Layout>
-                {loadPostDone && detailPost && (
-                    <>
-                        <PostHeader>
-                            <h2>{detailPost.title}</h2>
-                            <TagBox>
-                                {detailPost.Tags.map((v) => (
-                                    <Link href="/" key={v.name}>
-                                        <a>
-                                            <Chip label={v.name} variant="outlined" />
-                                        </a>
-                                    </Link>
-                                ))}
-                            </TagBox>
-                        </PostHeader>
-                        <PostBody>
-                            <div className='content'>
-                                <PostContent>
-                                    <div dangerouslySetInnerHTML={{ __html: detailPost.content }} />
-                                </PostContent>
-                            </div>
-                        </PostBody>
-                    </>
-                )}
+                <ContentBox>
+                    {loadPostDone && detailPost && (
+                        <>
+                            <PostHeader>
+                                <h2>{detailPost.title}</h2>
+                                <TagBox>
+                                    {detailPost.Tags.map((v) => (
+                                        <Link href="/" key={v.name}>
+                                            <a>
+                                                <Chip label={v.name} variant="outlined"/>
+                                            </a>
+                                        </Link>
+                                    ))}
+                                </TagBox>
+                            </PostHeader>
+                            <PostBody>
+                                <div className='content'>
+                                    <PostContent>
+                                        <div dangerouslySetInnerHTML={{__html: detailPost.content}}/>
+                                    </PostContent>
+                                </div>
+                            </PostBody>
+                        </>
+                    )}
+                </ContentBox>
             </Layout>
         </>
     )

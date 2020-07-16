@@ -32,9 +32,9 @@ const Layout = ({ children }) => {
         <>
             <ContainerBox>
                 <Header />
-                <ContentBox>
-                    {children}
-                </ContentBox>
+
+                {children}
+
             </ContainerBox>
 
             {/*<ContainerBox maxWidth="md">*/}

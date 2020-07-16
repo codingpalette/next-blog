@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { END } from 'redux-saga';
 import axios from 'axios';
@@ -10,6 +10,16 @@ import NotContent from "../components/NotContent";
 import {LOAD_POSTS_REQUEST, RESET_SUCCESS } from "../reducers/post";
 import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
 import wrapper from '../store/configureStore';
+
+const ContentBox = styled.div`
+    width: 100%;
+    height: calc(100% - 100px);
+    flex: 1;
+    overflow-y: auto;
+    @media (min-width: 1024px) {
+       height: calc(100% - 50px);
+    }
+`;
 
 const Container = styled.div`
     display: block;
@@ -25,36 +35,63 @@ const Container = styled.div`
 `;
 
 
+
+
 const IndexPage = () => {
     const dispatch = useDispatch();
     const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
+
+    const scrollContainer = useRef(null);
+    const scrollContainerUl = useRef(null);
 
 
     useEffect(() => {
         dispatch({
             type: RESET_SUCCESS
         })
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        const target = scrollContainer.current;
+        const targetUl = scrollContainerUl.current
+        function onScroll() {
+            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+                if (hasMorePosts && !loadPostsLoading) {
+                    const lastId = mainPosts[mainPosts.length - 1]?.id;
+                    dispatch({
+                        type: LOAD_POSTS_REQUEST,
+                        lastId,
+                    })
+                }
+            }
+        }
+        target.addEventListener('scroll', onScroll);
+        return () => {
+            target.removeEventListener('scroll', onScroll);
+        }
+    }, [hasMorePosts, loadPostsLoading, mainPosts])
 
     return(
         <>
-            <Layout>
-                <Container>
-                    {mainPosts.length > 0 ? (
-                        <ul>
-                            { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
-                        </ul>
-                    ) : (
-                        <div>
-                            <NotContent />
-                        </div>
-                    )}
+            <Layout >
+                <ContentBox ref={scrollContainer}>
+                    <Container ref={scrollContainerUl}>
+                        {mainPosts.length > 0 ? (
+                            <ul>
+                                { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
+                            </ul>
+                        ) : (
+                            <div>
+                                <NotContent />
+                            </div>
+                        )}
 
-                </Container>
+                    </Container>
                 {/*<Grid container spacing={3}>*/}
                 {/*    { mainPosts.map((post) => <PostList key={post.id} post={post} />) }*/}
 
                 {/*</Grid>*/}
+                </ContentBox>
             </Layout>
         </>
     )

@@ -26,6 +26,16 @@ import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
 
 
+const ContentBox = styled.div`
+    width: 100%;
+    height: calc(100% - 100px);
+    flex: 1;
+    overflow-y: auto;
+    @media (min-width: 1024px) {
+       height: calc(100% - 50px);
+    }
+`;
+
 const Container = styled.div`
     padding: 1rem;
     box-sizing: border-box;
@@ -144,7 +154,7 @@ const Write = ({router}) => {
     const insertTag = useCallback((tag) => {
         if (!tag) return; // 공백이라면 추가하지 않음
         if (localTags.includes(tag)) return; // 이미 존재한다면 추가하지 않음
-        const nextTags = [...localTags, {name : tag} ];
+        const nextTags = [...localTags, {name: tag}];
         setLocalTags(nextTags);
     }, [localTags])
 
@@ -196,93 +206,96 @@ const Write = ({router}) => {
     return (
         <>
             <Layout>
-                <Container>
-                    <div>
-                        <Typography variant="h5" component="h2" gutterBottom>
-                            {mode === 'create' ? '포스트 작성' : '포스트 수정'}
-                        </Typography>
-                        <form onSubmit={onSubmit}>
-                            <TextField
-                                margin="dense"
-                                id="title"
-                                label="title"
-                                type="text"
-                                fullWidth
-                                value={title}
-                                onChange={onChangeTitle}
-                            />
-                            <TextField
-                                margin="dense"
-                                id="description"
-                                label="description"
-                                type="text"
-                                fullWidth
-                                multiline
-                                rowsMax={4}
-                                value={description}
-                                onChange={onChangeDescription}
-                            />
-                            <TagFormBox>
+                <ContentBox>
+                    <Container>
+                        <div>
+                            <Typography variant="h5" component="h2" gutterBottom>
+                                {mode === 'create' ? '포스트 작성' : '포스트 수정'}
+                            </Typography>
+                            <form onSubmit={onSubmit}>
                                 <TextField
                                     margin="dense"
-                                    id="tag"
-                                    label="tag"
+                                    id="title"
+                                    label="title"
                                     type="text"
                                     fullWidth
-                                    value={tag}
-                                    onChange={onChangeTag}
+                                    value={title}
+                                    onChange={onChangeTitle}
                                 />
-                                <TagBtn
-                                    variant="contained"
-                                    color="primary"
-                                    disableElevation
-                                    onClick={onClickTagAdd}
-                                >
-                                    추가
-                                </TagBtn>
-                            </TagFormBox>
-                            <TagList tags={localTags} onRemove={onRemove}/>
-                            <Editor content={content} setContent={setContent}/>
+                                <TextField
+                                    margin="dense"
+                                    id="description"
+                                    label="description"
+                                    type="text"
+                                    fullWidth
+                                    multiline
+                                    rowsMax={4}
+                                    value={description}
+                                    onChange={onChangeDescription}
+                                />
+                                <TagFormBox>
+                                    <TextField
+                                        margin="dense"
+                                        id="tag"
+                                        label="tag"
+                                        type="text"
+                                        fullWidth
+                                        value={tag}
+                                        onChange={onChangeTag}
+                                    />
+                                    <TagBtn
+                                        variant="contained"
+                                        color="primary"
+                                        disableElevation
+                                        onClick={onClickTagAdd}
+                                    >
+                                        추가
+                                    </TagBtn>
+                                </TagFormBox>
+                                <TagList tags={localTags} onRemove={onRemove}/>
+                                <Editor content={content} setContent={setContent}/>
 
-                            <BtnBox>
-                                <Button variant="contained" color="secondary" disableElevation>
-                                    <Link href='/'>
-                                        <a>취소</a>
-                                    </Link>
-                                </Button>
-                                {mode === 'create' ? (
-                                    <Button variant="contained" color="primary" type="submit" disableElevation>
-                                        {addPostLoading ? <CircularProgressTag size={20}/> : '작성'}
+                                <BtnBox>
+                                    <Button variant="contained" color="secondary" disableElevation>
+                                        <Link href='/'>
+                                            <a>취소</a>
+                                        </Link>
                                     </Button>
-                                ) : (
-                                    <Button variant="contained" color="primary" type="submit" disableElevation>
-                                        {modifyPostLoading ? <CircularProgressTag size={20}/> : '수정'}
-                                    </Button>
-                                )}
+                                    {mode === 'create' ? (
+                                        <Button variant="contained" color="primary" type="submit" disableElevation>
+                                            {addPostLoading ? <CircularProgressTag size={20}/> : '작성'}
+                                        </Button>
+                                    ) : (
+                                        <Button variant="contained" color="primary" type="submit" disableElevation>
+                                            {modifyPostLoading ? <CircularProgressTag size={20}/> : '수정'}
+                                        </Button>
+                                    )}
 
-                            </BtnBox>
+                                </BtnBox>
 
-                        </form>
-                    </div>
+                            </form>
+                        </div>
 
-                </Container>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    open={snackBarOpen}
-                    autoHideDuration={6000}
-                    onClose={snackBarOpenFalse}
-                    message={snackBarText}
-                    action={
-                        <>
-                            <IconButton size="small" aria-label="close" color="inherit" onClick={snackBarOpenFalse}>
-                                <CloseIcon fontSize="small" />
-                            </IconButton>
-                        </>
-                    }
-                />
+                    </Container>
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        open={snackBarOpen}
+                        autoHideDuration={6000}
+                        onClose={snackBarOpenFalse}
+                        message={snackBarText}
+                        action={
+                            <>
+                                <IconButton size="small" aria-label="close" color="inherit" onClick={snackBarOpenFalse}>
+                                    <CloseIcon fontSize="small"/>
+                                </IconButton>
+                            </>
+                        }
+                    />
+                </ContentBox>
+
 
             </Layout>
         </>

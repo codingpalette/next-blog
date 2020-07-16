@@ -15,6 +15,16 @@ import axios from "axios";
 import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
 import {END} from "redux-saga";
 
+const ContentBox = styled.div`
+    width: 100%;
+    height: calc(100% - 100px);
+    flex: 1;
+    overflow-y: auto;
+    @media (min-width: 1024px) {
+       height: calc(100% - 50px);
+    }
+`;
+
 
 const ContentHeader = styled.div`
     background-color: #fff;
@@ -81,38 +91,40 @@ const postList = () => {
     return (
         <>
             <Layout>
-                <ContentHeader>
-                    <h2>포스트 리스트</h2>
-                    <div className="link_box">
-                        <Link href="/write">
-                            <a>
-                                <Button color="primary">포스트 작성</Button>
-                            </a>
-                        </Link>
-                    </div>
-                </ContentHeader>
-                <Container>
-                    {mainPosts.length > 0 ? (
-                        <div className="table_content">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>제목</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {mainPosts.length > 0 && mainPosts.map(post => (
-                                    <PostTrList key={post.id} post={post}/>
-                                ))}
-                                </tbody>
-                            </table>
+                <ContentBox>
+                    <ContentHeader>
+                        <h2>포스트 리스트</h2>
+                        <div className="link_box">
+                            <Link href="/write">
+                                <a>
+                                    <Button color="primary">포스트 작성</Button>
+                                </a>
+                            </Link>
                         </div>
-                    ) : (
-                        <NotContent/>
-                    )}
+                    </ContentHeader>
+                    <Container>
+                        {mainPosts.length > 0 ? (
+                            <div className="table_content">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>제목</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {mainPosts.length > 0 && mainPosts.map(post => (
+                                        <PostTrList key={post.id} post={post}/>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <NotContent/>
+                        )}
 
-                </Container>
+                    </Container>
+                </ContentBox>
             </Layout>
         </>
     )

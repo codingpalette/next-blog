@@ -35,6 +35,8 @@ export const initialState = {
     modifyPostLoading: false,
     modifyPostDone: false,
     modifyPostError: null,
+
+    hasMorePosts: true,
 };
 
 
@@ -112,7 +114,7 @@ const reducer = (state = initialState, action ) => {
                 draft.loadPostsLoading = false;
                 draft.loadPostsDone = true;
                 draft.mainPosts = draft.mainPosts.concat(action.data);
-                draft.hasMorePosts = draft.mainPosts.length < 50;
+                draft.hasMorePosts = action.data.length === 20;
                 break;
             case LOAD_POSTS_FAILURE:
                 draft.loadPostsLoading = true;
