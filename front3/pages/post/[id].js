@@ -165,12 +165,12 @@ const Post = ({router}) => {
         };
     }, [loadPostDone]);
 
-    useEffect(() => {
-        dispatch({
-            type: LOAD_POST_REQUEST,
-            data: router.query.id
-        })
-    }, [])
+    // useEffect(() => {
+    //     dispatch({
+    //         type: LOAD_POST_REQUEST,
+    //         data: router.query.id
+    //     })
+    // }, [])
 
     return (
         <>
@@ -182,7 +182,7 @@ const Post = ({router}) => {
                                 <h2>{detailPost.title}</h2>
                                 <TagBox>
                                     {detailPost.Tags.map((v) => (
-                                        <Link href="/" key={v.name}>
+                                        <Link href={`/tag/${v.name}`} key={v.name}>
                                             <a>
                                                 <Chip label={v.name} variant="outlined"/>
                                             </a>
@@ -215,10 +215,10 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     context.store.dispatch({
         type: LOAD_MY_INFO_REQUEST,
     });
-    // context.store.dispatch({
-    //     type : LOAD_POST_REQUEST,
-    //     data: context.params.id
-    // })
+    context.store.dispatch({
+        type : LOAD_POST_REQUEST,
+        data: context.params.id
+    })
 
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();

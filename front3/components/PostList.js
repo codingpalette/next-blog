@@ -91,7 +91,7 @@ const PostList = ({ post }) => {
     if(dd<10) {
         dd='0'+dd
     }
-    
+
     return(
         <>
             <ListBox>

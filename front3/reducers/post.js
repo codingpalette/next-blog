@@ -1,6 +1,4 @@
-import shortId from 'shortid';
 import produce from 'immer';
-import faker from 'faker';
 
 
 
@@ -71,31 +69,18 @@ export const MODIFY_POST_REQUEST = 'MODIFY_POST_REQUEST'
 export const MODIFY_POST_SUCCESS = 'MODIFY_POST_SUCCESS'
 export const MODIFY_POST_FAILURE = 'MODIFY_POST_FAILURE'
 
-
+export const LOAD_TAG_POSTS_REQUEST = 'LOAD_TAG_POSTS_REQUEST'
+export const LOAD_TAG_POSTS_SUCCESS = 'LOAD_TAG_POSTS_SUCCESS'
+export const LOAD_TAG_POSTS_FAILURE = 'LOAD_TAG_POSTS_FAILURE'
 
 export const addComment = (data) => ({
     type: ADD_COMMENT_REQUEST,
     data,
 });
 
-const dummyPost = (data) => ({
-    id: shortId.generate(),
-    title: data.title,
-    date:'2020.06.10',
-    description: data.description,
-    tags: data.tags,
-    content: data.content,
-});
 
 
-const dummyComment = (data) => ({
-    id: shortId.generate(),
-    content: data,
-    User: {
-        id: 1,
-        nickname: '제로초',
-    },
-});
+
 
 const reducer = (state = initialState, action ) => {
     return produce(state, (draft) => {
@@ -106,17 +91,20 @@ const reducer = (state = initialState, action ) => {
                 draft.detailPost = null;
                 break;
             case LOAD_POSTS_REQUEST:
+            case LOAD_TAG_POSTS_REQUEST:
                 draft.loadPostsLoading = true;
                 draft.loadPostsDone = false;
                 draft.loadPostsError = null;
                 break;
             case LOAD_POSTS_SUCCESS:
+            case LOAD_TAG_POSTS_SUCCESS:
                 draft.loadPostsLoading = false;
                 draft.loadPostsDone = true;
                 draft.mainPosts = draft.mainPosts.concat(action.data);
                 draft.hasMorePosts = action.data.length === 20;
                 break;
             case LOAD_POSTS_FAILURE:
+            case LOAD_TAG_POSTS_FAILURE:
                 draft.loadPostsLoading = true;
                 draft.loadPostsError = action.error;
                 break;
@@ -129,7 +117,6 @@ const reducer = (state = initialState, action ) => {
                 draft.addPostLoading = false;
                 draft.addPostDone = true;
                 draft.mainPosts.unshift(action.data);
-
                 break;
             case ADD_POST_FAILURE:
                 draft.addPostLoading = true;
@@ -143,8 +130,6 @@ const reducer = (state = initialState, action ) => {
             case LOAD_POST_SUCCESS:
                 draft.loadPostLoading = false;
                 draft.loadPostDone = true;
-                // console.log(action.data)
-                // draft.detailPost = draft.mainPosts[draft.mainPosts.findIndex(i => i.id === action.data)];
                 draft.detailPost = action.data;
                 break;
             case LOAD_POST_FAILURE:
@@ -157,22 +142,9 @@ const reducer = (state = initialState, action ) => {
                 draft.addCommentError = null;
                 break;
             case ADD_COMMENT_SUCCESS:
-                const post = draft.mainPosts.find((v) => v.id === action.data.postId);
-                post.Comments.unshift(dummyComment(action.data.content));
                 draft.addCommentLoading = false;
                 draft.addCommentDone = true;
                 break;
-                // const postIndex = state.mainPosts.findIndex((v) => v.id === action.data.postId);
-                // const post = { ...state.mainPosts[postIndex] };
-                // post.Comments = [dummyComment(action.data.content), ...post.Comments];
-                // const mainPosts = [...state.mainPosts];
-                // mainPosts[postIndex] = post;
-                // return {
-                //   ...state,
-                //   mainPosts,
-                //   addCommentLoading: false,
-                //   addCommentDone: true,
-                // };
             case ADD_COMMENT_FAILURE:
                 draft.addCommentLoading = false;
                 draft.addCommentError = action.error;

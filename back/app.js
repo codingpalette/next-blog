@@ -10,6 +10,7 @@ const path = require('path');
 
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
+const tagRouter = require('./routes/tag');
 const imageRouter = require('./routes/image');
 const userRouter = require('./routes/user');
 const db = require('./models');
@@ -53,6 +54,7 @@ app.get('/', (req, res) => {
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);
+app.use('/tag', tagRouter);
 app.use('/image', imageRouter);
 
 

@@ -8,7 +8,7 @@ import {
     REMOVE_POST_FAILURE, REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS,
     LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
     LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
-    MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS, MODIFY_POST_FAILURE
+    MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS, MODIFY_POST_FAILURE, LOAD_TAG_POSTS_REQUEST, LOAD_TAG_POSTS_SUCCESS, LOAD_TAG_POSTS_FAILURE
 } from "../reducers/post";
 
 
@@ -30,6 +30,26 @@ function* loadPosts(action) {
         console.log(e);
         yield put({
             type: LOAD_POSTS_FAILURE,
+            error: e.response.data
+        })
+    }
+}
+
+function loadTagPostsAPI(data, lastId) {
+    return axios.get(`/tag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
+}
+
+function* loadTagPosts(action) {
+    try {
+        const res = yield call(loadTagPostsAPI, action.data, action.lastId)
+        yield put({
+            type: LOAD_TAG_POSTS_SUCCESS,
+            data: res.data
+        });
+    } catch (e) {
+        console.log(e);
+        yield put({
+            type: LOAD_TAG_POSTS_FAILURE,
             error: e.response.data
         })
     }
@@ -160,6 +180,11 @@ function* watchLoadPosts() {
     yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts)
 }
 
+function* watchLoadTagPosts() {
+    yield throttle(5000, LOAD_TAG_POSTS_REQUEST, loadTagPosts)
+}
+
+
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost)
 }
@@ -184,6 +209,7 @@ function* watchModifyPost() {
 export default function* postSaga() {
     yield all([
         fork(watchLoadPosts),
+        fork(watchLoadTagPosts),
         fork(watchAddPost),
         fork(watchRemovePost),
         fork(watchAddComment),
