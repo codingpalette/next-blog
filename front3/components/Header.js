@@ -125,9 +125,7 @@ const List = styled.li`
 const Header = ({ router }) => {
     const dispatch = useDispatch();
     const {me, logOutDone} = useSelector((state) => state.user);
-
-
-
+    
     const [loginmodalOpen, onClickModalOpen, onClickModalClose] = useToggle(false);
 
 
@@ -203,7 +201,7 @@ const Header = ({ router }) => {
             </TopHeader>
             <BtmHeader>
                 <ul>
-                    <List path={router.pathname === '/'}>
+                    <List path={router.pathname === '/' || router.pathname.indexOf('/post/') !== -1}>
                         <Link href='/'>
                             <a>
                                 <HomeIcon />
