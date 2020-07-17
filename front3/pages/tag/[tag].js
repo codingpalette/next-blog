@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {withRouter} from 'next/router';
 import { END } from 'redux-saga';
 import wrapper from "../../store/configureStore";
 import axios from "axios";
 import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
-import { LOAD_TAG_POSTS_REQUEST} from "../../reducers/post";
+import {LOAD_POSTS_REQUEST, LOAD_TAG_POSTS_REQUEST, RESET_SUCCESS} from "../../reducers/post";
 
 
 import Layout from "../../components/Layout";
@@ -45,6 +45,35 @@ const Tag = ({router}) => {
     const dispatch = useDispatch();
     const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
 
+    const scrollContainer = useRef(null);
+    const scrollContainerUl = useRef(null);
+
+    useEffect(() => {
+        dispatch({
+            type: RESET_SUCCESS
+        })
+    }, []);
+
+    useEffect(() => {
+        const target = scrollContainer.current;
+        const targetUl = scrollContainerUl.current
+        function onScroll() {
+            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+                if (hasMorePosts && !loadPostsLoading) {
+                    const lastId = mainPosts[mainPosts.length - 1]?.id;
+                    dispatch({
+                        type: LOAD_POSTS_REQUEST,
+                        lastId,
+                    })
+                }
+            }
+        }
+        target.addEventListener('scroll', onScroll);
+        return () => {
+            target.removeEventListener('scroll', onScroll);
+        }
+    }, [hasMorePosts, loadPostsLoading, mainPosts])
+
     // useEffect(() => {
     //     console.log(router)
     //     dispatch({
@@ -55,8 +84,8 @@ const Tag = ({router}) => {
     return(
         <>
             <Layout>
-                <ContentBox>
-                    <Container >
+                <ContentBox ref={scrollContainer}>
+                    <Container ref={scrollContainerUl}>
                         {mainPosts.length > 0 ? (
                             <ul>
                                 { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
