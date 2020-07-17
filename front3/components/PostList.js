@@ -1,13 +1,9 @@
-import React, {useCallback, useState} from 'react';
+import React from 'react';
 import Link from 'next/link';
-import Router from 'next/router'
-import {useDispatch, useSelector} from "react-redux";
-import { WRITE_MODE_MODIFY } from "../reducers/post";
+
 import styled from '@emotion/styled';
 
-
 import DateRangeIcon from '@material-ui/icons/DateRange';
-import LabelIcon from '@material-ui/icons/Label';
 
 
 const ListBox = styled.li`
@@ -44,7 +40,7 @@ const ListBox = styled.li`
         box-sizing: border-box;
         box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
         border-radius: 4px;
-        height: 300px;
+        height: 250px;
     }
 
 `;
@@ -79,26 +75,23 @@ const CardHeader = styled.div`
 const CardBody = styled.div`
     padding: 1rem;
     box-sizing: border-box;
+    word-break: break-all;
 `;
 
 
 const PostList = ({ post }) => {
 
-
-    const { me } = useSelector((state) => state.user);
-
-    const [postMenu, setPostMenu] = useState(null);
-    const onClickPostMenuOpen = useCallback((event) => {
-        setPostMenu(event.currentTarget);
-    }, []);
-    const onClickPostMenuClose = useCallback(() => {
-        setPostMenu(null);
-    }, []);
-
-    const onClickPostModify = useCallback((id) => () => {
-        Router.push(`/write?id=${id}`)
-    }, [])
-
+    const today  = new Date(post.createdAt)
+    let dd = today.getDate();
+    let mm = today.getMonth()+1; //January is 0!
+    const yyyy = today.getFullYear();
+    if(mm<10) {
+        mm='0'+mm
+    }
+    if(dd<10) {
+        dd='0'+dd
+    }
+    
     return(
         <>
             <ListBox>
@@ -110,28 +103,11 @@ const PostList = ({ post }) => {
                                     <h2>
                                         {post.title}
                                     </h2>
-                                    {/*{me && me.level === 1 && (*/}
-                                    {/*    <>*/}
-                                    {/*        <IconButton aria-label="settings" onClick={onClickPostMenuOpen}>*/}
-                                    {/*            <MoreVertIcon />*/}
-                                    {/*        </IconButton>*/}
-                                    {/*        <Menu*/}
-                                    {/*            anchorEl={postMenu}*/}
-                                    {/*            keepMounted*/}
-                                    {/*            open={Boolean(postMenu)}*/}
-                                    {/*            onClose={onClickPostMenuClose}*/}
-                                    {/*        >*/}
-                                    {/*            <MenuItem onClick={ onClickPostModify(post.id)}>수정하기</MenuItem>*/}
-                                    {/*            <MenuItem onClick={onClickPostMenuClose}>삭제하기</MenuItem>*/}
-                                    {/*        </Menu>*/}
-                                    {/*    </>*/}
-                                    {/*)}*/}
+
                                 </div>
                                 <div className="icon_box">
                                     <DateRangeIcon fontSize="small" />
-                                    <span>작성일 2020-06-10</span>
-                                    <LabelIcon fontSize="small" />
-                                    <span>카테고리 HTML</span>
+                                    <span>작성일 {`${yyyy}-${mm}-${dd}`}</span>
                                 </div>
                             </CardHeader>
                             <CardBody>

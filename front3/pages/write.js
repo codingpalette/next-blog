@@ -108,7 +108,7 @@ const Write = ({router}) => {
 
     const [description, setDescription] = useState('');
     const onChangeDescription = useCallback((e) => {
-        if (e.target.value.length > 140) {
+        if (e.target.value.length > 200) {
             return
         }
         setDescription(e.target.value)

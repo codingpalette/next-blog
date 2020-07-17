@@ -13,7 +13,10 @@ router.get('/', async (req, res, next) => {
         const posts = await Post.findAll({
             where,
             limit: 20,
-            order: [['createdAt', 'DESC']]
+            order: [['createdAt', 'DESC']],
+            attributes: { // 제외하고 가져오기
+                exclude: ['content']
+            },
         });
         res.status(200).json(posts);
     } catch(e) {

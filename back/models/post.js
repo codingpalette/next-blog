@@ -10,7 +10,7 @@ module.exports = class Post extends Model {
                 allowNull: false, // 필수
             },
             description : {
-                type: DataTypes.STRING(140), // STRING, TEXT, BOOLEAN, INTEGER, FLOAT, DATETIME
+                type: DataTypes.STRING(200), // STRING, TEXT, BOOLEAN, INTEGER, FLOAT, DATETIME
                 allowNull: false,
             },
             content: {
