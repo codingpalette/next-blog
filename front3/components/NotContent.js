@@ -2,7 +2,18 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+`;
+
+
 const Content = styled.div`
+    margin: auto;
     padding-left: 1rem;
     box-sizing: border-box;
     text-align: center;
@@ -19,12 +30,14 @@ const Content = styled.div`
 `;
 
 const NotContent = () => {
-    return(
+    return (
         <>
-            <Content>
-                <img src="/undraw_no_data_qbuo.svg" alt=""/>
-                <p>Not Content</p>
-            </Content>
+            <Container>
+                <Content>
+                    <img src="/undraw_no_data_qbuo.svg" alt=""/>
+                    <p>Not Content</p>
+                </Content>
+            </Container>
         </>
     )
 }

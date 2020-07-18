@@ -24,6 +24,7 @@ const ContentBox = styled.div`
 const Container = styled.div`
     display: block;
     width: 100%;
+    height: 100%;
     padding: 1rem 1rem 0 0;
     box-sizing: border-box;
     
@@ -81,9 +82,7 @@ const IndexPage = () => {
                                 { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
                             </ul>
                         ) : (
-                            <div>
-                                <NotContent />
-                            </div>
+                            <NotContent />
                         )}
 
                     </Container>

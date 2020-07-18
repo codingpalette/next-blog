@@ -231,8 +231,8 @@ const Header = ({ router }) => {
                             </a>
                         </Link>
                     </List>
-                    <List path={router.pathname === '/fsdf'}>
-                        <Link href='/'>
+                    <List path={router.pathname === '/setting'}>
+                        <Link href='/setting'>
                             <a>
                                 <SettingsIcon />
                                 <span className="text">
