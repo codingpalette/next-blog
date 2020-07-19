@@ -221,8 +221,8 @@ const Header = ({ router }) => {
                             </a>
                         </Link>
                     </List>
-                    <List path={router.pathname === '/sdf'}>
-                        <Link href='/'>
+                    <List path={router.pathname === '/chat'}>
+                        <Link href='/chat'>
                             <a>
                                 <ChatIcon />
                                 <span className="text">
