@@ -1,4 +1,5 @@
 const express = require('express');
+const {Op} = require('sequelize');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -52,14 +53,36 @@ router.get('/:postId', async (req, res, next) => {
        if (!post) {
            return res.status(404).send('존재하지 않는 게시글입니다.');
        }
-       const fullPost = await Post.findOne({
+       const nowPost = await Post.findOne({
            where: { id: post.id },
            include: [{
                model: Tag,
                attributes: ['name']
            }]
        });
-       res.status(200).json(fullPost);
+       const nextPost = await Post.findOne({
+           where: { id: {[Op.gt]:post.id} },
+           limit: 1,
+           order: [['id', 'ASC']],
+           attributes: { // 제외하고 가져오기
+               exclude: ['content']
+           }
+       });
+       const prevPost = await Post.findOne({
+           where: { id: {[Op.lt]:post.id} },
+           limit: 1,
+           order: [['id', 'DESC']],
+           attributes: { // 제외하고 가져오기
+               exclude: ['content']
+           }
+       })
+       // console.log('nextPost ==' , nextPost)
+       // console.log('prevPost ==' , prevPost)
+       res.status(200).json({
+           prev: prevPost,
+           now: nowPost,
+           next: nextPost
+       });
    } catch (e) {
        console.error(e);
        next(e)

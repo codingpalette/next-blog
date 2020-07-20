@@ -2,16 +2,21 @@ import React, {useEffect} from 'react';
 import Link from "next/link";
 import {withRouter} from 'next/router';
 import {useDispatch, useSelector} from "react-redux";
-import {LOAD_POST_REQUEST, LOAD_POSTS_REQUEST} from "../../reducers/post";
-import Layout from '../../components/Layout';
+import {END} from "redux-saga";
+import axios from "axios";
+
 import styled from '@emotion/styled';
+import Layout from '../../components/Layout';
+import {LOAD_POST_REQUEST, LOAD_POSTS_REQUEST} from "../../reducers/post";
+import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
+import wrapper from "../../store/configureStore";
 import hljs from 'highlight.js';
 
 import Chip from "@material-ui/core/Chip";
-import wrapper from "../../store/configureStore";
-import axios from "axios";
-import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
-import {END} from "redux-saga";
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 hljs.configure({
     languages: ['javascript', 'css', 'html', 'xml ', 'typescript'],
@@ -146,9 +151,34 @@ const PostContent = styled.div`
   
 `;
 
+const Pagination = styled.div`
+    margin: 1rem auto;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    & .btn_box{
+        
+    }
+    & .btn_box a{
+        display: flex;
+        align-items: center;
+        border-radius: 0.25rem;
+        box-sizing: border-box;
+    }
+    & .btn_box a:hover{
+        color: #536DFE;
+    }
+    & .btn_box a span{
+        margin: 0 0.5rem;
+    }
+`;
+
 const Post = ({router}) => {
     const dispatch = useDispatch();
-    const {loadPostLoading, loadPostDone, detailPost} = useSelector((state) => state.post);
+    const {loadPostLoading, loadPostDone, detailPost, prevPost, nextPost} = useSelector((state) => state.post);
 
     const updataPre = () => {
         document.querySelectorAll('pre').forEach(block => {
@@ -197,6 +227,29 @@ const Post = ({router}) => {
                                     </PostContent>
                                 </div>
                             </PostBody>
+                            <Pagination>
+                                <div className="btn_box">
+                                    {nextPost && (
+                                        <Link href="/post/[id]" as={`/post/${nextPost.id}`}>
+                                            <a>
+                                                <ArrowBackIcon/>
+                                                <span>{nextPost.title}</span>
+                                            </a>
+                                        </Link>
+                                    )}
+
+                                </div>
+                                <div className="btn_box">
+                                    {prevPost && (
+                                        <Link href="/post/[id]" as={`/post/${prevPost.id}`}>
+                                            <a>
+                                                <span>{prevPost.title}</span>
+                                                <ArrowForwardIcon/>
+                                            </a>
+                                        </Link>
+                                    )}
+                                </div>
+                            </Pagination>
                         </>
                     )}
                 </ContentBox>
@@ -218,7 +271,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     context.store.dispatch({
         type : LOAD_POST_REQUEST,
         data: context.params.id
-    })
+    });
 
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();

@@ -25,6 +25,8 @@ export const initialState = {
 
     mainPosts: [],
     detailPost: null,
+    prevPost: null,
+    nextPost: null,
     imagePaths: [],
     hasMorePost: false,
 
@@ -130,7 +132,9 @@ const reducer = (state = initialState, action ) => {
             case LOAD_POST_SUCCESS:
                 draft.loadPostLoading = false;
                 draft.loadPostDone = true;
-                draft.detailPost = action.data;
+                draft.detailPost = action.data.now;
+                draft.prevPost = action.data.prev;
+                draft.nextPost = action.data.next;
                 break;
             case LOAD_POST_FAILURE:
                 draft.loadPostLoading = true;
