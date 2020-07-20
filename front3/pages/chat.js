@@ -1,22 +1,13 @@
-import React, {useState, useCallback, useEffect, useContext} from 'react';
+import React from 'react';
 import wrapper from "../store/configureStore";
 import axios from "axios";
 import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
 import {END} from "redux-saga";
-import { SocketContext } from '../socket-context';
+
 
 import styled from '@emotion/styled'
 import Layout from '../components/Layout';
-import Button from "@material-ui/core/Button";
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from "@material-ui/core/DialogTitle";
-import useToggle from "../hooks/useToggle";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from "@material-ui/core/DialogActions";
-import TextField from "@material-ui/core/TextField";
-import useInput from "../hooks/useInput";
-import DialogContentText from "@material-ui/core/DialogContentText";
+
 
 const ContentBox = styled.div`
     width: 100%;
@@ -59,21 +50,10 @@ const Container = styled.div`
     }
 `;
 
+
+
 const Chat = () => {
-    const socket = useContext(SocketContext);
-    useEffect(() => {
-        return () => {
-            socket.off('receive data');
-        }
-    }, []);
-    const [roomTitle, onChangeRoomTitle] = useInput('')
-    const [modalOpen, onClickModalOpen, modalClose] = useToggle(false);
 
-    const onClickCreateRoom = useCallback(() => {
-        console.log(roomTitle)
-        socket.emit('join', roomTitle);
-
-    }, [roomTitle])
 
 
     return (
@@ -82,39 +62,12 @@ const Chat = () => {
                 <ContentBox>
                     <ContentHeader>
                         <h2>채팅</h2>
-                        <div className="room_create_btn_box">
-                            <Button color="primary" onClick={onClickModalOpen}>채팅방 만들기</Button>
-                        </div>
-                        <Dialog open={modalOpen} onClose={modalClose}>
-                            <DialogTitle id="form-dialog-title">채팅방 만들기</DialogTitle>
-                            <DialogContent>
-                                <DialogContentText>
-                                    채팅방 이름을 입력해주세요.
-                                </DialogContentText>
-                                <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="room_title"
-                                    label="방 이름을 입력하세요."
-                                    type="email"
-                                    fullWidth
-                                    value={roomTitle}
-                                    onChange={onChangeRoomTitle}
-                                />
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={modalClose} color="secondary">
-                                    닫기
-                                </Button>
-                                <Button color="primary" onClick={onClickCreateRoom}>
-                                    만들기
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
+
+
                     </ContentHeader>
                     <Container>
                         <div className="content">
-                            sdfdff
+
                         </div>
                     </Container>
                 </ContentBox>

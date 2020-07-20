@@ -6,7 +6,6 @@ const passport = require('passport');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const path = require('path');
-const socketio = require('socket.io');
 
 
 const userRouter = require('./routes/user');
@@ -62,25 +61,7 @@ app.use('/image', imageRouter);
 
 
 
-const server = app.listen(5000, () => {
+app.listen(5000, () => {
     console.log('서버실행중')
 });
 
-const io = socketio.listen(server);
-io.sockets.on('connection', (socket) => {
-    // message
-    let roomName = null;
-    socket.on('join', (data) => {
-        console.log('소켓 데이터', data)
-        roomName = data;
-        socket.join(data);
-    })
-    socket.on('message', (data) => {
-        io.sockets.in(roomName).emit('message', data);
-        console.log(data);
-    });
-    socket.on('image', (data)=>{
-        io.sockets.in(roomName).emit('image', data);
-        console.log(data);
-    })
-});
