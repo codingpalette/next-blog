@@ -1,14 +1,11 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import useToggle from "../hooks/useToggle";
+
 import {useDispatch, useSelector} from 'react-redux';
 import {LOG_OUT_REQUEST} from "../reducers/user";
 import styled from '@emotion/styled';
-import LoginForm from "./LoginForm";
 
-
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
@@ -125,9 +122,6 @@ const List = styled.li`
 const Header = ({ router }) => {
     const dispatch = useDispatch();
     const {me, logOutDone} = useSelector((state) => state.user);
-    
-    const [loginmodalOpen, onClickModalOpen, onClickModalClose] = useToggle(false);
-
 
     const [userMenu, setUserMenu] = useState(null);
     const onClickUserMenuOpen = useCallback((event) => {
@@ -158,7 +152,7 @@ const Header = ({ router }) => {
                         <a>CodingPalette</a>
                     </Link>
                 </h1>
-                {me ? (
+                {me && (
                     <div>
                         <IconButton
                             aria-label="account of current user"
@@ -175,8 +169,6 @@ const Header = ({ router }) => {
                             open={Boolean(userMenu)}
                             onClose={onClickUserMenuClose}
                         >
-                            <MenuItem onClick={onClickUserMenuClose}>Profile</MenuItem>
-                            <MenuItem onClick={onClickUserMenuClose}>My account</MenuItem>
                             <MenuItem onClick={onClickUserLogOut}>Logout</MenuItem>
                             {me.level === 0 && (
                                 <MenuItem>
@@ -188,14 +180,7 @@ const Header = ({ router }) => {
                                 </MenuItem>
                             )}
                         </Menu>
-
                     </div>
-                ) : (
-                    <div>
-                        <Button color="inherit" onClick={onClickModalOpen}>Login</Button>
-                        <LoginForm modalOpen={loginmodalOpen} closeEvent={onClickModalClose}/>
-                    </div>
-
                 )}
 
             </TopHeader>
@@ -211,36 +196,36 @@ const Header = ({ router }) => {
                             </a>
                         </Link>
                     </List>
-                    <List path={router.pathname === '/asd'}>
-                        <Link href='/'>
-                            <a>
-                                <DashboardIcon />
-                                <span className="text">
-                                    게시판
-                                </span>
-                            </a>
-                        </Link>
-                    </List>
-                    <List path={router.pathname === '/chat'}>
-                        <Link href='/chat'>
-                            <a>
-                                <ChatIcon />
-                                <span className="text">
-                                    채팅
-                                </span>
-                            </a>
-                        </Link>
-                    </List>
-                    <List path={router.pathname === '/setting'}>
-                        <Link href='/setting'>
-                            <a>
-                                <SettingsIcon />
-                                <span className="text">
-                                    설정
-                                </span>
-                            </a>
-                        </Link>
-                    </List>
+                    {/*<List path={router.pathname === '/asd'}>*/}
+                    {/*    <Link href='/'>*/}
+                    {/*        <a>*/}
+                    {/*            <DashboardIcon />*/}
+                    {/*            <span className="text">*/}
+                    {/*                게시판*/}
+                    {/*            </span>*/}
+                    {/*        </a>*/}
+                    {/*    </Link>*/}
+                    {/*</List>*/}
+                    {/*<List path={router.pathname === '/chat'}>*/}
+                    {/*    <Link href='/chat'>*/}
+                    {/*        <a>*/}
+                    {/*            <ChatIcon />*/}
+                    {/*            <span className="text">*/}
+                    {/*                채팅*/}
+                    {/*            </span>*/}
+                    {/*        </a>*/}
+                    {/*    </Link>*/}
+                    {/*</List>*/}
+                    {/*<List path={router.pathname === '/setting'}>*/}
+                    {/*    <Link href='/setting'>*/}
+                    {/*        <a>*/}
+                    {/*            <SettingsIcon />*/}
+                    {/*            <span className="text">*/}
+                    {/*                설정*/}
+                    {/*            </span>*/}
+                    {/*        </a>*/}
+                    {/*    </Link>*/}
+                    {/*</List>*/}
                 </ul>
             </BtmHeader>
         </>

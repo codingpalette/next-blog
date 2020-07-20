@@ -24,7 +24,7 @@ const ContentBox = styled.div`
 const Container = styled.div`
     display: block;
     width: 100%;
-    height: 100%;
+    //height: 100%;
     padding: 1rem 1rem 0 0;
     box-sizing: border-box;
     
@@ -52,10 +52,12 @@ const IndexPage = () => {
         })
     }, []);
 
+
     useEffect(() => {
         const target = scrollContainer.current;
         const targetUl = scrollContainerUl.current
         function onScroll() {
+            // console.log(target.scrollTop , target.clientHeight, targetUl.offsetHeight)
             if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
                 if (hasMorePosts && !loadPostsLoading) {
                     const lastId = mainPosts[mainPosts.length - 1]?.id;
@@ -97,7 +99,7 @@ const IndexPage = () => {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-    // console.log(context)
+    // console.log('context -->', context)
     const cookie = context.req ? context.req.headers.cookie : '';
     axios.defaults.headers.Cookie = '';
     if (context.req && cookie) {
