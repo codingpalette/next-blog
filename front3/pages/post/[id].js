@@ -152,7 +152,7 @@ const PostContent = styled.div`
 `;
 
 const Pagination = styled.div`
-    margin: 1rem auto;
+    padding: 1rem;
     box-sizing: border-box;
     width: 100%;
     max-width: 1100px;

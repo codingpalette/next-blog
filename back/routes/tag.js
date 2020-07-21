@@ -3,7 +3,20 @@ const {Op} = require('sequelize');
 const {Post, Tag} = require('../models');
 const router = express.Router();
 
-router.get('/:tags', async (req, res, next) => {
+
+router.get('/', async (req, res, next) => { // 태그들 불러오기
+   try {
+       const tags = await Tag.findAll({
+           order: [['createdAt', 'DESC']],
+       });
+       res.status(200).json(tags);
+   } catch (e) {
+       console.error(e);
+       next(e)
+   }
+});
+
+router.get('/:tags', async (req, res, next) => {  // 포스트 태그 불러오기
     try {
         const where = {};
         console.log(req.query.lastId)

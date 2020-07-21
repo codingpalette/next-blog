@@ -11,10 +11,6 @@ export const initialState = {
     removePostDone: false,
     removePostError: null,
 
-    addCommentLoading: false,
-    addCommentDone: false,
-    addCommentError: null,
-
     loadPostsLoading: false, // 포스트리스트
     loadPostsDone: false,
     loadPostsError: null,
@@ -30,11 +26,14 @@ export const initialState = {
     imagePaths: [],
     hasMorePost: false,
 
-    postWriteMode: 'create',
-
-    modifyPostLoading: false,
+    modifyPostLoading: false, // 포스트 수정
     modifyPostDone: false,
     modifyPostError: null,
+
+    loadTagsLoading: false,  // tags 불러오기
+    loadTagsDone: false,
+    loadTagsError: null,
+    tags: [],
 
     hasMorePosts: true,
 };
@@ -56,31 +55,21 @@ export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 
-export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
-export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
-export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
-
 export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
-export const WRITE_MODE_CREATE = 'WRITE_MODE_CREATE';
-export const WRITE_MODE_MODIFY = 'WRITE_MODE_MODIFY';
+export const MODIFY_POST_REQUEST = 'MODIFY_POST_REQUEST';
+export const MODIFY_POST_SUCCESS = 'MODIFY_POST_SUCCESS';
+export const MODIFY_POST_FAILURE = 'MODIFY_POST_FAILURE';
 
-export const MODIFY_POST_REQUEST = 'MODIFY_POST_REQUEST'
-export const MODIFY_POST_SUCCESS = 'MODIFY_POST_SUCCESS'
-export const MODIFY_POST_FAILURE = 'MODIFY_POST_FAILURE'
+export const LOAD_TAG_POSTS_REQUEST = 'LOAD_TAG_POSTS_REQUEST';
+export const LOAD_TAG_POSTS_SUCCESS = 'LOAD_TAG_POSTS_SUCCESS';
+export const LOAD_TAG_POSTS_FAILURE = 'LOAD_TAG_POSTS_FAILURE';
 
-export const LOAD_TAG_POSTS_REQUEST = 'LOAD_TAG_POSTS_REQUEST'
-export const LOAD_TAG_POSTS_SUCCESS = 'LOAD_TAG_POSTS_SUCCESS'
-export const LOAD_TAG_POSTS_FAILURE = 'LOAD_TAG_POSTS_FAILURE'
-
-export const addComment = (data) => ({
-    type: ADD_COMMENT_REQUEST,
-    data,
-});
-
-
+export const LOAD_TAGS_REQUEST = 'LOAD_TAGS_REQUEST'
+export const LOAD_TAGS_SUCCESS = 'LOAD_TAGS_SUCCESS'
+export const LOAD_TAGS_FAILURE = 'LOAD_TAGS_FAILURE'
 
 
 
@@ -140,19 +129,6 @@ const reducer = (state = initialState, action ) => {
                 draft.loadPostLoading = true;
                 draft.loadPostError = action.error;
                 break;
-            case ADD_COMMENT_REQUEST:
-                draft.addCommentLoading = true;
-                draft.addCommentDone = false;
-                draft.addCommentError = null;
-                break;
-            case ADD_COMMENT_SUCCESS:
-                draft.addCommentLoading = false;
-                draft.addCommentDone = true;
-                break;
-            case ADD_COMMENT_FAILURE:
-                draft.addCommentLoading = false;
-                draft.addCommentError = action.error;
-                break;
             case REMOVE_POST_REQUEST:
                 draft.removePostLoading = true;
                 draft.removePostDone = false;
@@ -181,11 +157,19 @@ const reducer = (state = initialState, action ) => {
                 draft.modifyPostLoading = false;
                 draft.modifyPostError = action.error;
                 break
-            case WRITE_MODE_CREATE:
-                draft.postWriteMode = 'create';
+            case LOAD_TAGS_REQUEST:
+                draft.loadTagsLoading = true;
+                draft.loadTagsDone = false;
+                draft.loadTagsError = null;
                 break
-            case WRITE_MODE_MODIFY:
-                draft.postWriteMode = 'modify';
+            case LOAD_TAGS_SUCCESS:
+                draft.loadTagsLoading = false;
+                draft.loadTagsDone = true;
+                draft.tags = action.data;
+                break
+            case LOAD_TAGS_FAILURE:
+                draft.loadTagsLoading = false;
+                draft.loadTagsError = action.error;
                 break
             default:
                 return state;

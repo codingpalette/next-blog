@@ -1,14 +1,12 @@
 import { all, fork, call, put, take, takeEvery, takeLatest, delay, throttle } from 'redux-saga/effects';
-import shortId from 'shortid';
 import axios from 'axios';
 import {
-    generateDummyPost,
-    ADD_COMMENT_FAILURE, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS,
     ADD_POST_FAILURE, ADD_POST_REQUEST, ADD_POST_SUCCESS,
     REMOVE_POST_FAILURE, REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS,
     LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
     LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
-    MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS, MODIFY_POST_FAILURE, LOAD_TAG_POSTS_REQUEST, LOAD_TAG_POSTS_SUCCESS, LOAD_TAG_POSTS_FAILURE
+    MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS, MODIFY_POST_FAILURE,
+    LOAD_TAG_POSTS_REQUEST, LOAD_TAG_POSTS_SUCCESS, LOAD_TAG_POSTS_FAILURE, LOAD_TAGS_REQUEST, LOAD_TAGS_SUCCESS, LOAD_TAGS_FAILURE
 } from "../reducers/post";
 
 
@@ -104,31 +102,6 @@ function* removePost(action) {
 
 
 
-function addCommentAPI(data) {
-    return axios.post('/api/post' , data)
-}
-
-function* addComment(action) {
-    try {
-        // const res = yield call(addCommentAPI , action.data)
-        yield  delay(1000)
-        yield put({
-            type: ADD_COMMENT_SUCCESS,
-            data: {
-                postId: action.data.postId,
-                content: action.data.content
-            },
-            // data: res.data
-        })
-    } catch (e) {
-        // console.log(e);
-        yield put({
-            type: ADD_COMMENT_FAILURE,
-            error: e.response.data
-        })
-    }
-}
-
 
 function loadPostAPI(data) {
     return axios.get(`/post/${data}`);
@@ -173,6 +146,27 @@ function* modifyPost(action) {
     }
 }
 
+function loadTagsAPI() {
+    return axios.get(`/tag`)
+}
+
+function* loadTags() {
+    try {
+        const res = yield call(loadTagsAPI);
+        console.log(res)
+        yield put({
+            type: LOAD_TAGS_SUCCESS,
+            data: res.data
+        });
+    } catch (e) {
+        console.log(e);
+        yield put({
+            type: LOAD_TAGS_FAILURE,
+            error: e.response.data
+        })
+    }
+}
+
 
 
 
@@ -184,7 +178,6 @@ function* watchLoadTagPosts() {
     yield throttle(5000, LOAD_TAG_POSTS_REQUEST, loadTagPosts)
 }
 
-
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost)
 }
@@ -193,9 +186,6 @@ function* watchRemovePost() {
     yield takeLatest(REMOVE_POST_REQUEST, removePost)
 }
 
-function* watchAddComment() {
-    yield takeLatest(ADD_COMMENT_REQUEST, addComment)
-}
 
 function* watchLoadPost() {
     yield takeLatest(LOAD_POST_REQUEST, loadPost)
@@ -205,6 +195,10 @@ function* watchModifyPost() {
     yield takeLatest(MODIFY_POST_REQUEST, modifyPost)
 }
 
+function* watchLoadTags() {
+    yield takeLatest(LOAD_TAGS_REQUEST, loadTags)
+}
+
 
 export default function* postSaga() {
     yield all([
@@ -212,8 +206,8 @@ export default function* postSaga() {
         fork(watchLoadTagPosts),
         fork(watchAddPost),
         fork(watchRemovePost),
-        fork(watchAddComment),
         fork(watchLoadPost),
         fork(watchModifyPost),
+        fork(watchLoadTags),
     ])
 }
