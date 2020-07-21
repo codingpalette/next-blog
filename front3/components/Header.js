@@ -207,8 +207,8 @@ const Header = ({ router }) => {
                             </a>
                         </Link>
                     </List>
-                    <List path={router.pathname === '/asd'}>
-                        <Link href='/'>
+                    <List path={router.pathname === '/profile'}>
+                        <Link href='/profile'>
                             <a>
                                 <PermContactCalendarIcon />
                                 <span className="text">

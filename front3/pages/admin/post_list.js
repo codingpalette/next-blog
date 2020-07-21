@@ -1,19 +1,20 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import Link from 'next/link';
 import Router from "next/router";
-
+import {useDispatch, useSelector} from "react-redux";
+import {END} from "redux-saga";
+import axios from "axios";
 
 import styled from '@emotion/styled';
 import Layout from "../../components/Layout";
+import ContentHeader from "../../components/ContentHeader";
 import PostTrList from "../../components/PostTrList";
 import NotContent from "../../components/NotContent";
-import {useDispatch, useSelector} from "react-redux";
-import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../../reducers/post";
-import Button from '@material-ui/core/Button';
-import wrapper from "../../store/configureStore";
-import axios from "axios";
 import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
-import {END} from "redux-saga";
+import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../../reducers/post";
+import wrapper from "../../store/configureStore";
+
+import Button from '@material-ui/core/Button';
 
 const ContentBox = styled.div`
     width: 100%;
@@ -22,20 +23,6 @@ const ContentBox = styled.div`
     overflow-y: auto;
     @media (min-width: 1024px) {
        height: calc(100% - 50px);
-    }
-`;
-
-
-const ContentHeader = styled.div`
-    background-color: #fff;
-    padding: 2rem 1rem;
-    box-sizing: border-box;
-    & h2{
-       font-size: 2.5rem;
-       font-weight: bold;
-    }
-    & .link_box{
-        text-align: right;
     }
 `;
 
@@ -88,7 +75,7 @@ const postList = () => {
         dispatch({
             type: RESET_SUCCESS
         })
-    });
+    }, []);
 
     useEffect(() => {
         const target = scrollContainer.current;
@@ -114,8 +101,7 @@ const postList = () => {
         <>
             <Layout>
                 <ContentBox ref={scrollContainer}>
-                    <ContentHeader>
-                        <h2>포스트 리스트</h2>
+                    <ContentHeader title="포스트 리스트">
                         <div className="link_box">
                             <Link href="/write">
                                 <a>

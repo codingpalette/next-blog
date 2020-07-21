@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import styled from '@emotion/styled'
 import Layout from '../../components/Layout';
+import ContentHeader from "../../components/ContentHeader";
 
 import {LOAD_TAGS_REQUEST} from "../../reducers/post";
 import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
@@ -23,15 +24,6 @@ const ContentBox = styled.div`
     }
 `;
 
-const PostHeader = styled.div`
-    padding: 2rem 1rem;
-    box-sizing: border-box;
-    background-color: #fff;
-    & h2{
-       font-size: 2.5rem;
-       font-weight: bold;
-    }
-`;
 
 const PostBody = styled.div`
     padding: 1rem;
@@ -76,9 +68,7 @@ const TagIndex = () => {
         <>
             <Layout>
                 <ContentBox>
-                    <PostHeader>
-                        <h2>Tags</h2>
-                    </PostHeader>
+                    <ContentHeader title="Tags" />
                     <PostBody>
                         <div className='content'>
                             <TagBox>

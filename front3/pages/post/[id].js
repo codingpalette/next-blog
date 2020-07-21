@@ -7,6 +7,7 @@ import axios from "axios";
 
 import styled from '@emotion/styled';
 import Layout from '../../components/Layout';
+import ContentHeader from "../../components/ContentHeader";
 import {LOAD_POST_REQUEST, LOAD_POSTS_REQUEST} from "../../reducers/post";
 import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
 import wrapper from "../../store/configureStore";
@@ -31,17 +32,6 @@ const ContentBox = styled.div`
        height: calc(100% - 50px);
     }
 `;
-
-const PostHeader = styled.div`
-    padding: 2rem 1rem;
-    box-sizing: border-box;
-    background-color: #fff;
-    & h2{
-       font-size: 2.5rem;
-       font-weight: bold;
-    }
-`;
-
 
 const TagBox = styled.div`
     margin-top: 1rem;
@@ -208,8 +198,7 @@ const Post = ({router}) => {
                 <ContentBox>
                     {loadPostDone && detailPost && (
                         <>
-                            <PostHeader>
-                                <h2>{detailPost.title}</h2>
+                            <ContentHeader title={detailPost.title}>
                                 <TagBox>
                                     {detailPost.Tags.map((v) => (
                                         <Link href={`/tag/${v.name}`} key={v.name}>
@@ -219,7 +208,7 @@ const Post = ({router}) => {
                                         </Link>
                                     ))}
                                 </TagBox>
-                            </PostHeader>
+                            </ContentHeader>
                             <PostBody>
                                 <div className='content'>
                                     <PostContent>
