@@ -129,7 +129,7 @@ const PostContent = styled.div`
     pre {
         //font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
         //  'Courier New', monospace;
-        font-size: 16px;
+        font-size: 1rem;
         line-height: 1.6;
         overflow-x: auto;
         white-space: pre;
@@ -146,6 +146,7 @@ const Pagination = styled.div`
     box-sizing: border-box;
     width: 100%;
     max-width: 1100px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
