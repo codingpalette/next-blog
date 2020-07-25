@@ -173,7 +173,7 @@ const Header = ({ router }) => {
                             <MenuItem onClick={onClickUserLogOut}>Logout</MenuItem>
                             {me.level === 0 && (
                                 <MenuItem>
-                                    <Link href="/admin/post_list">
+                                    <Link href="/admin">
                                         <a>
                                             관리자
                                         </a>

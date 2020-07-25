@@ -1,0 +1,134 @@
+import React, {useState} from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { END } from 'redux-saga';
+import axios from 'axios';
+import useInput from "../hooks/useInput";
+
+import styled from '@emotion/styled';
+import Layout from '../components/Layout';
+import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
+import wrapper from "../store/configureStore";
+
+
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Link from "next/link";
+
+
+
+const ContentBox = styled.div`
+    width: 100%;
+    height: calc(100% - 100px);
+    flex: 1;
+    overflow-y: auto;
+    @media (min-width: 1024px) {
+       height: calc(100% - 50px);
+    }
+`;
+
+const Container = styled.div`
+    padding: 1rem;
+    box-sizing: border-box;
+    & > div{
+        padding: 1rem;
+        box-sizing: border-box;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+`;
+
+const BtnBox = styled.div`
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & button{
+        margin: 0 0.5rem;
+    }
+`;
+
+
+const portfolioWrite = () => {
+    const [mode, setMode] = useState('create');
+    const [title, onChangeTitle, setTitle] = useInput('');
+    const [pageLink, onChangePageLink, setPageLink] = useInput('');
+
+    const onSubmit = () => {
+
+    };
+
+    return(
+        <>
+            <Layout>
+                <ContentBox>
+                    <Container>
+                        <div>
+                            <Typography variant="h5" component="h2" gutterBottom>
+                                {mode === 'create' ? '포트폴리오 작성' : '포트폴리오 수정'}
+                            </Typography>
+                            <form onSubmit={onSubmit}>
+                                <TextField
+                                    margin="dense"
+                                    id="title"
+                                    label="title"
+                                    type="text"
+                                    fullWidth
+                                    value={title}
+                                    onChange={onChangeTitle}
+                                />
+                                <TextField
+                                    margin="dense"
+                                    id="page_link"
+                                    label="링크"
+                                    type="text"
+                                    fullWidth
+                                    value={pageLink}
+                                    onChange={onChangePageLink}
+                                />
+
+                                <BtnBox>
+                                    <Button variant="contained" color="secondary" disableElevation>
+                                        <Link href='/'>
+                                            <a>취소</a>
+                                        </Link>
+                                    </Button>
+                                    {mode === 'create' ? (
+                                        <Button variant="contained" color="primary" type="submit" disableElevation>
+                                            작성
+                                        </Button>
+                                    ) : (
+                                        <Button variant="contained" color="primary" type="submit" disableElevation>
+                                            수정
+                                        </Button>
+                                    )}
+
+                                </BtnBox>
+                            </form>
+                        </div>
+                    </Container>
+                </ContentBox>
+            </Layout>
+        </>
+    )
+}
+
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    // console.log(context)
+    const cookie = context.req ? context.req.headers.cookie : '';
+    axios.defaults.headers.Cookie = '';
+    if (context.req && cookie) {
+        axios.defaults.headers.Cookie = cookie;
+    }
+    context.store.dispatch({
+        type: LOAD_MY_INFO_REQUEST,
+    });
+
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+});
+
+
+export default portfolioWrite;
