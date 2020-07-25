@@ -6,16 +6,15 @@ import {END} from "redux-saga";
 import axios from "axios";
 
 import styled from '@emotion/styled';
-import Layout from "../../components/Layout";
-import ContentHeader from "../../components/ContentHeader";
-import PostTrList from "../../components/PostTrList";
-import NotContent from "../../components/NotContent";
-import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
-import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../../reducers/post";
-import wrapper from "../../store/configureStore";
+import Layout from "../components/Layout";
+import ContentHeader from "../components/ContentHeader";
+import PostTrList from "../components/PostTrList";
+import NotContent from "../components/NotContent";
+import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
+import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../reducers/post";
+import wrapper from "../store/configureStore";
 
 import Button from '@material-ui/core/Button';
-import portfolioWrite from "../portfolio_write";
 
 const ContentBox = styled.div`
     width: 100%;
@@ -66,7 +65,7 @@ const Container = styled.div`
 `;
 
 
-const portfolioList = () => {
+const postList = () => {
     const scrollContainer = useRef(null);
     const scrollContainerUl = useRef(null);
     const dispatch = useDispatch();
@@ -78,35 +77,35 @@ const portfolioList = () => {
         })
     }, []);
 
-    // useEffect(() => {
-    //     const target = scrollContainer.current;
-    //     const targetUl = scrollContainerUl.current
-    //     function onScroll() {
-    //         if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
-    //             if (hasMorePosts && !loadPostsLoading) {
-    //                 const lastId = mainPosts[mainPosts.length - 1]?.id;
-    //                 dispatch({
-    //                     type: LOAD_POSTS_REQUEST,
-    //                     lastId,
-    //                 })
-    //             }
-    //         }
-    //     }
-    //     target.addEventListener('scroll', onScroll);
-    //     return () => {
-    //         target.removeEventListener('scroll', onScroll);
-    //     }
-    // }, [hasMorePosts, loadPostsLoading, mainPosts])
+    useEffect(() => {
+        const target = scrollContainer.current;
+        const targetUl = scrollContainerUl.current
+        function onScroll() {
+            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+                if (hasMorePosts && !loadPostsLoading) {
+                    const lastId = mainPosts[mainPosts.length - 1]?.id;
+                    dispatch({
+                        type: LOAD_POSTS_REQUEST,
+                        lastId,
+                    })
+                }
+            }
+        }
+        target.addEventListener('scroll', onScroll);
+        return () => {
+            target.removeEventListener('scroll', onScroll);
+        }
+    }, [hasMorePosts, loadPostsLoading, mainPosts])
 
     return (
         <>
             <Layout>
                 <ContentBox ref={scrollContainer}>
-                    <ContentHeader title="포트폴리오 리스트">
+                    <ContentHeader title="포스트 리스트">
                         <div className="link_box">
-                            <Link href="/portfolio_write">
+                            <Link href="/write">
                                 <a>
-                                    <Button color="primary">포트폴리오 작성</Button>
+                                    <Button color="primary">포스트 작성</Button>
                                 </a>
                             </Link>
                         </div>
@@ -149,9 +148,12 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     context.store.dispatch({
         type: LOAD_MY_INFO_REQUEST,
     });
+    context.store.dispatch({
+        type: LOAD_POSTS_REQUEST
+    });
 
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
 });
 
-export default portfolioList;
+export default postList;

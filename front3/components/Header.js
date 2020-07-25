@@ -153,7 +153,7 @@ const Header = ({ router }) => {
                         <a>CodingPalette</a>
                     </Link>
                 </h1>
-                {me && (
+                {me.level === 0 && (
                     <div>
                         <IconButton
                             aria-label="account of current user"
@@ -170,16 +170,21 @@ const Header = ({ router }) => {
                             open={Boolean(userMenu)}
                             onClose={onClickUserMenuClose}
                         >
-                            <MenuItem onClick={onClickUserLogOut}>Logout</MenuItem>
-                            {me.level === 0 && (
-                                <MenuItem>
-                                    <Link href="/admin">
-                                        <a>
-                                            관리자
-                                        </a>
-                                    </Link>
-                                </MenuItem>
-                            )}
+                            <MenuItem>
+                                <Link href="/post_list">
+                                    <a>
+                                        포스트 관리
+                                    </a>
+                                </Link>
+                            </MenuItem>
+                            <MenuItem>
+                                <Link href="/portfolio_list">
+                                    <a>
+                                        포트폴리오 관리
+                                    </a>
+                                </Link>
+                            </MenuItem>
+                            <MenuItem onClick={onClickUserLogOut}>로그아웃</MenuItem>
                         </Menu>
                     </div>
                 )}

@@ -6,13 +6,13 @@ import {END} from "redux-saga";
 import axios from "axios";
 
 import styled from '@emotion/styled';
-import Layout from "../../components/Layout";
-import ContentHeader from "../../components/ContentHeader";
-import PostTrList from "../../components/PostTrList";
-import NotContent from "../../components/NotContent";
-import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
-import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../../reducers/post";
-import wrapper from "../../store/configureStore";
+import Layout from "../components/Layout";
+import ContentHeader from "../components/ContentHeader";
+import PostTrList from "../components/PostTrList";
+import NotContent from "../components/NotContent";
+import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
+import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../reducers/post";
+import wrapper from "../store/configureStore";
 
 import Button from '@material-ui/core/Button';
 
@@ -65,7 +65,7 @@ const Container = styled.div`
 `;
 
 
-const postList = () => {
+const portfolioList = () => {
     const scrollContainer = useRef(null);
     const scrollContainerUl = useRef(null);
     const dispatch = useDispatch();
@@ -101,11 +101,11 @@ const postList = () => {
         <>
             <Layout>
                 <ContentBox ref={scrollContainer}>
-                    <ContentHeader title="포스트 리스트">
+                    <ContentHeader title="포트폴리오 리스트">
                         <div className="link_box">
-                            <Link href="/write">
+                            <Link href="/portfolio_write">
                                 <a>
-                                    <Button color="primary">포스트 작성</Button>
+                                    <Button color="primary">포트폴리오 작성</Button>
                                 </a>
                             </Link>
                         </div>
@@ -156,4 +156,4 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     await context.store.sagaTask.toPromise();
 });
 
-export default postList;
+export default portfolioList;
