@@ -3,6 +3,7 @@ import {combineReducers} from "redux";
 
 import user from './user';
 import post from './post';
+import portfolio from './portfolio';
 
 
 
@@ -16,6 +17,7 @@ const rootReducer = (state, action) => {
             const  combinedReducer = combineReducers({
                 user,
                 post,
+                portfolio,
             });
             return combinedReducer(state, action);
         }
