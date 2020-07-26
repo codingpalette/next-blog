@@ -15,7 +15,7 @@ export const initialState = {
     addImageLoading: false, // 이미지 업로드
     addImageDone: false,
     addImageError: null,
-
+    imagePaths : [],
 
 };
 
@@ -31,7 +31,7 @@ export const PORTFOLIO_IMAGE_UPLOAD_REQUEST = 'PORTFOLIO_IMAGE_UPLOAD_REQUEST';
 export const PORTFOLIO_IMAGE_UPLOAD_SUCCESS = 'PORTFOLIO_IMAGE_UPLOAD_SUCCESS';
 export const PORTFOLIO_IMAGE_UPLOAD_FAILURE = 'PORTFOLIO_IMAGE_UPLOAD_FAILURE';
 
-
+export const PORTFOLIO_IMAGE_REMOVE_SUCCESS = 'PORTFOLIO_IMAGE_REMOVE_SUCCESS';
 
 
 
@@ -60,10 +60,15 @@ const reducer = (state = initialState, action ) => {
             case PORTFOLIO_IMAGE_UPLOAD_SUCCESS:
                 draft.addImageLoading = false;
                 draft.addImageDone = true;
+                draft.imagePaths = [...draft.imagePaths, ...action.data];
+                // draft.imagePaths.unshift(action.data);
                 break;
             case PORTFOLIO_IMAGE_UPLOAD_FAILURE:
                 draft.addImageLoading = true;
                 draft.addImageError = action.error;
+                break;
+            case PORTFOLIO_IMAGE_REMOVE_SUCCESS:
+                draft.imagePaths = draft.imagePaths.filter(( v, i ) => i !== action.data)
                 break;
             default:
                 return state;

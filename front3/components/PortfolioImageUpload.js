@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import { backUrl } from '../config/config';
 
 import styled from '@emotion/styled';
 
 import Button from "@material-ui/core/Button";
-import {PORTFOLIO_IMAGE_UPLOAD_REQUEST} from "../reducers/portfolio";
+import {PORTFOLIO_IMAGE_REMOVE_SUCCESS, PORTFOLIO_IMAGE_UPLOAD_REQUEST} from "../reducers/portfolio";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const UploadBox = styled.div`
     margin-top: 1rem;
@@ -16,13 +18,30 @@ const UploadBox = styled.div`
 `;
 
 const ImageBox = styled.div`
-
-
+    padding: 1rem;
+    box-sizing: border-box;
+    & img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    & .image_list_box{
+        display: flex;
+        align-items: center;
+    }
+    & .image_list_box li{
+        width: 33.33%;
+    }
 `;
+
+const CircularProgressTag = styled(CircularProgress)`
+    color: #fff;
+`
 
 const PortfolioImageUpload = () => {
     const dispatch = useDispatch();
-    const { addImageLoading } = useSelector((state) => state.portfolio)
+    const { addImageLoading, imagePaths } = useSelector((state) => state.portfolio)
 
     const onChangeImages = useCallback((e) => {
         const imageFormData = new FormData();
@@ -35,23 +54,36 @@ const PortfolioImageUpload = () => {
         })
     }, [])
 
+    const onClickRemoveImage = (index) => () => {
+        dispatch({
+            type: PORTFOLIO_IMAGE_REMOVE_SUCCESS,
+            data: index
+        })
+    }
+
     return(
 
         <div>
             <UploadBox>
                 <strong className="title">이미지 업로드</strong>
-                <input type="file" name="image" id="image_upload" multiple hidden onChange={onChangeImages}  />
+                <input type="file" name="image" id="image_upload" accept="image/*" multiple hidden onChange={onChangeImages}  />
                 <label htmlFor="image_upload">
                     <Button variant="contained" color="primary" component="span">
-                        Upload
+                        {addImageLoading ? <CircularProgressTag size={20}/> : 'Upload'}
                     </Button>
                 </label>
             </UploadBox>
 
             <ImageBox>
-                <ul>
-                    <li>이미지</li>
-                </ul>
+                {imagePaths.length > 0 && (
+                    <ul className="image_list_box">
+                        {imagePaths.map((v, i) => (
+                            <li key={i} onClick={onClickRemoveImage(i)}>
+                                <img src={`${backUrl}/${v}`} alt=""/>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </ImageBox>
         </div>
 

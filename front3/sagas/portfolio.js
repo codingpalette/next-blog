@@ -29,12 +29,11 @@ function* addPortfolio(action) {
 }
 
 function uploadImagesAPI(data) {
-    return axios.post('/post' , data)
+    return axios.post(`/portfolio/images` , data)
 }
 
 function* uploadImages(action) {
     try {
-        return
         const res = yield call(uploadImagesAPI, action.data)
         yield put({
             type: PORTFOLIO_IMAGE_UPLOAD_SUCCESS,
