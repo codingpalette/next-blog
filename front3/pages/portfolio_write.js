@@ -6,6 +6,7 @@ import useInput from "../hooks/useInput";
 
 import styled from '@emotion/styled';
 import Layout from '../components/Layout';
+import PortfolioImageUpload from "../components/PortfolioImageUpload";
 import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
 import wrapper from "../store/configureStore";
 
@@ -87,6 +88,7 @@ const portfolioWrite = () => {
                                     value={pageLink}
                                     onChange={onChangePageLink}
                                 />
+                                <PortfolioImageUpload />
 
                                 <BtnBox>
                                     <Button variant="contained" color="secondary" disableElevation>

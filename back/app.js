@@ -13,6 +13,7 @@ const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
 const tagRouter = require('./routes/tag');
 const imageRouter = require('./routes/image');
+const portfolioRouter = require('./routes/portfolio');
 const db = require('./models');
 const passportConfig = require('./passport');
 
@@ -56,6 +57,7 @@ app.use('/post', postRouter);
 app.use('/posts', postsRouter);
 app.use('/tag', tagRouter);
 app.use('/image', imageRouter);
+app.use('/portfolio', portfolioRouter);
 
 
 

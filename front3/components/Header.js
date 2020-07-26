@@ -153,7 +153,7 @@ const Header = ({ router }) => {
                         <a>CodingPalette</a>
                     </Link>
                 </h1>
-                {me.level === 0 && (
+                {me && me.level === 0 && (
                     <div>
                         <IconButton
                             aria-label="account of current user"

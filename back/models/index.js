@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const comment = require('./comment');
 const tag = require('./tag');
 const image = require('./image');
+const portfolio = require('./portfolio');
 const post = require('./post');
 const user = require('./user');
 
@@ -14,6 +15,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 db.Comment = comment;
 db.Tag = tag;
 db.Image = image;
+db.Portfolio = portfolio;
 db.Post = post;
 db.User = user;
 
