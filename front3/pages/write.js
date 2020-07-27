@@ -283,7 +283,7 @@ const Write = ({router}) => {
                             horizontal: 'left',
                         }}
                         open={snackBarOpen}
-                        autoHideDuration={6000}
+                        autoHideDuration={4000}
                         onClose={snackBarOpenFalse}
                         message={snackBarText}
                         action={

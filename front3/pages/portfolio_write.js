@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { END } from 'redux-saga';
 import axios from 'axios';
@@ -15,6 +15,11 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Link from "next/link";
+import useToggle from "../hooks/useToggle";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Snackbar from "@material-ui/core/Snackbar";
+import {ADD_PORTFOLIO_REQUEST} from "../reducers/portfolio";
 
 
 
@@ -52,13 +57,47 @@ const BtnBox = styled.div`
 
 
 const portfolioWrite = () => {
+    const { imagePaths } = useSelector((state) => state.portfolio);
+    const dispatch = useDispatch();
+
     const [mode, setMode] = useState('create');
     const [title, onChangeTitle, setTitle] = useInput('');
     const [pageLink, onChangePageLink, setPageLink] = useInput('');
 
-    const onSubmit = () => {
+    const [snackBarOpen, snackBarOpenTrue, snackBarOpenFalse] = useToggle(false);
+    const [snackBarText, onChangeSnackBarText, setSnackBarText] = useInput('');
 
-    };
+    const onSubmit = useCallback((e) => {
+        e.preventDefault();
+        if (title.trim() === '') {
+            setSnackBarText('제목을 입력해주세요.');
+            snackBarOpenTrue();
+            return;
+        }
+
+        if (pageLink.trim() === '') {
+            setSnackBarText('포트폴리오 링크를 입력해주세요.');
+            snackBarOpenTrue();
+            return;
+        }
+
+        if (imagePaths.length < 1) {
+            setSnackBarText('이미지를 1장이상 등록해주세요.');
+            snackBarOpenTrue();
+            return;
+        }
+
+        const formData = new FormData();
+        imagePaths.forEach((p) => {
+            formData.append('image', p);
+        });
+        formData.append('title', title );
+        formData.append('link', pageLink );
+        dispatch({
+            type: ADD_PORTFOLIO_REQUEST,
+            data: formData
+        });
+    }, [title, pageLink, imagePaths]);
 
     return(
         <>
@@ -91,6 +130,7 @@ const portfolioWrite = () => {
                                 <PortfolioImageUpload />
 
                                 <BtnBox>
+                                    <button type="submit">test</button>
                                     <Button variant="contained" color="secondary" disableElevation>
                                         <Link href='/'>
                                             <a>취소</a>
@@ -109,7 +149,25 @@ const portfolioWrite = () => {
                                 </BtnBox>
                             </form>
                         </div>
+
                     </Container>
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        open={snackBarOpen}
+                        autoHideDuration={4000}
+                        onClose={snackBarOpenFalse}
+                        message={snackBarText}
+                        action={
+                            <>
+                                <IconButton size="small" aria-label="close" color="inherit" onClick={snackBarOpenFalse}>
+                                    <CloseIcon fontSize="small"/>
+                                </IconButton>
+                            </>
+                        }
+                    />
                 </ContentBox>
             </Layout>
         </>

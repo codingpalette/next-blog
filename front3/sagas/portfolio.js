@@ -8,12 +8,11 @@ import {
 
 
 function addPortfolioAPI(data) {
-    return axios.post('/post' , data)
+    return axios.post('/portfolio' , data)
 }
 
 function* addPortfolio(action) {
     try {
-        return
         const res = yield call(addPortfolioAPI , action.data);
         yield put({
             type: ADD_PORTFOLIO_SUCCESS,
@@ -57,7 +56,7 @@ function* watchAddImage() {
 }
 
 
-export default function* postSaga() {
+export default function* portfolioSaga() {
     yield all([
         fork(watchAddPortfolio),
         fork(watchAddImage),

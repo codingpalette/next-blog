@@ -23,7 +23,7 @@ export const initialState = {
 
 
 
-export const ADD_PORTFOLIO_REQUEST = 'ADD_POST_REQUEST';
+export const ADD_PORTFOLIO_REQUEST = 'ADD_PORTFOLIO_REQUEST';
 export const ADD_PORTFOLIO_SUCCESS = 'ADD_PORTFOLIO_SUCCESS';
 export const ADD_PORTFOLIO_FAILURE = 'ADD_PORTFOLIO_FAILURE';
 
@@ -46,7 +46,7 @@ const reducer = (state = initialState, action ) => {
             case ADD_PORTFOLIO_SUCCESS:
                 draft.addPortfolioLoading = false;
                 draft.addPortfolioDone = true;
-                draft.mainPosts.unshift(action.data);
+                draft.portfolios.unshift(action.data);
                 break;
             case ADD_PORTFOLIO_FAILURE:
                 draft.addPortfolioLoading = true;

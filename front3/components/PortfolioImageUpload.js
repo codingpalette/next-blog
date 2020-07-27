@@ -32,6 +32,7 @@ const ImageBox = styled.div`
     }
     & .image_list_box li{
         width: 33.33%;
+        cursor: pointer;
     }
 `;
 
