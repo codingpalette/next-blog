@@ -8,8 +8,9 @@ import Layout from '../../components/Layout';
 import ContentHeader from "../../components/ContentHeader";
 import PortfolioList from "../../components/PortfolioList";
 
-import {LOAD_TAGS_REQUEST} from "../../reducers/post";
 import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
+import {LOAD_PORTFOLIOS_REQUEST} from "../../reducers/portfolio";
+
 import wrapper from '../../store/configureStore';
 import Link from "next/link";
 import Chip from "@material-ui/core/Chip";
@@ -47,11 +48,11 @@ const Portfolio = () => {
     const dispatch = useDispatch();
 
 
-    // useEffect(() => {
-    //     dispatch({
-    //         type: LOAD_TAGS_REQUEST
-    //     });
-    // }, [])
+    useEffect(() => {
+        dispatch({
+            type: LOAD_PORTFOLIOS_REQUEST
+        });
+    }, [])
 
     return (
         <>

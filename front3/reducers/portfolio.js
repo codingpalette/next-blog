@@ -7,6 +7,10 @@ export const initialState = {
     addPortfolioDone: false,
     addPortfolioError: null,
 
+    loadPortfolioLoading: false, // 포트폴리오 불러오기
+    loadPortfolioDone: false,
+    loadPortfolioError: null,
+
     portfolios: [],
     prevPortfolio: null,
     nextPortfolio: null,
@@ -26,6 +30,10 @@ export const initialState = {
 export const ADD_PORTFOLIO_REQUEST = 'ADD_PORTFOLIO_REQUEST';
 export const ADD_PORTFOLIO_SUCCESS = 'ADD_PORTFOLIO_SUCCESS';
 export const ADD_PORTFOLIO_FAILURE = 'ADD_PORTFOLIO_FAILURE';
+
+export const LOAD_PORTFOLIOS_REQUEST = 'LOAD_PORTFOLIOS_REQUEST';
+export const LOAD_PORTFOLIOS_SUCCESS = 'LOAD_PORTFOLIOS_SUCCESS';
+export const LOAD_PORTFOLIOS_FAILURE = 'LOAD_PORTFOLIOS_FAILURE';
 
 export const PORTFOLIO_IMAGE_UPLOAD_REQUEST = 'PORTFOLIO_IMAGE_UPLOAD_REQUEST';
 export const PORTFOLIO_IMAGE_UPLOAD_SUCCESS = 'PORTFOLIO_IMAGE_UPLOAD_SUCCESS';
@@ -51,6 +59,20 @@ const reducer = (state = initialState, action ) => {
             case ADD_PORTFOLIO_FAILURE:
                 draft.addPortfolioLoading = true;
                 draft.addPortfolioError = action.error;
+                break;
+            case LOAD_PORTFOLIOS_REQUEST:
+                draft.loadPortfolioLoading = true;
+                draft.loadPortfolioDone = false;
+                draft.loadPortfolioError = null;
+                break;
+            case LOAD_PORTFOLIOS_SUCCESS:
+                draft.loadPortfolioLoading = false;
+                draft.loadPortfolioDone = true;
+                draft.portfolios = action.data
+                break;
+            case LOAD_PORTFOLIOS_FAILURE:
+                draft.loadPortfolioLoading = true;
+                draft.loadPortfolioError = action.error;
                 break;
             case PORTFOLIO_IMAGE_UPLOAD_REQUEST:
                 draft.addImageLoading = true;

@@ -2,7 +2,8 @@ import { all, fork, call, put, take, takeEvery, takeLatest, delay, throttle } fr
 import axios from 'axios';
 import {
     ADD_PORTFOLIO_FAILURE, ADD_PORTFOLIO_REQUEST, ADD_PORTFOLIO_SUCCESS,
-    PORTFOLIO_IMAGE_UPLOAD_REQUEST, PORTFOLIO_IMAGE_UPLOAD_SUCCESS, PORTFOLIO_IMAGE_UPLOAD_FAILURE
+    PORTFOLIO_IMAGE_UPLOAD_REQUEST, PORTFOLIO_IMAGE_UPLOAD_SUCCESS, PORTFOLIO_IMAGE_UPLOAD_FAILURE,
+    LOAD_PORTFOLIOS_REQUEST, LOAD_PORTFOLIOS_SUCCESS, LOAD_PORTFOLIOS_FAILURE
 
 } from "../reducers/portfolio";
 
@@ -22,6 +23,28 @@ function* addPortfolio(action) {
         console.log(e);
         yield put({
             type: ADD_PORTFOLIO_FAILURE,
+            error: e.response.data
+        })
+    }
+}
+
+function loadPortfoliosAPI(lastId) {
+    return axios.get(`/portfolios?lastId=${lastId || 0}`);
+}
+
+function* loadPortfolios(action) {
+    try {
+        const res = yield call(loadPortfoliosAPI , action.lastId);
+        console.log(res)
+        return
+        yield put({
+            type: LOAD_PORTFOLIOS_SUCCESS,
+            data: res.data
+        });
+    } catch (e) {
+        console.log(e);
+        yield put({
+            type: LOAD_PORTFOLIOS_FAILURE,
             error: e.response.data
         })
     }
@@ -51,6 +74,10 @@ function* watchAddPortfolio() {
     yield takeLatest(ADD_PORTFOLIO_REQUEST, addPortfolio)
 }
 
+function* watchLoadPortfolios() {
+    yield takeLatest(LOAD_PORTFOLIOS_REQUEST, loadPortfolios)
+}
+
 function* watchAddImage() {
     yield takeLatest(PORTFOLIO_IMAGE_UPLOAD_REQUEST, uploadImages)
 }
@@ -59,6 +86,7 @@ function* watchAddImage() {
 export default function* portfolioSaga() {
     yield all([
         fork(watchAddPortfolio),
+        fork(watchLoadPortfolios),
         fork(watchAddImage),
     ])
 }
