@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
+import Router, {withRouter} from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { END } from 'redux-saga';
 import axios from 'axios';
@@ -20,6 +21,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
 import {ADD_PORTFOLIO_REQUEST} from "../reducers/portfolio";
+
 
 
 
@@ -56,8 +58,8 @@ const BtnBox = styled.div`
 `;
 
 
-const portfolioWrite = () => {
-    const { imagePaths } = useSelector((state) => state.portfolio);
+const portfolioWrite = ({ router }) => {
+    const { imagePaths, addPortfolioDone } = useSelector((state) => state.portfolio);
     const dispatch = useDispatch();
 
     const [mode, setMode] = useState('create');
@@ -66,6 +68,12 @@ const portfolioWrite = () => {
 
     const [snackBarOpen, snackBarOpenTrue, snackBarOpenFalse] = useToggle(false);
     const [snackBarText, onChangeSnackBarText, setSnackBarText] = useInput('');
+
+    useEffect(() => {
+        if (addPortfolioDone) {
+            Router.push('/portfolio_list')
+        }
+    }, [addPortfolioDone])
 
     const onSubmit = useCallback((e) => {
         e.preventDefault();
@@ -130,7 +138,6 @@ const portfolioWrite = () => {
                                 <PortfolioImageUpload />
 
                                 <BtnBox>
-                                    <button type="submit">test</button>
                                     <Button variant="contained" color="secondary" disableElevation>
                                         <Link href='/'>
                                             <a>취소</a>
@@ -191,4 +198,4 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 });
 
 
-export default portfolioWrite;
+export default withRouter(portfolioWrite);

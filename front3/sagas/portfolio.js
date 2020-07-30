@@ -36,7 +36,6 @@ function* loadPortfolios(action) {
     try {
         const res = yield call(loadPortfoliosAPI , action.lastId);
         console.log(res)
-        return
         yield put({
             type: LOAD_PORTFOLIOS_SUCCESS,
             data: res.data

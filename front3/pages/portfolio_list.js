@@ -15,6 +15,7 @@ import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../reducers/post";
 import wrapper from "../store/configureStore";
 
 import Button from '@material-ui/core/Button';
+import {LOAD_PORTFOLIOS_REQUEST} from "../reducers/portfolio";
 
 const ContentBox = styled.div`
     width: 100%;
@@ -69,6 +70,7 @@ const portfolioList = () => {
     const scrollContainer = useRef(null);
     const scrollContainerUl = useRef(null);
     const dispatch = useDispatch();
+    const { portfolios } = useSelector((state) => state.portfolio);
     const {mainPosts, hasMorePosts, loadPostsLoading} = useSelector((state) => state.post);
 
     useEffect(() => {
@@ -111,7 +113,7 @@ const portfolioList = () => {
                         </div>
                     </ContentHeader>
                     <Container ref={scrollContainerUl}>
-                        {mainPosts.length > 0 ? (
+                        {portfolios.length > 0 ? (
                             <div className="table_content">
                                 <table>
                                     <thead>
@@ -121,8 +123,8 @@ const portfolioList = () => {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {mainPosts.length > 0 && mainPosts.map(post => (
-                                        <PostTrList key={post.id} post={post}/>
+                                    {portfolios.length > 0 && portfolios.map(item => (
+                                        <PostTrList key={item.id} post={item}/>
                                     ))}
                                     </tbody>
                                 </table>
@@ -149,7 +151,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
         type: LOAD_MY_INFO_REQUEST,
     });
     context.store.dispatch({
-        type: LOAD_POSTS_REQUEST
+        type: LOAD_PORTFOLIOS_REQUEST
     });
 
     context.store.dispatch(END);
