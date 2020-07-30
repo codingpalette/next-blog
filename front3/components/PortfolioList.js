@@ -43,14 +43,14 @@ const ListBox = styled.li`
 
 `;
 
-const PortfolioList = () => {
+const PortfolioList = ({ post }) => {
     return(
         <>
             <ListBox>
 
                 <a href="https://www.naver.com/" target="_blank">
                     <div className="list_content">
-                        sdfsdfsdf
+                        {/*{post.}*/}
                     </div>
                 </a>
 
