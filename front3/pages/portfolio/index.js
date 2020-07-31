@@ -33,7 +33,7 @@ const Container = styled.div`
     display: block;
     width: 100%;
     //height: 100%;
-    padding: 1rem 1rem 0 0;
+    padding: 1rem;
     box-sizing: border-box;
     
     & ul{
@@ -44,56 +44,51 @@ const Container = styled.div`
     & ul li {
         position: relative;
         width: 100%;
-        padding-left: 1rem;
         box-sizing: border-box;
-        margin-bottom: 1rem;
-        transition: 0.3s;
-        
         cursor: pointer;
     }
-    & ul li:hover{
-        transform: translateY(-5px);
-    }
     & .list_content{
-        border-radius: 4px;
+        padding-bottom: 100%;
+        position: relative;    
         overflow: hidden;
-        height: 300px;
-        position: relative;
-        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
     }
-    & ul li img{
+    & .list_content img{
         position: absolute;
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
         left: 50%;
         top: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        transition: 0.3s;
     }
-    
-    @media (min-width: 1024px) {
-        & ul li {
-            width: 50%;
-        }
+    & .list_content:hover img{
+        transform: translate(-50%, -50%) scale(1.1);
     }
-    
-    @media (min-width: 1280px) {
-        & ul li {
-            width: 33.33%;
-        }
+    & .list_content .text_content{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        background-color:rgba(0,0,0,0.75);
+        opacity: 0;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    
-    @media (min-width: 1600px) {
-        & ul li {
-            width: 25%;
-        }
+    & .list_content:hover .text_content{
+        opacity: 1;
     }
-    
-    @media (min-width: 2000px) {
-        & ul li {
-             width: 20%;
-        }
+    & .list_content .text_content h3{
+        color: #fff;
+    }
+    @media (min-width: 768px) {
+       & ul li {
+          width: 50%;
+       }
     }
 `;
 
@@ -109,7 +104,11 @@ const Portfolio = () => {
         dispatch({
             type: LOAD_PORTFOLIOS_REQUEST
         });
-    }, [])
+    }, []);
+
+    const onClickModalOpen = (item) => () => {
+        console.log(item)
+    }
 
     return (
         <>
@@ -119,9 +118,12 @@ const Portfolio = () => {
                         {portfolios.length > 0 ? (
                             <ul>
                                 {portfolios.map((item) => (
-                                    <li key={item.id}>
+                                    <li key={item.id} onClick={onClickModalOpen(item)}>
                                         <div className="list_content">
                                             <img src={`${backUrl}/${item.Images[0].src}`} alt=""/>
+                                            <div className="text_content">
+                                                <h3>{item.title}</h3>
+                                            </div>
                                         </div>
                                     </li>
                                 ))}
