@@ -1,12 +1,14 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {END} from 'redux-saga';
+import React, {useState, useEffect, useCallback} from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { END } from 'redux-saga';
 import axios from 'axios';
 import { backUrl } from '../../config/config'
 
 import styled from '@emotion/styled'
 import Layout from '../../components/Layout';
 import PortfolioList from "../../components/PortfolioList";
+import NotContent from "../../components/NotContent";
+import PortfolioModal from "../../components/PortfolioModal";
 
 import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
 import {LOAD_PORTFOLIOS_REQUEST} from "../../reducers/portfolio";
@@ -14,7 +16,6 @@ import {LOAD_PORTFOLIOS_REQUEST} from "../../reducers/portfolio";
 import wrapper from '../../store/configureStore';
 import Link from "next/link";
 import Chip from "@material-ui/core/Chip";
-import NotContent from "../../components/NotContent";
 import PostList from "../../components/PostList";
 
 
@@ -97,8 +98,13 @@ const Container = styled.div`
 
 const Portfolio = () => {
     const dispatch = useDispatch();
-    const { portfolios } = useSelector((state) => state.portfolio)
+    const { portfolios } = useSelector((state) => state.portfolio);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalItem, setModalItem] = useState(null);
 
+    const slideUp = () => {
+        
+    }
 
     useEffect(() => {
         dispatch({
@@ -106,9 +112,11 @@ const Portfolio = () => {
         });
     }, []);
 
-    const onClickModalOpen = (item) => () => {
+    const onClickModalOpen = (item) => useCallback(() => {
         console.log(item)
-    }
+        setModalItem(item);
+        setModalOpen(true);
+    }, [setModalOpen, setModalItem])
 
     return (
         <>
@@ -127,13 +135,12 @@ const Portfolio = () => {
                                         </div>
                                     </li>
                                 ))}
-
                                 {/*{portfolios.map((item) => <PortfolioList key={item.id} post={item} />)}*/}
                             </ul>
-
                         ) : (
                             <NotContent />
                         )}
+                        <PortfolioModal modalOpen={modalOpen} setModalOpen={setModalOpen} modalItem={modalItem} />
 
                     </Container>
                 </ContentBox>
