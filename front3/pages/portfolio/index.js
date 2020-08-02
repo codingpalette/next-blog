@@ -112,7 +112,7 @@ const Portfolio = () => {
         });
     }, []);
 
-    const onClickModalOpen = (item) => useCallback(() => {
+    const onClickModalOpen = useCallback((item) => () => {
         console.log(item)
         setModalItem(item);
         setModalOpen(true);
