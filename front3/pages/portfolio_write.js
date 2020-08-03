@@ -9,6 +9,7 @@ import styled from '@emotion/styled';
 import Layout from '../components/Layout';
 import PortfolioImageUpload from "../components/PortfolioImageUpload";
 import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
+import {ADD_PORTFOLIO_REQUEST, LOAD_PORTFOLIO_REQUEST, MODIFY_PORTFOLIO_REQUEST} from "../reducers/portfolio";
 import wrapper from "../store/configureStore";
 
 
@@ -20,7 +21,6 @@ import useToggle from "../hooks/useToggle";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
-import {ADD_PORTFOLIO_REQUEST} from "../reducers/portfolio";
 
 
 
@@ -59,7 +59,7 @@ const BtnBox = styled.div`
 
 
 const portfolioWrite = ({ router }) => {
-    const { imagePaths, addPortfolioDone } = useSelector((state) => state.portfolio);
+    const { imagePaths, addPortfolioDone, detailPortfolio, modifyPortfolioDone } = useSelector((state) => state.portfolio);
     const dispatch = useDispatch();
 
     const [mode, setMode] = useState('create');
@@ -70,10 +70,35 @@ const portfolioWrite = ({ router }) => {
     const [snackBarText, onChangeSnackBarText, setSnackBarText] = useInput('');
 
     useEffect(() => {
+        if (router.query.id) {
+            setMode('modify')
+            dispatch({
+                type: LOAD_PORTFOLIO_REQUEST,
+                data: router.query.id
+            })
+        } else {
+            setMode('create')
+        }
+    }, [])
+
+    useEffect(() => {
+        if (detailPortfolio) {
+            setTitle(detailPortfolio.title);
+            setPageLink(detailPortfolio.link);
+        }
+    }, [detailPortfolio])
+
+    useEffect(() => {
         if (addPortfolioDone) {
             Router.push('/portfolio_list')
         }
     }, [addPortfolioDone])
+
+    useEffect(() => {
+        if (modifyPortfolioDone) {
+            Router.push('/portfolio_list')
+        }
+    }, [modifyPortfolioDone])
 
     const onSubmit = useCallback((e) => {
         e.preventDefault();
@@ -101,10 +126,21 @@ const portfolioWrite = ({ router }) => {
         });
         formData.append('title', title );
         formData.append('link', pageLink );
-        dispatch({
-            type: ADD_PORTFOLIO_REQUEST,
-            data: formData
-        });
+
+        if (mode === 'create') {
+            dispatch({
+                type: ADD_PORTFOLIO_REQUEST,
+                data: formData
+            })
+        } else {
+            formData.append('id', detailPortfolio.id);
+            dispatch({
+                type: MODIFY_PORTFOLIO_REQUEST,
+                data: formData
+            })
+        }
+
+
     }, [title, pageLink, imagePaths]);
 
     return(
@@ -139,7 +175,7 @@ const portfolioWrite = ({ router }) => {
 
                                 <BtnBox>
                                     <Button variant="contained" color="secondary" disableElevation>
-                                        <Link href='/'>
+                                        <Link href='/portfolio_list'>
                                             <a>취소</a>
                                         </Link>
                                     </Button>

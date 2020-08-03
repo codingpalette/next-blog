@@ -80,4 +80,67 @@ router.post('/images', isLoggedIn, upload.array('image'), async (req, res ,next)
 });
 
 
+router.get('/:portfolioId', async (req, res, next) => {
+    try {
+        const portfolio = await Portfolio.findOne({
+            where: { id: req.params.portfolioId },
+        });
+        if (!portfolio) {
+            return res.status(404).send('존재하지 않는 게시글입니다.');
+        }
+        const fullPortfolio = await Portfolio.findOne({
+            where: { id : portfolio.id },
+            include: [{
+                model: Image,
+                attributes: ['src']
+            }]
+        })
+        res.status(200).json(fullPortfolio)
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+
+router.patch('/', isLoggedIn, upload.none(), async (req, res, next) => {
+    try {
+        const user = await User.findOne({
+            where: {id: req.user.id},
+        });
+        if (user) {
+            const data = user.toJSON();
+            if (parseInt(data.level, 10) !== 0) {
+                res.status(404).json('관리자가 아닙니다.');
+            } else {
+                await Portfolio.update({
+                    title: req.body.title,
+                    link: req.body.link,
+                }, {
+                    where: {id: req.body.id}
+                });
+
+                const portfolio = await Portfolio.findOne({
+                    where: {id: req.body.id}
+                })
+
+                if (req.body.image) {
+                    if (Array.isArray(req.body.image)) { // 이미지를 여러개 올리면 image: [img1.png, img2.png]
+                        const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));
+                        await portfolio.setImages(images)
+                    } else {  //  이미지를 하나만 올리면 image: img.png
+                        const image = await  Image.create({ src: req.body.image });
+                        await portfolio.setImages(image)
+                    }
+                }
+                res.status(201).json(req.body)
+            }
+        }
+    } catch (e) {
+        console.error(e)
+        next(e)
+    }
+});
+
+
 module.exports = router;

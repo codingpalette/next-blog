@@ -8,7 +8,7 @@ import axios from "axios";
 import styled from '@emotion/styled';
 import Layout from "../components/Layout";
 import ContentHeader from "../components/ContentHeader";
-import PostTrList from "../components/PostTrList";
+import PortfolioTrList from "../components/PortfolioTrList";
 import NotContent from "../components/NotContent";
 import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
 import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../reducers/post";
@@ -16,6 +16,7 @@ import wrapper from "../store/configureStore";
 
 import Button from '@material-ui/core/Button';
 import {LOAD_PORTFOLIOS_REQUEST} from "../reducers/portfolio";
+
 
 const ContentBox = styled.div`
     width: 100%;
@@ -124,7 +125,7 @@ const portfolioList = () => {
                                     </thead>
                                     <tbody>
                                     {portfolios.length > 0 && portfolios.map(item => (
-                                        <PostTrList key={item.id} post={item}/>
+                                        <PortfolioTrList key={item.id} post={item}/>
                                     ))}
                                     </tbody>
                                 </table>
