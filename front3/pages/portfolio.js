@@ -1,22 +1,19 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { END } from 'redux-saga';
 import axios from 'axios';
-import { backUrl } from '../../config/config'
+import { backUrl } from '../config/config'
 
 import styled from '@emotion/styled'
-import Layout from '../../components/Layout';
-import PortfolioList from "../../components/PortfolioList";
-import NotContent from "../../components/NotContent";
-import PortfolioModal from "../../components/PortfolioModal";
+import Layout from '../components/Layout';
+import NotContent from "../components/NotContent";
+import PortfolioModal from "../components/PortfolioModal";
 
-import {LOAD_MY_INFO_REQUEST} from "../../reducers/user";
-import {LOAD_PORTFOLIOS_REQUEST} from "../../reducers/portfolio";
+import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
+import {LOAD_PORTFOLIOS_REQUEST} from "../reducers/portfolio";
 
-import wrapper from '../../store/configureStore';
-import Link from "next/link";
-import Chip from "@material-ui/core/Chip";
-import PostList from "../../components/PostList";
+import wrapper from '../store/configureStore';
+
 
 
 const ContentBox = styled.div`
@@ -85,6 +82,7 @@ const Container = styled.div`
     }
     & .list_content .text_content h3{
         color: #fff;
+        font-size: 2rem;
     }
     @media (min-width: 768px) {
        & ul li {
@@ -98,19 +96,39 @@ const Container = styled.div`
 
 const Portfolio = () => {
     const dispatch = useDispatch();
-    const { portfolios } = useSelector((state) => state.portfolio);
+    const { portfolios, hasMorePortfolios, loadPortfoliosLoading } = useSelector((state) => state.portfolio);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalItem, setModalItem] = useState(null);
 
-    const slideUp = () => {
-        
-    }
+    const scrollContainer = useRef(null);
+    const scrollContainerUl = useRef(null);
+
+    // useEffect(() => {
+    //     dispatch({
+    //         type: LOAD_PORTFOLIOS_REQUEST
+    //     });
+    // }, []);
 
     useEffect(() => {
-        dispatch({
-            type: LOAD_PORTFOLIOS_REQUEST
-        });
-    }, []);
+        const target = scrollContainer.current;
+        const targetUl = scrollContainerUl.current
+        function onScroll() {
+            // console.log(target.scrollTop , target.clientHeight, targetUl.offsetHeight)
+            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+                if (hasMorePortfolios && !loadPortfoliosLoading) {
+                    const lastId = portfolios[portfolios.length - 1]?.id;
+                    dispatch({
+                        type: LOAD_PORTFOLIOS_REQUEST,
+                        lastId,
+                    })
+                }
+            }
+        }
+        target.addEventListener('scroll', onScroll);
+        return () => {
+            target.removeEventListener('scroll', onScroll);
+        }
+    }, [hasMorePortfolios, loadPortfoliosLoading, portfolios])
 
     const onClickModalOpen = useCallback((item) => () => {
         console.log(item)
@@ -121,8 +139,8 @@ const Portfolio = () => {
     return (
         <>
             <Layout>
-                <ContentBox>
-                    <Container>
+                <ContentBox  ref={scrollContainer}>
+                    <Container  ref={scrollContainerUl}>
                         {portfolios.length > 0 ? (
                             <ul>
                                 {portfolios.map((item) => (

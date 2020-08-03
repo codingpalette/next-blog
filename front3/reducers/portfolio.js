@@ -93,7 +93,8 @@ const reducer = (state = initialState, action ) => {
             case LOAD_PORTFOLIOS_SUCCESS:
                 draft.loadPortfoliosLoading = false;
                 draft.loadPortfoliosDone = true;
-                draft.portfolios = action.data
+                draft.portfolios = draft.portfolios.concat(action.data);
+                draft.hasMorePortfolios = action.data.length === 10;
                 break;
             case LOAD_PORTFOLIOS_FAILURE:
                 draft.loadPortfoliosLoading = true;

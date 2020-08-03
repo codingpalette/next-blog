@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
         }
         const portfolios = await Portfolio.findAll({
             where,
-            limit: 20,
+            limit: 10,
             order: [['createdAt', 'DESC']],
             include: [{
                 model: Image

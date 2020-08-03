@@ -11,11 +11,10 @@ import ContentHeader from "../components/ContentHeader";
 import PortfolioTrList from "../components/PortfolioTrList";
 import NotContent from "../components/NotContent";
 import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
-import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../reducers/post";
+import {LOAD_PORTFOLIOS_REQUEST} from "../reducers/portfolio";
 import wrapper from "../store/configureStore";
 
 import Button from '@material-ui/core/Button';
-import {LOAD_PORTFOLIOS_REQUEST} from "../reducers/portfolio";
 
 
 const ContentBox = styled.div`
@@ -71,24 +70,17 @@ const portfolioList = () => {
     const scrollContainer = useRef(null);
     const scrollContainerUl = useRef(null);
     const dispatch = useDispatch();
-    const { portfolios } = useSelector((state) => state.portfolio);
-    const {mainPosts, hasMorePosts, loadPostsLoading} = useSelector((state) => state.post);
-
-    useEffect(() => {
-        dispatch({
-            type: RESET_SUCCESS
-        })
-    }, []);
+    const { portfolios, hasMorePortfolios, loadPortfoliosLoading } = useSelector((state) => state.portfolio);
 
     useEffect(() => {
         const target = scrollContainer.current;
         const targetUl = scrollContainerUl.current
         function onScroll() {
             if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
-                if (hasMorePosts && !loadPostsLoading) {
-                    const lastId = mainPosts[mainPosts.length - 1]?.id;
+                if (hasMorePortfolios && !loadPortfoliosLoading) {
+                    const lastId = portfolios[portfolios.length - 1]?.id;
                     dispatch({
-                        type: LOAD_POSTS_REQUEST,
+                        type: LOAD_PORTFOLIOS_REQUEST,
                         lastId,
                     })
                 }
@@ -98,7 +90,7 @@ const portfolioList = () => {
         return () => {
             target.removeEventListener('scroll', onScroll);
         }
-    }, [hasMorePosts, loadPostsLoading, mainPosts])
+    }, [hasMorePortfolios, loadPortfoliosLoading, portfolios])
 
     return (
         <>

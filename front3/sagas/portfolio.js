@@ -11,6 +11,7 @@ import {
 } from "../reducers/portfolio";
 
 
+
 function addPortfolioAPI(data) {
     return axios.post('/portfolio' , data)
 }
@@ -59,7 +60,6 @@ function loadPortfoliosAPI(lastId) {
 function* loadPortfolios(action) {
     try {
         const res = yield call(loadPortfoliosAPI , action.lastId);
-        // console.log(res)
         yield put({
             type: LOAD_PORTFOLIOS_SUCCESS,
             data: res.data
@@ -143,7 +143,7 @@ function* watchAddPortfolio() {
 }
 
 function* watchLoadPortfolios() {
-    yield takeLatest(LOAD_PORTFOLIOS_REQUEST, loadPortfolios)
+    yield throttle(5000, LOAD_PORTFOLIOS_REQUEST, loadPortfolios)
 }
 
 function* watchLoadPortfolio() {
