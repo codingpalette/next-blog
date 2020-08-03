@@ -66,13 +66,18 @@ const PortfolioImageUpload = () => {
 
         <div>
             <UploadBox>
-                <strong className="title">이미지 업로드</strong>
-                <input type="file" name="image" id="image_upload" accept="image/*" multiple hidden onChange={onChangeImages}  />
-                <label htmlFor="image_upload">
-                    <Button variant="contained" color="primary" component="span">
-                        {addImageLoading ? <CircularProgressTag size={20}/> : 'Upload'}
-                    </Button>
-                </label>
+                {imagePaths.length < 2 && (
+                    <>
+                        <strong className="title">이미지 업로드</strong>
+                        <input type="file" name="image" id="image_upload" accept="image/*" multiple hidden onChange={onChangeImages}  />
+                        <label htmlFor="image_upload">
+                            <Button variant="contained" color="primary" component="span">
+                                {addImageLoading ? <CircularProgressTag size={20}/> : 'Upload'}
+                            </Button>
+                        </label>
+                    </>
+                )}
+
             </UploadBox>
 
             <ImageBox>

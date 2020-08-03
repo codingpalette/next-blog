@@ -114,8 +114,8 @@ const portfolioWrite = ({ router }) => {
             return;
         }
 
-        if (imagePaths.length < 1) {
-            setSnackBarText('이미지를 1장이상 등록해주세요.');
+        if (imagePaths.length !== 2) {
+            setSnackBarText('이미지를 2장 등록해주세요.');
             snackBarOpenTrue();
             return;
         }

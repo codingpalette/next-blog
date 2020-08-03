@@ -20,6 +20,10 @@ export const initialState = {
     loadPortfolioError: null,
     detailPortfolio: null,
 
+    removePortfolioLoading: false, // 포트폴리오 여러개 불러오기
+    removePortfolioDone: false,
+    removePortfolioError: null,
+
     portfolios: [],
     prevPortfolio: null,
     nextPortfolio: null,
@@ -51,6 +55,10 @@ export const LOAD_PORTFOLIO_FAILURE = 'LOAD_PORTFOLIO_FAILURE';
 export const MODIFY_PORTFOLIO_REQUEST = 'MODIFY_PORTFOLIO_REQUEST';
 export const MODIFY_PORTFOLIO_SUCCESS = 'MODIFY_PORTFOLIO_SUCCESS';
 export const MODIFY_PORTFOLIO_FAILURE = 'MODIFY_PORTFOLIO_FAILURE';
+
+export const REMOVE_PORTFOLIO_REQUEST = 'REMOVE_PORTFOLIO_REQUEST';
+export const REMOVE_PORTFOLIO_SUCCESS = 'REMOVE_PORTFOLIO_SUCCESS';
+export const REMOVE_PORTFOLIO_FAILURE = 'REMOVE_PORTFOLIO_FAILURE';
 
 export const PORTFOLIO_IMAGE_UPLOAD_REQUEST = 'PORTFOLIO_IMAGE_UPLOAD_REQUEST';
 export const PORTFOLIO_IMAGE_UPLOAD_SUCCESS = 'PORTFOLIO_IMAGE_UPLOAD_SUCCESS';
@@ -119,6 +127,20 @@ const reducer = (state = initialState, action ) => {
             case MODIFY_PORTFOLIO_FAILURE:
                 draft.modifyPortfolioLoading = true;
                 draft.modifyPortfolioError = action.error;
+                break;
+            case REMOVE_PORTFOLIO_REQUEST:
+                draft.removePortfolioLoading = true;
+                draft.removePortfolioDone = false;
+                draft.removePortfolioError = null;
+                break;
+            case REMOVE_PORTFOLIO_SUCCESS:
+                draft.removePortfolioLoading = false;
+                draft.removePortfolioDone = true;
+                draft.portfolios = draft.portfolios.filter((v) => v.id !== action.data.PortfolioId);
+                break;
+            case REMOVE_PORTFOLIO_FAILURE:
+                draft.removePortfolioLoading = true;
+                draft.removePortfolioError = action.error;
                 break;
             case PORTFOLIO_IMAGE_UPLOAD_REQUEST:
                 draft.addImageLoading = true;

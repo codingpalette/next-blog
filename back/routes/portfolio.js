@@ -142,5 +142,30 @@ router.patch('/', isLoggedIn, upload.none(), async (req, res, next) => {
     }
 });
 
+router.delete('/:portfolioId', isLoggedIn, async (req, res, next) => {
+    try {
+        const user = await User.findOne({
+            where: {id: req.user.id},
+        });
+        if (user) {
+            const data = user.toJSON();
+            if (parseInt(data.level, 10) !== 0) {
+                res.status(404).json('관리자가 아닙니다.');
+            } else {
+                await Portfolio.destroy({
+                    where: {
+                        id: req.params.portfolioId,
+                        UserId: req.user.id
+                    }
+                });
+                res.status(200).json({ PortfolioId: parseInt(req.params.portfolioId , 10) })
+            }
+        }
+    } catch (e) {
+        console.error(e)
+        next(e)
+    }
+});
+
 
 module.exports = router;

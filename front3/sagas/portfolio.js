@@ -5,7 +5,8 @@ import {
     PORTFOLIO_IMAGE_UPLOAD_REQUEST, PORTFOLIO_IMAGE_UPLOAD_SUCCESS, PORTFOLIO_IMAGE_UPLOAD_FAILURE,
     LOAD_PORTFOLIOS_REQUEST, LOAD_PORTFOLIOS_SUCCESS, LOAD_PORTFOLIOS_FAILURE,
     LOAD_PORTFOLIO_REQUEST, LOAD_PORTFOLIO_SUCCESS, LOAD_PORTFOLIO_FAILURE,
-    MODIFY_PORTFOLIO_REQUEST, MODIFY_PORTFOLIO_SUCCESS, MODIFY_PORTFOLIO_FAILURE
+    MODIFY_PORTFOLIO_REQUEST, MODIFY_PORTFOLIO_SUCCESS, MODIFY_PORTFOLIO_FAILURE,
+    REMOVE_PORTFOLIO_REQUEST, REMOVE_PORTFOLIO_SUCCESS, REMOVE_PORTFOLIO_FAILURE
 
 } from "../reducers/portfolio";
 
@@ -95,6 +96,28 @@ function* loadPortfolio(action) {
 }
 
 
+function removePortfolioAPI(data) {
+    return axios.delete(`/portfolio/${data}`);
+}
+
+function* removePortfolio(action) {
+    try {
+        const res = yield call(removePortfolioAPI , action.data);
+        // console.log(res)
+        yield put({
+            type: REMOVE_PORTFOLIO_SUCCESS,
+            data: res.data
+        });
+    } catch (e) {
+        console.error(e);
+        yield put({
+            type: REMOVE_PORTFOLIO_FAILURE,
+            error: e.response.data
+        })
+    }
+}
+
+
 function uploadImagesAPI(data) {
     return axios.post(`/portfolio/images` , data)
 }
@@ -131,6 +154,11 @@ function* watchModifyPortfolio() {
     yield takeLatest(MODIFY_PORTFOLIO_REQUEST, modifyPortfolio)
 }
 
+function* watchRemovePortfolio() {
+    yield takeLatest(REMOVE_PORTFOLIO_REQUEST, removePortfolio)
+}
+
+
 function* watchAddImage() {
     yield takeLatest(PORTFOLIO_IMAGE_UPLOAD_REQUEST, uploadImages)
 }
@@ -142,6 +170,7 @@ export default function* portfolioSaga() {
         fork(watchLoadPortfolios),
         fork(watchLoadPortfolio),
         fork(watchModifyPortfolio),
+        fork(watchRemovePortfolio),
         fork(watchAddImage),
     ])
 }

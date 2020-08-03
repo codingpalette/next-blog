@@ -5,7 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {REMOVE_POST_REQUEST} from "../reducers/post";
+import { REMOVE_PORTFOLIO_REQUEST } from "../reducers/portfolio";
 import Router from "next/router";
 
 
@@ -28,7 +28,7 @@ const PortfolioTrList = ({ post }) => {
 
     const onClickPostDelete = useCallback((id) => () => {
         dispatch({
-            type : REMOVE_POST_REQUEST,
+            type : REMOVE_PORTFOLIO_REQUEST,
             data : id
         })
     }, [])
