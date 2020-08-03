@@ -35,8 +35,18 @@ const TopHeader = styled.div`
     box-sizing: border-box;
     
     border-bottom: 1px solid #edf1f7;
-    & h1{
-        
+    & h1 {
+        height: 100%;
+        padding: 5px 0;
+        box-sizing: border-box;
+    }
+    & h1 a{
+        display: block;
+        height: 100%;
+    }
+    & h1 img{
+        height: 100%;
+        width: auto;
     }
     @media (min-width: 1024px) {
     
@@ -150,7 +160,9 @@ const Header = ({ router }) => {
 
                 <h1>
                     <Link href='/'>
-                        <a>CodingPalette</a>
+                        <a>
+                            <img src="/logo.png" alt="logo"/>
+                        </a>
                     </Link>
                 </h1>
                 {me && me.level === 0 && (
