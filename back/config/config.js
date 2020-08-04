@@ -18,7 +18,7 @@ module.exports = {
     },
     "production": {
         "username": "root",
-        "password": null,
+        "password": process.env.DB_PASSWORD,
         "database": "next-blog",
         "host": "127.0.0.1",
         "dialect": "mysql"
