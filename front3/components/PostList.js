@@ -41,6 +41,7 @@ const ListBox = styled.li`
         box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
         border-radius: 4px;
         height: 250px;
+        background-color: #fff;
     }
 
 `;

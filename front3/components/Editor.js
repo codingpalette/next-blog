@@ -58,7 +58,7 @@ const Editor = ({ content, setContent }) => {
                 toolbar: {
                     container : [
                         [{ header: '1' }, { header: '2' }],
-                        ['bold', 'italic', 'underline', 'strike'],
+                        ['bold', 'underline', 'strike', { 'color': [] }],
                         [{ list: 'ordered' }, { list: 'bullet' }],
                         ['blockquote', 'code-block', 'link', 'image']
                     ],

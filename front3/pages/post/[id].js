@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import Link from "next/link";
 import {withRouter} from 'next/router';
+import Head from 'next/head';
 import {useDispatch, useSelector} from "react-redux";
 import {END} from "redux-saga";
 import axios from "axios";
@@ -14,8 +15,6 @@ import wrapper from "../../store/configureStore";
 import hljs from 'highlight.js';
 
 import Chip from "@material-ui/core/Chip";
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
@@ -93,7 +92,7 @@ const PostContent = styled.div`
         padding: 1rem 1rem 1rem 2rem;
     }
     p {
-        margin: 1.5em 0px;
+        margin: 1em 0px;
         font-size: 0.9rem;
     }
     p a {
@@ -129,11 +128,11 @@ const PostContent = styled.div`
     pre {
         //font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
         //  'Courier New', monospace;
-        font-size: 1rem;
+        font-size: 0.9rem;
         line-height: 1.6;
         overflow-x: auto;
         white-space: pre;
-        margin: 0px 0px 1.5rem;
+        margin: 0 0 1.5rem;
         padding: 1.5rem;
         //background: rgb(1, 22, 39);
         border-radius: 4px;
@@ -195,10 +194,17 @@ const Post = ({router}) => {
 
     return (
         <>
-            <Layout>
-                <ContentBox>
-                    {loadPostDone && detailPost && (
-                        <>
+            {loadPostDone && detailPost && (
+                <>
+                    <Head>
+                        <title>{detailPost.title}</title>
+                        <meta name="description" content={detailPost.description}/>
+                        <meta property="og:title" content={`${detailPost.title}`}/>
+                        <meta property="og:description" content={detailPost.description}/>
+                        <meta property="og:url" content={`https://codingpalette.com/post/${detailPost.id}`}/>
+                    </Head>
+                    <Layout>
+                        <ContentBox>
                             <ContentHeader title={detailPost.title}>
                                 <TagBox>
                                     {detailPost.Tags.map((v) => (
@@ -240,10 +246,10 @@ const Post = ({router}) => {
                                     )}
                                 </div>
                             </Pagination>
-                        </>
-                    )}
-                </ContentBox>
-            </Layout>
+                        </ContentBox>
+                    </Layout>
+                </>
+            )}
         </>
     )
 }
@@ -259,7 +265,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
         type: LOAD_MY_INFO_REQUEST,
     });
     context.store.dispatch({
-        type : LOAD_POST_REQUEST,
+        type: LOAD_POST_REQUEST,
         data: context.params.id
     });
 
