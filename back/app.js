@@ -62,14 +62,6 @@ app.use('/portfolio', portfolioRouter);
 app.use('/portfolios', portfoliosRouter);
 
 
-
-
-
-// app.listen(5000, () => {
-//     console.log('서버실행중')
-// });
-
-
 app.listen(80, () => {
     console.log('서버실행중')
 });
