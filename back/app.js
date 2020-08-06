@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
     app.use(hpp());
     app.use(helmet());
     app.use(cors({
-        origin: 'http://13.125.219.230',
+        origin: 'http://codingpalette.com',
         credentials: true,
     }));
 } else {
