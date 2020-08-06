@@ -37,14 +37,25 @@ if (process.env.NODE_ENV === 'production') {
     app.use(morgan('combined'));
     app.use(hpp());
     app.use(helmet());
+    app.use(cors({
+        origin: 'http://13.125.219.230',
+        credentials: true,
+    }));
+} else {
+    app.use(morgan('dev'));
+    app.use(cors({
+        origin: true,
+        credentials: true,
+    }));
+}
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(morgan('combined'));
+    app.use(hpp());
+    app.use(helmet());
 } else {
     app.use(morgan('dev'))
 }
-
-app.use(cors({
-    origin: true, // 나중에는 실제 프론트 주소를 넣어야함
-    credentials: true, // 서로 다른 도메인간 쿠기 보내기 허용
-}));
 
 app.use('/', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());

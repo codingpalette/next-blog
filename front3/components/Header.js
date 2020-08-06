@@ -165,7 +165,6 @@ const Header = ({ router }) => {
                         </a>
                     </Link>
                 </h1>
-                {me}
                 {me && me.level === 0 && (
                     <div>
                         <IconButton

@@ -47,9 +47,9 @@ const IndexPage = () => {
 
 
     useEffect(() => {
-        dispatch({
-            type: RESET_SUCCESS
-        })
+        // dispatch({
+        //     type: RESET_SUCCESS
+        // })
     }, []);
 
 
