@@ -49,13 +49,6 @@ if (process.env.NODE_ENV === 'production') {
     }));
 }
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(morgan('combined'));
-    app.use(hpp());
-    app.use(helmet());
-} else {
-    app.use(morgan('dev'))
-}
 
 app.use('/', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
