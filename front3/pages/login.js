@@ -174,11 +174,11 @@ const Login = ({ router }) => {
         })
     }, [signEmail, signNickname, signPassword, signPassword2, snackBarText, snackBarOpenTrue])
 
-    useEffect(() => {
-        if ((me && me.id)) {
-            router.push('/')
-        }
-    }, [me && me.id]);
+    // useEffect(() => {
+    //     if ((me && me.id)) {
+    //         router.push('/')
+    //     }
+    // }, [me && me.id]);
 
     useEffect(() => {
         if (logInDone) {
@@ -215,9 +215,9 @@ const Login = ({ router }) => {
         }
     }, [signUpError])
 
-    if (me) {
-        return null;
-    }
+    // if (me) {
+    //     return null;
+    // }
 
     return (
         <>
