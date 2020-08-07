@@ -93,7 +93,7 @@ router.post('/images', isLoggedIn, upload.array('image'), async (req, res ,next)
     //  upload.single('image'), upload.none()
     console.log(req.files);
     // res.json(req.files.map((v) => v.filename));
-    res.json(req.files.map((v) => v.location.replace(/\/original\//, '/thumb/')));
+    res.json(req.files.map((v) => v.location));
 });
 
 
