@@ -42,7 +42,7 @@ const PostTrList = ({post}) => {
             <tr>
                 <td>
                     <div>
-                        <Link href="/post/[id]" as={`/post/${post.id}`}>
+                        <Link href="/post/[id]" as={`/post/${post.id}`} prefetch={false}>
                             <a>{post.title}</a>
                         </Link>
                     </div>

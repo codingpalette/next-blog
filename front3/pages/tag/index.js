@@ -73,7 +73,7 @@ const TagIndex = () => {
                         <div className='content'>
                             <TagBox>
                                 {tags.map((v) => (
-                                    <Link href={`/tag/${v.name}`} key={v.id}>
+                                    <Link href={`/tag/${v.name}`} key={v.id} prefetch={false}>
                                         <a>
                                             <Chip label={v.name} variant="outlined"/>
                                         </a>

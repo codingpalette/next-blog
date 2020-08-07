@@ -208,7 +208,7 @@ const Post = ({router}) => {
                             <ContentHeader title={detailPost.title}>
                                 <TagBox>
                                     {detailPost.Tags.map((v) => (
-                                        <Link href={`/tag/${v.name}`} key={v.name}>
+                                        <Link href={`/tag/${v.name}`} key={v.name} prefetch={false}>
                                             <a>
                                                 <Chip label={v.name} variant="outlined"/>
                                             </a>
