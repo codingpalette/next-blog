@@ -85,7 +85,7 @@ const PortfolioImageUpload = () => {
                     <ul className="image_list_box">
                         {imagePaths.map((v, i) => (
                             <li key={i} onClick={onClickRemoveImage(i)}>
-                                <img src={`${backUrl}/${v}`} alt=""/>
+                                <img src={v} alt=""/>
                             </li>
                         ))}
                     </ul>

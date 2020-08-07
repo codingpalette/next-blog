@@ -108,7 +108,7 @@ const PortfolioModal = ({ modalOpen, setModalOpen, modalItem }) => {
                             </button>
                         </div>
                         <div className="content_body">
-                            <img src={`${backUrl}/${modalItem.Images[1].src}`} alt=""/>
+                            <img src={`${modalItem.Images[1].src}`} alt=""/>
                             <div className="link_btn">
                                 <Button variant="outlined" color="primary" href={modalItem.link} target="_blank">
                                     바로가기

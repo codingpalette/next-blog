@@ -146,7 +146,7 @@ const Portfolio = () => {
                                 {portfolios.map((item) => (
                                     <li key={item.id} onClick={onClickModalOpen(item)}>
                                         <div className="list_content">
-                                            <img src={`${backUrl}/${item.Images[0].src}`} alt=""/>
+                                            <img src={`${item.Images[0].src}`} alt=""/>
                                             <div className="text_content">
                                                 <h3>{item.title}</h3>
                                             </div>
