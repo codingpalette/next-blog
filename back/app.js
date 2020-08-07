@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
     app.use(hpp());
     app.use(helmet());
     app.use(cors({
-        origin: 'http://codingpalette.com',
+        origin: 'https://codingpalette.com',
         credentials: true,
     }));
 } else {
@@ -60,7 +60,7 @@ app.use(session({
     secret: process.env.COOKIE_SECRET,
     cookie: {
         httpOnly: true,
-        secure: false,
+        secure: true,
         domain: process.env.NODE_ENV === 'production' && '.codingpalette.com'
     },
 }));
@@ -81,6 +81,6 @@ app.use('/portfolio', portfolioRouter);
 app.use('/portfolios', portfoliosRouter);
 
 
-app.listen(80, () => {
+app.listen(5000, () => {
     console.log('서버실행중')
 });
