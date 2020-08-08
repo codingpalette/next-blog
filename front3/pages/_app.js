@@ -33,7 +33,7 @@ const App = ({Component}) => {
                 <link rel="shortcut icon" href="/favicon-144x144.png" sizes="144x144" />
                 <meta name="description" content="좋은 개발자를 꿈꾸는 코딩팔레트 입니다" />
                 <meta property="og:description" content="좋은 개발자를 꿈꾸는 코딩팔레트 입니다" />
-                <meta property="og:image" content={'http://localhost:4000/favicon.png'} />
+                <meta property="og:image" content={'https://codingpalette.com/favicon.png'} />
                 <meta property="og:url" content={`https://codingpalette.com`} />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
                 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"/>
