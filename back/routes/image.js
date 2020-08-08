@@ -6,6 +6,11 @@ const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const cors = require('cors')
 
+cors({
+    origin: true,
+    credentials: true
+})
+
 const { Image } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
