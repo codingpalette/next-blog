@@ -46,11 +46,11 @@ const upload = multer({
 
 router.post('/', (req, res, next) => { // 이미지 업로드
 
-    res. status(200).json({aa : 'test_ok'})
+    res.status(200).json({aa : 'test_ok'})
 })
 
 router.post('/test', (req, res, next) => {
-   res. status(200).json({aa : 'ok'})
+   res.status(200).json({aa : 'ok'})
 });
 
 
