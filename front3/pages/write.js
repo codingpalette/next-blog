@@ -202,6 +202,11 @@ const Write = ({router}) => {
 
     }, [detailPost, title, description, localTags, content])
 
+    const onClickTest = async () => {
+        const res = await axios.post('image/test');
+        console.log(res)
+    }
+
 
     return (
         <>
@@ -256,6 +261,7 @@ const Write = ({router}) => {
                                 <Editor content={content} setContent={setContent}/>
 
                                 <BtnBox>
+                                    <Button type="button" disableElevation onClick={onClickTest}>테스트</Button>
                                     <Button variant="contained" color="secondary" disableElevation>
                                         <Link href='/'>
                                             <a>취소</a>

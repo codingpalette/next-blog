@@ -40,8 +40,12 @@ const upload = multer({
 
 router.post('/', cors(), isLoggedIn, upload.array('image'), async (req, res, next) => { // 이미지 업로드
     // console.log(req.files);
-    res.json(req.files.map((v) => v.location));
+    res.status(200).json(req.files.map((v) => v.location));
 })
+
+router.post('/test', (req, res, next) => {
+   res. status(200).json({aa : 'ok'})
+});
 
 
 module.exports = router;

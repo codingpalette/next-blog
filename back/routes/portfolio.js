@@ -94,7 +94,7 @@ router.post('/images', cors(), isLoggedIn, upload.array('image'), async (req, re
     //  upload.single('image'), upload.none()
     console.log(req.files);
     // res.json(req.files.map((v) => v.filename));
-    res.json(req.files.map((v) => v.location));
+    res.status.json(req.files.map((v) => v.location));
 });
 
 
