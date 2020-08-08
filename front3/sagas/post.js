@@ -171,11 +171,13 @@ function* loadTags() {
 
 
 function* watchLoadPosts() {
-    yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts)
+    // yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts)
+    yield takeLatest( LOAD_POSTS_REQUEST, loadPosts)
 }
 
 function* watchLoadTagPosts() {
-    yield throttle(5000, LOAD_TAG_POSTS_REQUEST, loadTagPosts)
+    // yield throttle(5000, LOAD_TAG_POSTS_REQUEST, loadTagPosts)
+    yield takeLatest( LOAD_TAG_POSTS_REQUEST, loadTagPosts)
 }
 
 function* watchAddPost() {

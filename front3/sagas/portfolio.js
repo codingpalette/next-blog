@@ -143,7 +143,8 @@ function* watchAddPortfolio() {
 }
 
 function* watchLoadPortfolios() {
-    yield throttle(5000, LOAD_PORTFOLIOS_REQUEST, loadPortfolios)
+    // yield throttle(5000, LOAD_PORTFOLIOS_REQUEST, loadPortfolios)
+    yield takeLatest( LOAD_PORTFOLIOS_REQUEST, loadPortfolios)
 }
 
 function* watchLoadPortfolio() {
