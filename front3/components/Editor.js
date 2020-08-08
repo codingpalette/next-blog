@@ -41,7 +41,7 @@ const Editor = ({ content, setContent }) => {
             const res = await axios.post('image', imageFormData);
             // console.log(res);
             const range = quillInstance.current.getSelection();
-            quillInstance.current.insertEmbed(range.index, "image", `${backUrl}/${res.data[0]}`);
+            quillInstance.current.insertEmbed(range.index, "image", `${res.data[0]}`);
         }
 
 

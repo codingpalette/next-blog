@@ -26,24 +26,21 @@ AWS.config.update({
 });
 
 const upload = multer({
-    storage: multer.diskStorage({
-        destination(req, res, done) {
-            done(null, 'uploads');
-        },
-        filename(req, file, done) {
-            const ext = path.extname(file.originalname); // 확장자 추출(png)
-            const basename = path.basename(file.originalname, ext);
-            done(null, basename + '_' + new Date().getTime() + ext); // 이미지12465464.png
+    storage: multerS3({
+        s3: new AWS.S3(),
+        bucket: 'codingpalette',
+        key(req, file, cb) {
+            cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`)
         }
+
     }),
     limits: {fileSize: 20 * 1024 * 1024}, // 20MB
 
 });
 
-router.post('/', cors(), isLoggedIn, upload.array('image'), async (req, res, next) => { // 이미지 업로드
+router.post('/', upload.array('image'), async (req, res, next) => { // 이미지 업로드
     // console.log(req.files);
-    // res.status(200).json(req.files.map((v) => v.location));
-    res.status(200).json(req.files.map((v) => v.filename));
+    res.status(200).json(req.files.map((v) => v.location));
 })
 
 router.post('/test', (req, res, next) => {
