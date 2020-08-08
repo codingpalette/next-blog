@@ -38,7 +38,7 @@ const Editor = ({ content, setContent }) => {
             const file = input.files[0];
             const imageFormData = new FormData();
             imageFormData.append('image', file)
-            const res = await axios.post('image', imageFormData);
+            const res = await axios.post('post/images', imageFormData);
             // console.log(res);
             const range = quillInstance.current.getSelection();
             quillInstance.current.insertEmbed(range.index, "image", `${res.data[0]}`);
