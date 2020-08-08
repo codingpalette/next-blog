@@ -314,8 +314,8 @@ const Login = ({ router }) => {
                             <BtnBox>
                                 {loginMode ? (
                                     <>
-                                        <p><span>회원이 아니신가요?</span></p>
-                                        <Button variant="contained" color="primary" onClick={onClickLoginModeFalse}>회원가입하기</Button>
+                                        {/*<p><span>회원이 아니신가요?</span></p>*/}
+                                        {/*<Button variant="contained" color="primary" onClick={onClickLoginModeFalse}>회원가입하기</Button>*/}
                                     </>
                                 ) : (
                                     <>
