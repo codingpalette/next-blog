@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { withRouter } from 'next/router';
 import useInput from "../hooks/useInput";
 import useToggle from "../hooks/useToggle";
@@ -174,11 +174,11 @@ const Login = ({ router }) => {
         })
     }, [signEmail, signNickname, signPassword, signPassword2, snackBarText, snackBarOpenTrue])
 
-    // useEffect(() => {
-    //     if ((me && me.id)) {
-    //         router.push('/')
-    //     }
-    // }, [me && me.id]);
+    useEffect(() => {
+        if ((me && me.id)) {
+            router.push('/')
+        }
+    }, [me && me.id]);
 
     useEffect(() => {
         if (logInDone) {
@@ -215,9 +215,9 @@ const Login = ({ router }) => {
         }
     }, [signUpError])
 
-    // if (me) {
-    //     return null;
-    // }
+    if (me) {
+        return null;
+    }
 
     return (
         <>
@@ -260,7 +260,7 @@ const Login = ({ router }) => {
                                     </div>
                                 </form>
                             ) : (
-                                <form onSubmit={onSignUpSubmit}>
+                                <form onSubmit={} >
                                     <div className="header">
                                         <h2>SIGN UP</h2>
                                         <span>회원가입에 필요한 이메일 주소와 비밀번호를 입력해주세요.</span>
@@ -318,8 +318,8 @@ const Login = ({ router }) => {
                                     </>
                                 ) : (
                                     <>
-                                        <p><span>회원이신가요?</span></p>
-                                        <Button variant="contained" color="primary" onClick={onClickLoginModeTrue}>로그인하기</Button>
+                                        {/*<p><span>회원이신가요?</span></p>*/}
+                                        {/*<Button variant="contained" color="primary" onClick={onClickLoginModeTrue}>로그인하기</Button>*/}
                                     </>
                                 )}
                             </BtnBox>
