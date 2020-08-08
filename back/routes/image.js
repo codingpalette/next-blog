@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
-const cors = require('cors')
+
 
 const { Image } = require('../models');
 const { isLoggedIn } = require('./middlewares');
@@ -38,14 +38,15 @@ const upload = multer({
 
 });
 
-router.post('/', upload.array('image'), async (req, res, next) => { // 이미지 업로드
+router.post('/', isLoggedIn, upload.array('image'), async (req, res, next) => { // 이미지 업로드
     // console.log(req.files);
     res.status(200).json(req.files.map((v) => v.location));
 })
 
-router.post('/test', (req, res, next) => {
-   res. status(200).json({aa : 'ok'})
-});
+router.post('/test', isLoggedIn, upload.array('image'), async (req, res, next) => { // 이미지 업로드
+    // console.log(req.files);
+    res.status(200).json(req.files.map((v) => v.location));
+})
 
 
 module.exports = router;
