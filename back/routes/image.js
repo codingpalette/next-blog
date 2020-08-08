@@ -38,16 +38,11 @@ const upload = multer({
 
 });
 
-// router.post('/', isLoggedIn, upload.array('image'), (req, res, next) => { // 이미지 업로드
-//     console.log(req.files);
-//     res.status(200).json(req.files.map((v) => v.location));
-// })
-
-
-router.post('/', (req, res, next) => { // 이미지 업로드
-
-    res.status(200).json({aa : 'test_ok'})
+router.post('/', isLoggedIn, upload.array('image'), (req, res, next) => { // 이미지 업로드
+    console.log(req.files);
+    res.status(200).json(req.files.map((v) => v.location));
 })
+
 
 router.post('/test', (req, res, next) => {
    res.status(200).json({aa : 'ok'})
