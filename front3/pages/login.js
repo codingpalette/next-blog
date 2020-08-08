@@ -147,6 +147,7 @@ const Login = ({ router }) => {
 
     const onSignUpSubmit = useCallback((e) => {
         e.preventDefault();
+        return false;
         if (signEmail.match(regExp) === null) {
             setSnackBarText('올바른 이메일을 입력해주세요');
             snackBarOpenTrue();
@@ -260,7 +261,7 @@ const Login = ({ router }) => {
                                     </div>
                                 </form>
                             ) : (
-                                <form onSubmit={} >
+                                <form onSubmit={onSignUpSubmit} >
                                     <div className="header">
                                         <h2>SIGN UP</h2>
                                         <span>회원가입에 필요한 이메일 주소와 비밀번호를 입력해주세요.</span>
