@@ -34,7 +34,7 @@ const upload = multer({
         }
 
     }),
-    limits: {fileSize: 20 * 1024 * 1024}, // 20MB
+    limits: {fileSize: 2 * 5120 * 12288}, // 20MB
 
 });
 
@@ -43,10 +43,6 @@ router.post('/', isLoggedIn, upload.array('image'), (req, res, next) => { // 이
     res.status(200).json(req.files.map((v) => v.location));
 })
 
-
-router.post('/test', (req, res, next) => {
-   res.status(200).json({aa : 'ok'})
-});
 
 
 module.exports = router;
