@@ -7,7 +7,7 @@ const AWS = require('aws-sdk');
 const cors = require('cors')
 
 cors({
-    origin: true,
+    origin: 'https://codingpalette.com',
     credentials: true
 })
 
