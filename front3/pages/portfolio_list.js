@@ -16,18 +16,6 @@ import wrapper from "../store/configureStore";
 
 import Button from '@material-ui/core/Button';
 
-
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
-
-
 const Container = styled.div`
     padding: 1rem;
     box-sizing: border-box;
@@ -67,16 +55,14 @@ const Container = styled.div`
 
 
 const portfolioList = () => {
-    const scrollContainer = useRef(null);
-    const scrollContainerUl = useRef(null);
+
     const dispatch = useDispatch();
     const { portfolios, hasMorePortfolios, loadPortfoliosLoading } = useSelector((state) => state.portfolio);
 
     useEffect(() => {
-        const target = scrollContainer.current;
-        const targetUl = scrollContainerUl.current
+
         function onScroll() {
-            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+            if (window.scrollY + document.documentElement.clientHeight >  document.documentElement.scrollHeight - 300  ) {
                 if (hasMorePortfolios && !loadPortfoliosLoading) {
                     const lastId = portfolios[portfolios.length - 1]?.id;
                     dispatch({
@@ -86,48 +72,46 @@ const portfolioList = () => {
                 }
             }
         }
-        target.addEventListener('scroll', onScroll);
+        window.addEventListener('scroll', onScroll);
         return () => {
-            target.removeEventListener('scroll', onScroll);
+            window.removeEventListener('scroll', onScroll);
         }
     }, [hasMorePortfolios, loadPortfoliosLoading, portfolios])
 
     return (
         <>
             <Layout>
-                <ContentBox ref={scrollContainer}>
-                    <ContentHeader title="포트폴리오 리스트">
-                        <div className="link_box">
-                            <Link href="/portfolio_write">
-                                <a>
-                                    <Button color="primary">포트폴리오 작성</Button>
-                                </a>
-                            </Link>
+                <ContentHeader title="포트폴리오 리스트">
+                    <div className="link_box">
+                        <Link href="/portfolio_write">
+                            <a>
+                                <Button color="primary">포트폴리오 작성</Button>
+                            </a>
+                        </Link>
+                    </div>
+                </ContentHeader>
+                <Container>
+                    {portfolios.length > 0 ? (
+                        <div className="table_content">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>제목</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {portfolios.length > 0 && portfolios.map(item => (
+                                    <PortfolioTrList key={item.id} post={item}/>
+                                ))}
+                                </tbody>
+                            </table>
                         </div>
-                    </ContentHeader>
-                    <Container ref={scrollContainerUl}>
-                        {portfolios.length > 0 ? (
-                            <div className="table_content">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>제목</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {portfolios.length > 0 && portfolios.map(item => (
-                                        <PortfolioTrList key={item.id} post={item}/>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ) : (
-                            <NotContent/>
-                        )}
+                    ) : (
+                        <NotContent/>
+                    )}
 
-                    </Container>
-                </ContentBox>
+                </Container>
             </Layout>
         </>
     )

@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 
 const ContainerBox = styled.div`
     width: 100%;
-    height: 100vh;
+    //height: 100vh;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -18,9 +18,7 @@ const ContainerBox = styled.div`
 
 const ContentBox = styled.div`
     width: 100%;
-    height: calc(100% - 100px);
     flex: 1;
-    overflow-y: auto;
     @media (min-width: 1024px) {
        height: calc(100% - 50px);
     }
@@ -32,8 +30,9 @@ const Layout = ({ children }) => {
         <>
             <ContainerBox>
                 <Header />
-
-                {children}
+                <ContentBox>
+                    {children}
+                </ContentBox>
 
             </ContainerBox>
 

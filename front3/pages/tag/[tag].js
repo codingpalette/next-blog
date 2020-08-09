@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {withRouter} from 'next/router';
 import { END } from 'redux-saga';
@@ -12,20 +12,6 @@ import Layout from "../../components/Layout";
 import styled from '@emotion/styled';
 import PostList from "../../components/PostList";
 import NotContent from "../../components/NotContent";
-
-
-
-
-
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
 
 
 const Container = styled.div`
@@ -45,8 +31,6 @@ const Tag = ({router}) => {
     const dispatch = useDispatch();
     const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
 
-    const scrollContainer = useRef(null);
-    const scrollContainerUl = useRef(null);
 
     useEffect(() => {
         dispatch({
@@ -55,10 +39,8 @@ const Tag = ({router}) => {
     }, []);
 
     useEffect(() => {
-        const target = scrollContainer.current;
-        const targetUl = scrollContainerUl.current
         function onScroll() {
-            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+            if (window.scrollY + document.documentElement.clientHeight >  document.documentElement.scrollHeight - 300 ) {
                 if (hasMorePosts && !loadPostsLoading) {
                     const lastId = mainPosts[mainPosts.length - 1]?.id;
                     dispatch({
@@ -68,9 +50,9 @@ const Tag = ({router}) => {
                 }
             }
         }
-        target.addEventListener('scroll', onScroll);
+        window.addEventListener('scroll', onScroll);
         return () => {
-            target.removeEventListener('scroll', onScroll);
+            window.removeEventListener('scroll', onScroll);
         }
     }, [hasMorePosts, loadPostsLoading, mainPosts])
 
@@ -84,24 +66,22 @@ const Tag = ({router}) => {
     return(
         <>
             <Layout>
-                <ContentBox ref={scrollContainer}>
-                    <Container ref={scrollContainerUl}>
-                        {mainPosts.length > 0 ? (
-                            <ul>
-                                { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
-                            </ul>
-                        ) : (
-                            <div>
-                                <NotContent />
-                            </div>
-                        )}
+                <Container >
+                    {mainPosts.length > 0 ? (
+                        <ul>
+                            { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
+                        </ul>
+                    ) : (
+                        <div>
+                            <NotContent />
+                        </div>
+                    )}
 
-                    </Container>
-                    {/*<Grid container spacing={3}>*/}
-                    {/*    { mainPosts.map((post) => <PostList key={post.id} post={post} />) }*/}
+                </Container>
+                {/*<Grid container spacing={3}>*/}
+                {/*    { mainPosts.map((post) => <PostList key={post.id} post={post} />) }*/}
 
-                    {/*</Grid>*/}
-                </ContentBox>
+                {/*</Grid>*/}
             </Layout>
         </>
     )

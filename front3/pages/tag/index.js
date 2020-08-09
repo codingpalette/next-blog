@@ -14,17 +14,6 @@ import Link from "next/link";
 import Chip from "@material-ui/core/Chip";
 
 
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
-
-
 const PostBody = styled.div`
     padding: 1rem;
     box-sizing: border-box;
@@ -55,34 +44,28 @@ const TagBox = styled.div`
 
 
 const TagIndex = () => {
-    const dispatch = useDispatch();
+
     const { tags } = useSelector((state) => state.post)
 
-    // useEffect(() => {
-    //     dispatch({
-    //         type: LOAD_TAGS_REQUEST
-    //     });
-    // }, [])
+
 
     return (
         <>
             <Layout>
-                <ContentBox>
-                    <ContentHeader title="Tags" />
-                    <PostBody>
-                        <div className='content'>
-                            <TagBox>
-                                {tags.map((v) => (
-                                    <Link href={`/tag/${v.name}`} key={v.id} prefetch={false}>
-                                        <a>
-                                            <Chip label={v.name} variant="outlined"/>
-                                        </a>
-                                    </Link>
-                                ))}
-                            </TagBox>
-                        </div>
-                    </PostBody>
-                </ContentBox>
+                <ContentHeader title="Tags" />
+                <PostBody>
+                    <div className='content'>
+                        <TagBox>
+                            {tags.map((v) => (
+                                <Link href={`/tag/${v.name}`} key={v.id} prefetch={false}>
+                                    <a>
+                                        <Chip label={v.name} variant="outlined"/>
+                                    </a>
+                                </Link>
+                            ))}
+                        </TagBox>
+                    </div>
+                </PostBody>
             </Layout>
         </>
     )

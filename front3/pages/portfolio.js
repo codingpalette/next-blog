@@ -16,17 +16,6 @@ import wrapper from '../store/configureStore';
 
 
 
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
-
-
 const Container = styled.div`
     display: block;
     width: 100%;
@@ -100,21 +89,9 @@ const Portfolio = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalItem, setModalItem] = useState(null);
 
-    const scrollContainer = useRef(null);
-    const scrollContainerUl = useRef(null);
-
-    // useEffect(() => {
-    //     dispatch({
-    //         type: LOAD_PORTFOLIOS_REQUEST
-    //     });
-    // }, []);
-
     useEffect(() => {
-        const target = scrollContainer.current;
-        const targetUl = scrollContainerUl.current
         function onScroll() {
-            // console.log(target.scrollTop , target.clientHeight, targetUl.offsetHeight)
-            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+            if (window.scrollY + document.documentElement.clientHeight >  document.documentElement.scrollHeight - 300 ) {
                 if (hasMorePortfolios && !loadPortfoliosLoading) {
                     const lastId = portfolios[portfolios.length - 1]?.id;
                     dispatch({
@@ -124,9 +101,9 @@ const Portfolio = () => {
                 }
             }
         }
-        target.addEventListener('scroll', onScroll);
+        window.addEventListener('scroll', onScroll);
         return () => {
-            target.removeEventListener('scroll', onScroll);
+            window.removeEventListener('scroll', onScroll);
         }
     }, [hasMorePortfolios, loadPortfoliosLoading, portfolios])
 
@@ -139,29 +116,27 @@ const Portfolio = () => {
     return (
         <>
             <Layout>
-                <ContentBox  ref={scrollContainer}>
-                    <Container  ref={scrollContainerUl}>
-                        {portfolios.length > 0 ? (
-                            <ul>
-                                {portfolios.map((item) => (
-                                    <li key={item.id} onClick={onClickModalOpen(item)}>
-                                        <div className="list_content">
-                                            <img src={`${item.Images[0].src}`} alt=""/>
-                                            <div className="text_content">
-                                                <h3>{item.title}</h3>
-                                            </div>
+                <Container>
+                    {portfolios.length > 0 ? (
+                        <ul>
+                            {portfolios.map((item) => (
+                                <li key={item.id} onClick={onClickModalOpen(item)}>
+                                    <div className="list_content">
+                                        <img src={`${item.Images[0].src}`} alt=""/>
+                                        <div className="text_content">
+                                            <h3>{item.title}</h3>
                                         </div>
-                                    </li>
-                                ))}
-                                {/*{portfolios.map((item) => <PortfolioList key={item.id} post={item} />)}*/}
-                            </ul>
-                        ) : (
-                            <NotContent />
-                        )}
-                        <PortfolioModal modalOpen={modalOpen} setModalOpen={setModalOpen} modalItem={modalItem} />
+                                    </div>
+                                </li>
+                            ))}
+                            {/*{portfolios.map((item) => <PortfolioList key={item.id} post={item} />)}*/}
+                        </ul>
+                    ) : (
+                        <NotContent />
+                    )}
+                    <PortfolioModal modalOpen={modalOpen} setModalOpen={setModalOpen} modalItem={modalItem} />
 
-                    </Container>
-                </ContentBox>
+                </Container>
             </Layout>
         </>
     )

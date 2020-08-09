@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Link from 'next/link';
 import Router from "next/router";
 import {useDispatch, useSelector} from "react-redux";
@@ -15,16 +15,6 @@ import {LOAD_POSTS_REQUEST, RESET_SUCCESS} from "../reducers/post";
 import wrapper from "../store/configureStore";
 
 import Button from '@material-ui/core/Button';
-
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
 
 
 const Container = styled.div`
@@ -66,8 +56,6 @@ const Container = styled.div`
 
 
 const postList = () => {
-    const scrollContainer = useRef(null);
-    const scrollContainerUl = useRef(null);
     const dispatch = useDispatch();
     const {mainPosts, hasMorePosts, loadPostsLoading} = useSelector((state) => state.post);
 
@@ -78,10 +66,9 @@ const postList = () => {
     }, []);
 
     useEffect(() => {
-        const target = scrollContainer.current;
-        const targetUl = scrollContainerUl.current
         function onScroll() {
-            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+            // console.log(window.scrollY , document.documentElement.clientHeight, document.documentElement.scrollHeight)
+            if (window.scrollY + document.documentElement.clientHeight >  document.documentElement.scrollHeight - 300 ) {
                 if (hasMorePosts && !loadPostsLoading) {
                     const lastId = mainPosts[mainPosts.length - 1]?.id;
                     dispatch({
@@ -91,48 +78,46 @@ const postList = () => {
                 }
             }
         }
-        target.addEventListener('scroll', onScroll);
+        window.addEventListener('scroll', onScroll);
         return () => {
-            target.removeEventListener('scroll', onScroll);
+            window.removeEventListener('scroll', onScroll);
         }
     }, [hasMorePosts, loadPostsLoading, mainPosts])
 
     return (
         <>
             <Layout>
-                <ContentBox ref={scrollContainer}>
-                    <ContentHeader title="포스트 리스트">
-                        <div className="link_box">
-                            <Link href="/write">
-                                <a>
-                                    <Button color="primary">포스트 작성</Button>
-                                </a>
-                            </Link>
+                <ContentHeader title="포스트 리스트">
+                    <div className="link_box">
+                        <Link href="/write">
+                            <a>
+                                <Button color="primary">포스트 작성</Button>
+                            </a>
+                        </Link>
+                    </div>
+                </ContentHeader>
+                <Container>
+                    {mainPosts.length > 0 ? (
+                        <div className="table_content">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>제목</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {mainPosts.length > 0 && mainPosts.map(post => (
+                                    <PostTrList key={post.id} post={post}/>
+                                ))}
+                                </tbody>
+                            </table>
                         </div>
-                    </ContentHeader>
-                    <Container ref={scrollContainerUl}>
-                        {mainPosts.length > 0 ? (
-                            <div className="table_content">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>제목</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {mainPosts.length > 0 && mainPosts.map(post => (
-                                        <PostTrList key={post.id} post={post}/>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ) : (
-                            <NotContent/>
-                        )}
+                    ) : (
+                        <NotContent/>
+                    )}
 
-                    </Container>
-                </ContentBox>
+                </Container>
             </Layout>
         </>
     )

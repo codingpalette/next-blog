@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { END } from 'redux-saga';
 import axios from 'axios';
@@ -11,15 +11,7 @@ import {LOAD_POSTS_REQUEST, RESET_SUCCESS } from "../reducers/post";
 import {LOAD_MY_INFO_REQUEST} from "../reducers/user";
 import wrapper from '../store/configureStore';
 
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
+
 
 const Container = styled.div`
     display: block;
@@ -42,8 +34,6 @@ const IndexPage = () => {
     const dispatch = useDispatch();
     const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
 
-    const scrollContainer = useRef(null);
-    const scrollContainerUl = useRef(null);
 
 
     useEffect(() => {
@@ -54,11 +44,11 @@ const IndexPage = () => {
 
 
     useEffect(() => {
-        const target = scrollContainer.current;
-        const targetUl = scrollContainerUl.current
+
         function onScroll() {
             // console.log(target.scrollTop , target.clientHeight, targetUl.offsetHeight)
-            if (target.scrollTop + target.clientHeight >  targetUl.offsetHeight - 300 ) {
+            // console.log(window.scrollY , document.documentElement.clientHeight, document.documentElement.scrollHeight)
+            if (window.scrollY + document.documentElement.clientHeight >  document.documentElement.scrollHeight - 300 ) {
                 if (hasMorePosts && !loadPostsLoading) {
                     const lastId = mainPosts[mainPosts.length - 1]?.id;
                     dispatch({
@@ -68,31 +58,24 @@ const IndexPage = () => {
                 }
             }
         }
-        target.addEventListener('scroll', onScroll);
+        window.addEventListener('scroll', onScroll);
         return () => {
-            target.removeEventListener('scroll', onScroll);
+            window.removeEventListener('scroll', onScroll);
         }
     }, [hasMorePosts, loadPostsLoading, mainPosts])
 
     return(
         <>
             <Layout >
-                <ContentBox ref={scrollContainer}>
-                    <Container ref={scrollContainerUl}>
-                        {mainPosts.length > 0 ? (
-                            <ul>
-                                { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
-                            </ul>
-                        ) : (
-                            <NotContent />
-                        )}
-
-                    </Container>
-                {/*<Grid container spacing={3}>*/}
-                {/*    { mainPosts.map((post) => <PostList key={post.id} post={post} />) }*/}
-
-                {/*</Grid>*/}
-                </ContentBox>
+                <Container >
+                    {mainPosts.length > 0 ? (
+                        <ul>
+                            { mainPosts.map((post) => <PostList key={post.id} post={post} />) }
+                        </ul>
+                    ) : (
+                        <NotContent />
+                    )}
+                </Container>
             </Layout>
         </>
     )

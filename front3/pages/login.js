@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { withRouter } from 'next/router';
+import React, {useCallback, useEffect} from 'react';
+import {withRouter} from 'next/router';
 import useInput from "../hooks/useInput";
 import useToggle from "../hooks/useToggle";
 import {useDispatch, useSelector} from "react-redux";
@@ -19,17 +19,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-
-
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
 
 const Container = styled.div`
     display: block;
@@ -110,7 +99,7 @@ const BtnBox = styled.div`
 `;
 
 
-const Login = ({ router }) => {
+const Login = ({router}) => {
     const dispatch = useDispatch();
     const {me, logInLoading, logInDone, logInError, signUpLoading, signUpDone, signUpError} = useSelector((state) => state.user);
 
@@ -189,7 +178,6 @@ const Login = ({ router }) => {
     }, [logInDone]);
 
 
-
     useEffect(() => {
         if (logInError) {
             setSnackBarText(`${logInError}`);
@@ -223,129 +211,127 @@ const Login = ({ router }) => {
     return (
         <>
             <Layout>
-                <ContentBox>
-                    <Container>
-                        <FormBox>
+                <Container>
+                    <FormBox>
+                        {loginMode ? (
+                            <form onSubmit={onLoginSubmit}>
+                                <div className="header">
+                                    <h2>LOGIN</h2>
+                                    <span>로그인에 필요한 이메일 주소와 비밀번호를 입력해주세요.</span>
+                                </div>
+                                <div className="body">
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="login_email"
+                                        label="이메일"
+                                        type="email"
+                                        fullWidth
+                                        value={loginEmail}
+                                        onChange={onChangeLoginEmail}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="login_password"
+                                        label="비밀번호"
+                                        type="password"
+                                        fullWidth
+                                        value={loginPassword}
+                                        onChange={onChangeLoginPassword}
+                                    />
+                                </div>
+
+                                <div className="footer">
+                                    <Button variant="contained" color="primary" type="submit">
+                                        {logInLoading ? <CircularProgress size={20} color="inherit"/> : '로그인'}
+                                    </Button>
+                                </div>
+                            </form>
+                        ) : (
+                            <form onSubmit={onSignUpSubmit}>
+                                <div className="header">
+                                    <h2>SIGN UP</h2>
+                                    <span>회원가입에 필요한 이메일 주소와 비밀번호를 입력해주세요.</span>
+                                </div>
+                                <div className="body">
+                                    <TextField
+                                        margin="dense"
+                                        id="sign_email"
+                                        label="이메일"
+                                        type="email"
+                                        fullWidth
+                                        value={signEmail}
+                                        onChange={onChangeSignEmail}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="nickname"
+                                        label="닉네임"
+                                        type="nickname"
+                                        fullWidth
+                                        value={signNickname}
+                                        onChange={onChangeNickname}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="sign_password"
+                                        label="비밀번호"
+                                        type="password"
+                                        fullWidth
+                                        value={signPassword}
+                                        onChange={onChangeSignPassword}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="sign_password2"
+                                        label="비밀번호 확인"
+                                        type="password"
+                                        fullWidth
+                                        value={signPassword2}
+                                        onChange={onChangeSignPassword2}
+                                    />
+                                </div>
+                                <div className="footer">
+                                    <Button variant="contained" color="primary" type="submit">
+                                        {signUpLoading ? <CircularProgress size={20} color="inherit"/> : '회원가입'}
+                                    </Button>
+                                </div>
+                            </form>
+                        )}
+                        <BtnBox>
                             {loginMode ? (
-                                <form onSubmit={onLoginSubmit}>
-                                    <div className="header">
-                                        <h2>LOGIN</h2>
-                                        <span>로그인에 필요한 이메일 주소와 비밀번호를 입력해주세요.</span>
-                                    </div>
-                                    <div className="body">
-                                        <TextField
-                                            autoFocus
-                                            margin="dense"
-                                            id="login_email"
-                                            label="이메일"
-                                            type="email"
-                                            fullWidth
-                                            value={loginEmail}
-                                            onChange={onChangeLoginEmail}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="login_password"
-                                            label="비밀번호"
-                                            type="password"
-                                            fullWidth
-                                            value={loginPassword}
-                                            onChange={onChangeLoginPassword}
-                                        />
-                                    </div>
-
-                                    <div className="footer">
-                                        <Button variant="contained" color="primary" type="submit">
-                                            {logInLoading ? <CircularProgress size={20} color="inherit" /> : '로그인'}
-                                        </Button>
-                                    </div>
-                                </form>
-                            ) : (
-                                <form onSubmit={onSignUpSubmit} >
-                                    <div className="header">
-                                        <h2>SIGN UP</h2>
-                                        <span>회원가입에 필요한 이메일 주소와 비밀번호를 입력해주세요.</span>
-                                    </div>
-                                    <div className="body">
-                                        <TextField
-                                            margin="dense"
-                                            id="sign_email"
-                                            label="이메일"
-                                            type="email"
-                                            fullWidth
-                                            value={signEmail}
-                                            onChange={onChangeSignEmail}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="nickname"
-                                            label="닉네임"
-                                            type="nickname"
-                                            fullWidth
-                                            value={signNickname}
-                                            onChange={onChangeNickname}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="sign_password"
-                                            label="비밀번호"
-                                            type="password"
-                                            fullWidth
-                                            value={signPassword}
-                                            onChange={onChangeSignPassword}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="sign_password2"
-                                            label="비밀번호 확인"
-                                            type="password"
-                                            fullWidth
-                                            value={signPassword2}
-                                            onChange={onChangeSignPassword2}
-                                        />
-                                    </div>
-                                    <div className="footer">
-                                        <Button variant="contained" color="primary" type="submit">
-                                            {signUpLoading ? <CircularProgress size={20} color="inherit" /> : '회원가입'}
-                                        </Button>
-                                    </div>
-                                </form>
-                            )}
-                            <BtnBox>
-                                {loginMode ? (
-                                    <>
-                                        {/*<p><span>회원이 아니신가요?</span></p>*/}
-                                        {/*<Button variant="contained" color="primary" onClick={onClickLoginModeFalse}>회원가입하기</Button>*/}
-                                    </>
-                                ) : (
-                                    <>
-                                        {/*<p><span>회원이신가요?</span></p>*/}
-                                        {/*<Button variant="contained" color="primary" onClick={onClickLoginModeTrue}>로그인하기</Button>*/}
-                                    </>
-                                )}
-                            </BtnBox>
-                        </FormBox>
-
-
-                        <Snackbar
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            open={snackBarOpen}
-                            autoHideDuration={6000}
-                            onClose={snackBarOpenFalse}
-                            message={snackBarText}
-                            action={
                                 <>
-                                    <IconButton size="small" aria-label="close" color="inherit" onClick={snackBarOpenFalse}>
-                                        <CloseIcon fontSize="small"/>
-                                    </IconButton>
+                                    {/*<p><span>회원이 아니신가요?</span></p>*/}
+                                    {/*<Button variant="contained" color="primary" onClick={onClickLoginModeFalse}>회원가입하기</Button>*/}
                                 </>
-                            }
-                        />
-                    </Container>
-                </ContentBox>
+                            ) : (
+                                <>
+                                    {/*<p><span>회원이신가요?</span></p>*/}
+                                    {/*<Button variant="contained" color="primary" onClick={onClickLoginModeTrue}>로그인하기</Button>*/}
+                                </>
+                            )}
+                        </BtnBox>
+                    </FormBox>
+
+
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        open={snackBarOpen}
+                        autoHideDuration={6000}
+                        onClose={snackBarOpenFalse}
+                        message={snackBarText}
+                        action={
+                            <>
+                                <IconButton size="small" aria-label="close" color="inherit" onClick={snackBarOpenFalse}>
+                                    <CloseIcon fontSize="small"/>
+                                </IconButton>
+                            </>
+                        }
+                    />
+                </Container>
             </Layout>
         </>
     )

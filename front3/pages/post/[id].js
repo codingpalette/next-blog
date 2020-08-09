@@ -22,15 +22,7 @@ hljs.configure({
     languages: ['javascript', 'css', 'html', 'xml ', 'typescript'],
 });
 
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
+
 
 const TagBox = styled.div`
     margin-top: 1rem;
@@ -204,49 +196,47 @@ const Post = ({router}) => {
                         <meta property="og:url" content={`https://codingpalette.com/post/${detailPost.id}`}/>
                     </Head>
                     <Layout>
-                        <ContentBox>
-                            <ContentHeader title={detailPost.title}>
-                                <TagBox>
-                                    {detailPost.Tags.map((v) => (
-                                        <Link href={`/tag/${v.name}`} key={v.name} prefetch={false}>
-                                            <a>
-                                                <Chip label={v.name} variant="outlined"/>
-                                            </a>
-                                        </Link>
-                                    ))}
-                                </TagBox>
-                            </ContentHeader>
-                            <PostBody>
-                                <div className='content'>
-                                    <PostContent>
-                                        <div dangerouslySetInnerHTML={{__html: detailPost.content}}/>
-                                    </PostContent>
-                                </div>
-                            </PostBody>
-                            <Pagination>
-                                <div className="btn_box">
-                                    {nextPost && (
-                                        <Link href="/post/[id]" as={`/post/${nextPost.id}`}>
-                                            <a>
-                                                <ArrowBackIcon/>
-                                                <span>{nextPost.title}</span>
-                                            </a>
-                                        </Link>
-                                    )}
+                        <ContentHeader title={detailPost.title}>
+                            <TagBox>
+                                {detailPost.Tags.map((v) => (
+                                    <Link href={`/tag/${v.name}`} key={v.name} prefetch={false}>
+                                        <a>
+                                            <Chip label={v.name} variant="outlined"/>
+                                        </a>
+                                    </Link>
+                                ))}
+                            </TagBox>
+                        </ContentHeader>
+                        <PostBody>
+                            <div className='content'>
+                                <PostContent>
+                                    <div dangerouslySetInnerHTML={{__html: detailPost.content}}/>
+                                </PostContent>
+                            </div>
+                        </PostBody>
+                        <Pagination>
+                            <div className="btn_box">
+                                {nextPost && (
+                                    <Link href="/post/[id]" as={`/post/${nextPost.id}`}>
+                                        <a>
+                                            <ArrowBackIcon/>
+                                            <span>{nextPost.title}</span>
+                                        </a>
+                                    </Link>
+                                )}
 
-                                </div>
-                                <div className="btn_box">
-                                    {prevPost && (
-                                        <Link href="/post/[id]" as={`/post/${prevPost.id}`}>
-                                            <a>
-                                                <span>{prevPost.title}</span>
-                                                <ArrowForwardIcon/>
-                                            </a>
-                                        </Link>
-                                    )}
-                                </div>
-                            </Pagination>
-                        </ContentBox>
+                            </div>
+                            <div className="btn_box">
+                                {prevPost && (
+                                    <Link href="/post/[id]" as={`/post/${prevPost.id}`}>
+                                        <a>
+                                            <span>{prevPost.title}</span>
+                                            <ArrowForwardIcon/>
+                                        </a>
+                                    </Link>
+                                )}
+                            </div>
+                        </Pagination>
                     </Layout>
                 </>
             )}

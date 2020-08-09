@@ -23,18 +23,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
 
 
-
-
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
-
 const Container = styled.div`
     padding: 1rem;
     box-sizing: border-box;
@@ -146,72 +134,72 @@ const portfolioWrite = ({ router }) => {
     return(
         <>
             <Layout>
-                <ContentBox>
-                    <Container>
-                        <div>
-                            <Typography variant="h5" component="h2" gutterBottom>
-                                {mode === 'create' ? '포트폴리오 작성' : '포트폴리오 수정'}
-                            </Typography>
-                            <form onSubmit={onSubmit}>
-                                <TextField
-                                    margin="dense"
-                                    id="title"
-                                    label="title"
-                                    type="text"
-                                    fullWidth
-                                    value={title}
-                                    onChange={onChangeTitle}
-                                />
-                                <TextField
-                                    margin="dense"
-                                    id="page_link"
-                                    label="링크"
-                                    type="text"
-                                    fullWidth
-                                    value={pageLink}
-                                    onChange={onChangePageLink}
-                                />
-                                <PortfolioImageUpload />
 
-                                <BtnBox>
-                                    <Button variant="contained" color="secondary" disableElevation>
-                                        <Link href='/portfolio_list'>
-                                            <a>취소</a>
-                                        </Link>
+                <Container>
+                    <div>
+                        <Typography variant="h5" component="h2" gutterBottom>
+                            {mode === 'create' ? '포트폴리오 작성' : '포트폴리오 수정'}
+                        </Typography>
+                        <form onSubmit={onSubmit}>
+                            <TextField
+                                margin="dense"
+                                id="title"
+                                label="title"
+                                type="text"
+                                fullWidth
+                                value={title}
+                                onChange={onChangeTitle}
+                            />
+                            <TextField
+                                margin="dense"
+                                id="page_link"
+                                label="링크"
+                                type="text"
+                                fullWidth
+                                value={pageLink}
+                                onChange={onChangePageLink}
+                            />
+                            <PortfolioImageUpload />
+
+                            <BtnBox>
+                                <Button variant="contained" color="secondary" disableElevation>
+                                    <Link href='/portfolio_list'>
+                                        <a>취소</a>
+                                    </Link>
+                                </Button>
+                                {mode === 'create' ? (
+                                    <Button variant="contained" color="primary" type="submit" disableElevation>
+                                        작성
                                     </Button>
-                                    {mode === 'create' ? (
-                                        <Button variant="contained" color="primary" type="submit" disableElevation>
-                                            작성
-                                        </Button>
-                                    ) : (
-                                        <Button variant="contained" color="primary" type="submit" disableElevation>
-                                            수정
-                                        </Button>
-                                    )}
+                                ) : (
+                                    <Button variant="contained" color="primary" type="submit" disableElevation>
+                                        수정
+                                    </Button>
+                                )}
 
-                                </BtnBox>
-                            </form>
-                        </div>
+                            </BtnBox>
+                        </form>
+                    </div>
 
-                    </Container>
-                    <Snackbar
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        open={snackBarOpen}
-                        autoHideDuration={4000}
-                        onClose={snackBarOpenFalse}
-                        message={snackBarText}
-                        action={
-                            <>
-                                <IconButton size="small" aria-label="close" color="inherit" onClick={snackBarOpenFalse}>
-                                    <CloseIcon fontSize="small"/>
-                                </IconButton>
-                            </>
-                        }
-                    />
-                </ContentBox>
+                </Container>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={snackBarOpen}
+                    autoHideDuration={4000}
+                    onClose={snackBarOpenFalse}
+                    message={snackBarText}
+                    action={
+                        <>
+                            <IconButton size="small" aria-label="close" color="inherit" onClick={snackBarOpenFalse}>
+                                <CloseIcon fontSize="small"/>
+                            </IconButton>
+                        </>
+                    }
+                />
+
             </Layout>
         </>
     )

@@ -30,11 +30,10 @@ const TopHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
     padding: 0 1rem;
     box-sizing: border-box;
-    
     border-bottom: 1px solid #edf1f7;
+    z-index: 100;
     & h1 {
         height: 100%;
         padding: 5px 0;
@@ -74,8 +73,11 @@ const BtmHeader = styled.div`
     }
     @media (min-width: 1024px) {
         order: 0;
+        top: 50px;
+        bottom: initial;
+        margin-top: initial;
         width: 250px;
-        height: calc(100% - 50px);
+        height: calc(100vh - 50px);
         border-top: none;
         border-right: 1px solid #edf1f7;
         padding-top: 40px;

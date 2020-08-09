@@ -14,15 +14,6 @@ hljs.configure({
     languages: ['javascript', 'css', 'html', 'xml ', 'typescript'],
 });
 
-const ContentBox = styled.div`
-    width: 100%;
-    height: calc(100% - 100px);
-    flex: 1;
-    overflow-y: auto;
-    @media (min-width: 1024px) {
-       height: calc(100% - 50px);
-    }
-`;
 
 const ContentBody = styled.div`
     padding: 1rem;
@@ -73,11 +64,10 @@ const Profile = () => {
     return (
         <>
             <Layout>
-                <ContentBox>
-                    <ContentHeader title="프로필"/>
-                    <ContentBody>
-                        <div className="content">
-                            <pre>
+                <ContentHeader title="프로필"/>
+                <ContentBody>
+                    <div className="content">
+                        <pre>
 {
 `let me = {
     content: {
@@ -118,10 +108,10 @@ const Profile = () => {
     },
 }
 `}
-                            </pre>
-                        </div>
-                    </ContentBody>
-                </ContentBox>
+                        </pre>
+                    </div>
+                </ContentBody>
+
             </Layout>
         </>
     )
