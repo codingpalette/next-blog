@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 
 const ContainerBox = styled.div`
     width: 100%;
-    //height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
