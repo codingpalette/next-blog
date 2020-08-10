@@ -15,7 +15,8 @@ router.get('/', async (req, res, next) => {
             limit: 10,
             order: [['createdAt', 'DESC']],
             include: [{
-                model: Image
+                model: Image,
+                order: [['createdAt', 'ASC']],
             }]
         });
         res.status(200).json(portfolios);
