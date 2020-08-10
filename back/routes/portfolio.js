@@ -5,7 +5,6 @@ const path = require('path');
 const fs = require('fs');
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
-const cors = require('cors')
 
 const { User, Portfolio, Image } = require('../models');
 const { isLoggedIn } = require('./middlewares');
@@ -90,7 +89,7 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => { // 포�
 
 });
 
-router.post('/images', cors(), isLoggedIn, upload.array('image'), async (req, res ,next) => {  // 이미지 업로드
+router.post('/images', isLoggedIn, upload.array('image'), async (req, res ,next) => {  // 이미지 업로드
     //  upload.single('image'), upload.none()
     console.log(req.files);
     // res.json(req.files.map((v) => v.filename));
