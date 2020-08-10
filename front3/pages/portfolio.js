@@ -108,7 +108,7 @@ const Portfolio = () => {
     }, [hasMorePortfolios, loadPortfoliosLoading, portfolios])
 
     const onClickModalOpen = useCallback((item) => () => {
-        console.log(item)
+        // console.log(item)
         setModalItem(item);
         setModalOpen(true);
     }, [setModalOpen, setModalItem])
