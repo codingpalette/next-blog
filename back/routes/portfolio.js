@@ -109,7 +109,8 @@ router.get('/:portfolioId', async (req, res, next) => {
             where: { id : portfolio.id },
             include: [{
                 model: Image,
-                attributes: ['src']
+                attributes: ['src'],
+                order: [['id', 'ASC']],
             }]
         })
         res.status(200).json(fullPortfolio)
