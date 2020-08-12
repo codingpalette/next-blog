@@ -220,7 +220,7 @@ const Post = ({router}) => {
                                     <Link href="/post/[id]" as={`/post/${nextPost.id}`}>
                                         <a>
                                             <ArrowBackIcon/>
-                                            <span>{nextPost.title}</span>
+                                            <span>{nextPost.title.length > 7 ? `${nextPost.title.substring(0,7)} ...` : nextPost.title }</span>
                                         </a>
                                     </Link>
                                 )}
@@ -230,7 +230,7 @@ const Post = ({router}) => {
                                 {prevPost && (
                                     <Link href="/post/[id]" as={`/post/${prevPost.id}`}>
                                         <a>
-                                            <span>{prevPost.title}</span>
+                                            <span>{prevPost.title.length > 7 ? `${prevPost.title.substring(0,7)} ...` : prevPost.title }</span>
                                             <ArrowForwardIcon/>
                                         </a>
                                     </Link>
