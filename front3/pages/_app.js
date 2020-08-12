@@ -31,8 +31,6 @@ const App = ({Component}) => {
                 <link rel="shortcut icon" href="/favicon-48x48.png" sizes="48x48" />
                 <link rel="shortcut icon" href="/favicon-96x96.png" sizes="96x96" />
                 <link rel="shortcut icon" href="/favicon-144x144.png" sizes="144x144" />
-                <meta name="description" content="좋은 개발자를 꿈꾸는 코딩팔레트 입니다" />
-                <meta property="og:description" content="좋은 개발자를 꿈꾸는 코딩팔레트 입니다" />
                 <meta property="og:image" content={'https://codingpalette.com/favicon.png'} />
                 <meta property="og:url" content={`https://codingpalette.com`} />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
