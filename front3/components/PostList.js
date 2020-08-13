@@ -12,7 +12,7 @@ const ListBox = styled.li`
     padding-left: 1rem;
     box-sizing: border-box;
     margin-bottom: 1rem;
-    transition: 0.3s;
+    transition: transform 0.3s;
     
     &:hover{
         transform: translateY(-5px);
